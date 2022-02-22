@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -70,8 +71,10 @@
             "production": {
               "browserTarget": "Project_client:build:production"
             },
-            "development": {
-              "browserTarget": "Project_client:build:development"
+            "development": { 
+              "browserTarget": "Project_client:build:development",
+              "proxyConfig": "src/proxy.config.json"
+             
             }
           },
           "defaultConfiguration": "development"
@@ -94,6 +97,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []

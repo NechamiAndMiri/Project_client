@@ -1,0 +1,39 @@
+
+
+<form [formGroup]="loginForm" class="example-form">
+    <h1 >ברוכים הבאים</h1>
+    
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>שם פרטי</mat-label>
+      <input formControlName="firstName" matInput placeholder="First name" [errorStateMatcher]="matcher">
+    
+      <mat-error >
+      <!-- *ngIf="loginForm.hasError('required')" -->
+        שם פרטי <strong>חובה</strong>
+      </mat-error>
+    </mat-form-field> 
+     <br/><br/>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>שם משפחה</mat-label>
+        <input formControlName="lastName"  matInput placeholder="Last name" [errorStateMatcher]="matcher">
+        <mat-error >
+          <!-- *ngIf="loginForm.hasError('required')" -->
+            שם משפחה <strong>חובה</strong>
+          </mat-error>
+      </mat-form-field>
+      <br><br>
+
+      <mat-form-field  class="example-full-width" appearance="fill">
+        <mat-label>סיסמה</mat-label>
+        <input type="password" formControlName="password" matInput placeholder="Password" [errorStateMatcher]="matcher">
+        <mat-error >
+          <!-- *ngIf="loginForm.hasError('required')" -->
+            הכנס סיסמה באורך של לפחות 8 תווים
+          </mat-error>
+      </mat-form-field>
+      <br><br>
+      <button (click)="getUserDetails()" mat-raised-button [disabled]="!loginForm.valid">היכנס</button>
+
+  <p-slider></p-slider>
+  </form>
