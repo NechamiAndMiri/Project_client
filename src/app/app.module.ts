@@ -15,6 +15,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {CheckboxModule} from 'primeng/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
 import {SliderModule} from 'primeng/slider'
+import {ContextMenuModule} from 'primeng/contextmenu';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import {SliderModule} from 'primeng/slider'
     AppRoutingModule,
     CheckboxModule,
     MatTreeModule,
-    SliderModule
+    SliderModule,
+    ContextMenuModule,
    
   ],
   providers: [LogInService],
