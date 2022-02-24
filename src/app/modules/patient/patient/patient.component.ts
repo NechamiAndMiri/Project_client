@@ -17,35 +17,18 @@ items: MenuItem[] | undefined;
   }   
   
   ngOnInit(): void {
-    this.items = [
-      {
-          label: 'Update',
-          icon: 'pi pi-refresh'
-      },
-      {
-          label: 'Delete',
-          icon: 'pi pi-times'
-      },
-      {
-          label: 'Angular Website',
-          icon: 'pi pi-external-link',
-          url: 'http://angular.io'
-      },
-      {
-          label: 'Router',
-          icon: 'pi pi-upload',
-          routerLink: '/fileupload'
-      }
-  ];
+    
  
  
   }  
 
-
-
-
-
-
-
- 
+  panelOpenState = false;
 }
+
+
+
+
+
+
+
+
