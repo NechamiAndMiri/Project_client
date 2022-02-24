@@ -9,8 +9,8 @@ import { WordGivenToPractice } from '../models/wordGivenToPractice.model';
 export class LessonService {
 
   constructor(private _http:HttpClient) { }
-
-
+  
+  
   getLessonsByPatient(patientId:number ):Observable<Lesson[]>{
     
     return this._http.get<Lesson[]>("api/Lesson/"+patientId);
