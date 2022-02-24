@@ -8,8 +8,8 @@ import {ContextMenuModule} from 'primeng/contextmenu';
 import {SlideMenuModule} from 'primeng/slidemenu';
 import {ToolbarModule} from 'primeng/toolbar';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TabViewModule } from 'primeng/tabview/tabview';
-// import { SharedModule, PanelModule } from 'primeng/primeng';
+
+
 
 
 const ROUTES:Routes=[
@@ -26,8 +26,7 @@ const ROUTES:Routes=[
     SliderModule,
     SlideMenuModule,
     ContextMenuModule,
-    ToolbarModule,
-    TabViewModule
+    ToolbarModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
