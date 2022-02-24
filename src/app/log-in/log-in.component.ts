@@ -10,6 +10,7 @@ import { SpeechTherapistDTO } from '../models/speechTherapistDTO.model';
 import { PatientDTO } from '../models/patientDTO.model';
 
 
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -24,7 +25,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent implements OnInit {
-
+  hide = true;
   loginForm: FormGroup = new FormGroup({
     "firstName": new FormControl("",[Validators.required]),
     "lastName": new FormControl("",Validators.required),
@@ -47,20 +48,34 @@ export class LogInComponent implements OnInit {
    
     this._logInService.getUser(this.userLogin).subscribe(user => {
       this.user = user;
-    sessionStorage.setItem("user",JSON.stringify(user) );
-   ///---------להוציא מההערה אחרי שנפתור את הבעיה!!!!!---------------------
-    //////////////איך בדוק איזה סוג המשתמש
-      // if(this.user instanceof User) 
-      //  this.router.navigate(["/admin"])
-      // else if(this.user instanceof SpeechTherapistDTO)
-      // this.router.navigateByUrl("/speechTherapist")
-      // else if(this.user instanceof PatientDTO)
-      //   this.router.navigateByUrl("/patient")
-      // else
-      //   {
-      //     alert("הפרטים שהזנת שגויים")
-      //     this.router.navigate(["/login"])
-      //   }
+    
+ debugger; 
+ var u =(Object)(this.user);
+      if(user==null)
+      {
+        alert("הפרטים שהזנת שגויים")
+        this.router.navigate(["/login"])
+      }
+   
+      else if((Object)(this.user).patient==undefined&&(Object)(this.user).speechTherapist==undefined) 
+      {
+        this.user=new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone)
+        sessionStorage.setItem("user",JSON.stringify(user) );
+        if(this.user instanceof User) console.log("yygygyg")
+        this.router.navigate(["/admin"])
+      }
+      //  מפה להמשיך להכניס את היוסר נכון
+      else if((Object)(this.user).patient==undefined)
+      {
+       
+        // this.user=new SpeechTherapistDTO(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone)
+        sessionStorage.setItem("user",JSON.stringify(user) );
+      
+        this.router.navigateByUrl("/speechTherapist")
+     }
+      else if(this.user instanceof PatientDTO)
+        this.router.navigateByUrl("/patient")
+      
      },
       err=>{alert("error accured with server connect")}
     )

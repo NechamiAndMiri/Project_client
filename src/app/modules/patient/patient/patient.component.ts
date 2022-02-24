@@ -10,8 +10,10 @@ import { LessonService } from 'src/app/services/lesson.service';
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
-user!:PatientDTO
-lessons:Lesson[]=[
+  lessonNum:number=1;
+  selectedLesson!:Lesson;
+  user!:PatientDTO
+  lessons:Lesson[]=[
   {id: 2,patientId: 2,date:new Date(),isChecked: false,difficultyLevelId: 2,lessonDescription: "התחלנו לעבוד",weightedScore: undefined, isDone: false}
 ]
 
@@ -25,12 +27,20 @@ lessons:Lesson[]=[
     if(u)
       this.user=JSON.parse(u); 
    
-    this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{//this.lessons=data
-     alert(data)
+    this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{this.lessons=data
+     console.log(this.lessons)
     });
-   
- 
   }  
+
+  lessonnum():number{
+      return this.lessonNum++;
+    }
+
+
+  
+    selectLesson(lesson:Lesson){
+        this.selectedLesson=lesson;
+    }
 
   initLessons(){
 
@@ -44,4 +54,8 @@ lessons:Lesson[]=[
 
 
 
+
+function lessonnum() {
+  throw new Error('Function not implemented.');
+}
 

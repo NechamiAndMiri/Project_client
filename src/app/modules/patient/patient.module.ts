@@ -13,7 +13,7 @@ import {SlideMenuModule} from 'primeng/slidemenu';
 import {ToolbarModule} from 'primeng/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LessonService } from 'src/app/services/lesson.service';
-
+import {MatListModule} from '@angular/material/list';
 
 
 const ROUTES:Routes=[
@@ -35,7 +35,8 @@ const ROUTES:Routes=[
     SlideMenuModule,
     ContextMenuModule,
     ToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatListModule
   ],
   providers:[
     LessonService

@@ -35,6 +35,15 @@ section {
     justify-content: center;
     width: 120px;
   }
+  .top-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .danger{
+    background-color: rgb(235, 92, 92);
+    color: antiquewhite;
+  }
 
   body{
       padding: 3%;

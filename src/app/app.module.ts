@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSliderModule } from '@angular/material/slider';
-
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,7 +42,8 @@ import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     SliderModule,
     SlideMenuModule,
     ContextMenuModule,
-    ToolbarModule
+    ToolbarModule,
+    MatIconModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent],
