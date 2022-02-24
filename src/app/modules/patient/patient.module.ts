@@ -6,6 +6,14 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { AppModule } from 'src/app/app.module';
+import {SliderModule} from 'primeng/slider'
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {SlideMenuModule} from 'primeng/slidemenu';
+import {ToolbarModule} from 'primeng/toolbar';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+
 
 const ROUTES:Routes=[
 {path:"",component:PatientComponent}
@@ -21,7 +29,12 @@ const ROUTES:Routes=[
     MatCardModule,
     MatDividerModule,
     MatIconModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    SliderModule,
+    SlideMenuModule,
+    ContextMenuModule,
+    ToolbarModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class PatientModule { }

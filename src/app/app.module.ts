@@ -16,7 +16,10 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
 import {SliderModule} from 'primeng/slider'
 import {ContextMenuModule} from 'primeng/contextmenu';
-
+import {SlideMenuModule} from 'primeng/slidemenu';
+import {MenuItem} from 'primeng/api';
+import {ToolbarModule} from 'primeng/toolbar';
+import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -37,12 +40,14 @@ import {ContextMenuModule} from 'primeng/contextmenu';
     CheckboxModule,
     MatTreeModule,
     SliderModule,
+    SlideMenuModule,
     ContextMenuModule,
-   
+    ToolbarModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent],
   exports:[   AppComponent,
-    LogInComponent ]
+    LogInComponent ],
+   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
