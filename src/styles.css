@@ -3,4 +3,4 @@
 @import '~primeng/resources/themes/saga-green/theme.css';
 @import '~primeng/resources/primeng.min.css';
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;direction: rtl;}

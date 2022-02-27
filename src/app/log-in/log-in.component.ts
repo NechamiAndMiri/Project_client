@@ -70,14 +70,14 @@ export class LogInComponent implements OnInit {
       //  מפה להמשיך להכניס את היוסר נכון
       else if((Object)(this.user).patient==undefined)
       {
-       
+       debugger;
          this.user=new SpeechTherapistDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
          (new SpeechTherapist(u.speechTherapist.id,u.speechTherapist.userId,u.speechTherapist.address,u.speechTherapist.prospectus,u.speechTherapist.logo)))
         sessionStorage.setItem("user",JSON.stringify(user) );
         this.router.navigateByUrl("/speechTherapist")
      }
      else if((Object)(this.user).speechTherapist==undefined)
-// pay attention: the stuff are in the ctor
+     debugger;
      this.user=new PatientDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
      new Patient(u.patient.id,u.patient.userId,u.patient.speechTherapistId,u.patient.dateOfBirth,u.patient.pronunciationProblemId));
      sessionStorage.setItem("user",JSON.stringify(user) );
