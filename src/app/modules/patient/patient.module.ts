@@ -14,6 +14,7 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LessonService } from 'src/app/services/lesson.service';
 import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
 
 
 const ROUTES:Routes=[
@@ -36,7 +37,8 @@ const ROUTES:Routes=[
     ContextMenuModule,
     ToolbarModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatTableModule
   ],
   providers:[
     LessonService
