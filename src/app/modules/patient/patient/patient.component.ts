@@ -21,7 +21,7 @@ export class PatientComponent implements OnInit {
 
 
   lessons:Lesson[]=[
-  {id: 2,patientId: 2,date:new Date(),isChecked: false,difficultyLevelId: 2,lessonDescription: "התחלנו לעבוד",weightedScore: undefined, isDone: false}
+ 
 ]
 
 
