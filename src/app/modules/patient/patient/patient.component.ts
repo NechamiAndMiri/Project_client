@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/api';
+import { DifficultyLevel } from 'src/app/models/difficulty-level.model';
 import { Lesson } from 'src/app/models/lesson.model';
 import { PatientDTO } from 'src/app/models/patientDTO.model';
+import { PronunciationProblemsType } from 'src/app/models/pronunciation-problems-type.model';
 import { LessonService } from 'src/app/services/lesson.service';
 
 @Component({
@@ -13,6 +15,11 @@ export class PatientComponent implements OnInit {
   lessonNum:number=1;
   selectedLesson!:Lesson;
   user!:PatientDTO
+  pronunciationProblemsType!: PronunciationProblemsType;
+  difficultyLevel!:DifficultyLevel;
+  
+
+
   lessons:Lesson[]=[
   {id: 2,patientId: 2,date:new Date(),isChecked: false,difficultyLevelId: 2,lessonDescription: "התחלנו לעבוד",weightedScore: undefined, isDone: false}
 ]
@@ -32,30 +39,16 @@ export class PatientComponent implements OnInit {
     });
   }  
 
-  lessonnum():number{
-      return this.lessonNum++;
-    }
 
-
-  
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
+        
     }
 
-  initLessons(){
+   
 
-  }
+    
   panelOpenState = false;
 }
 
-
-
-
-
-
-
-
-function lessonnum() {
-  throw new Error('Function not implemented.');
-}
 

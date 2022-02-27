@@ -87,6 +87,7 @@ export class LogInComponent implements OnInit {
       err=>{alert("error accured with server connect")}
     )
    
+    
   }
 
 

@@ -28,19 +28,32 @@
 </header>
 
 <body>
- <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;" *ngIf="this.selectedLesson">
-  <mat-selection-list   #lessonsLst [multiple]="false">
-    <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'danger':'card'"> 
-      {{lesson.lessonDescription}}
-    </mat-list-option>
-  </mat-selection-list>
+
+
+  <div *ngIf="this.selectedLesson" class="top-item">
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;" >
+      <mat-selection-list  (selectionChange)="selectLesson((lessonsLst.selectedOptions.selected[0]?.value))"  #lessonsLst [multiple]="false">
+        <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'list-group-item list-group-item-action list-group-item-primary':'list-group-item list-group-item-action list-group-item-light'"> 
+          {{lesson.lessonDescription}}
+        </mat-list-option>
+      </mat-selection-list>
+      </div>
+
+      <div>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>  מה נלמד היום?  </mat-card-title>
+              <mat-card-subtitle> {{this.selectedLesson.date}}</mat-card-subtitle>
+              <mat-card-subtitle> {{this.selectedLesson.lessonDescription}}</mat-card-subtitle>
+              <mat-card-subtitle> {{this.selectedLesson.difficultyLevelId}}</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+      </div>
   </div>
-
-
-  <!-- <p>
-    [(ngModel)]="this.selectedLesson"
-    Option selected: {{lessonsLst.selectedOptions.selected[0]?.value}}
-  </p> -->
+ 
+ 
 
   <!-- תצוגת תקיות -->
 
