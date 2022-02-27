@@ -7,7 +7,9 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { SpeechTherapistDTO } from '../models/speechTherapistDTO.model';
-import { PatientDTO } from '../models/patientDTO.model';
+import { PatientDTO } from '../models/patientDTO.model'
+import {SpeechTherapist} from '../models/speechTherapist.model'
+import { Patient } from '../models/patient.model';
 
 
 
@@ -51,6 +53,7 @@ export class LogInComponent implements OnInit {
     
  debugger; 
  var u =(Object)(this.user);
+ 
       if(user==null)
       {
         alert("הפרטים שהזנת שגויים")
@@ -68,17 +71,23 @@ export class LogInComponent implements OnInit {
       else if((Object)(this.user).patient==undefined)
       {
        
-        // this.user=new SpeechTherapistDTO(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone)
+         this.user=new SpeechTherapistDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
+         (new SpeechTherapist(u.speechTherapist.id,u.speechTherapist.userId,u.speechTherapist.address,u.speechTherapist.prospectus,u.speechTherapist.logo)))
         sessionStorage.setItem("user",JSON.stringify(user) );
-      
         this.router.navigateByUrl("/speechTherapist")
      }
-      else if(this.user instanceof PatientDTO)
-        this.router.navigateByUrl("/patient")
+     else if((Object)(this.user).speechTherapist==undefined)
+// pay attention: the stuff are in the ctor
+     this.user=new PatientDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
+     new Patient(u.patient.id,u.patient.userId,u.patient.speechTherapistId,u.patient.dateOfBirth,u.patient.pronunciationProblemId));
+     sessionStorage.setItem("user",JSON.stringify(user) );
+     this.router.navigateByUrl("/patient")
       
      },
       err=>{alert("error accured with server connect")}
     )
    
   }
+
+
 }
