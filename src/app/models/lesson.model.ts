@@ -1,5 +1,5 @@
 
- export class Lesson{
+ export interface Lesson{
      /**
       *     public int Id { get; set; }
             public int PatientId { get; set; }
@@ -9,15 +9,14 @@
             public string LessonDescription { get; set; }
             public int? WeightedScore { get; set; }
       */
-     constructor(
-        id:number,
-        patientId:number,
-        date:Date,
-        isChecked:boolean,
-        difficultyLevelId:number,
-        lessonDescription:string,
-        weightedScore?:number
-     ) {
+   
+        id:number;
+        patientId:number;
+        date:Date;
+        isChecked:boolean;
+        difficultyLevelId:number;
+        lessonDescription:string;
+        weightedScore?:number;
+        isDone:boolean
       
      }
- }

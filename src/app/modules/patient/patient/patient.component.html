@@ -28,89 +28,71 @@
 </header>
 
 <body>
+ <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;" *ngIf="this.selectedLesson">
+  <mat-selection-list   #lessonsLst [multiple]="false">
+    <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'danger':'card'"> 
+      {{lesson.lessonDescription}}
+    </mat-list-option>
+  </mat-selection-list>
+  </div>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <mat-accordion><mat-card class="card">
-        <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-card-title>שיעור ראשון</mat-card-title>
-        </mat-panel-title>
-        <mat-panel-description>
-          <mat-card-subtitle>10/08/2020</mat-card-subtitle>
-        </mat-panel-description>
-      </mat-expansion-panel-header>   
-      <mat-card-content>
-        <p>I'm visible because I am open</p>
-        <div class="example-button-container">
-        <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
-          <mat-icon>open_in_new_off</mat-icon>
-        </button>
+
+  <!-- <p>
+    [(ngModel)]="this.selectedLesson"
+    Option selected: {{lessonsLst.selectedOptions.selected[0]?.value}}
+  </p> -->
+
+  <!-- תצוגת תקיות -->
+
+<div class="row row-cols-1 row-cols-md-3 g-4"  *ngIf="!this.selectedLesson">
+
+  <div class="col" *ngFor="let lesson of this.lessons;let i = index">
+ 
+    <mat-card class="card">
+
+      <div (click)="selectLesson(lesson)" class="top-item">
+        <mat-card-title>{{i+1}} שיעור</mat-card-title>
+        <div *ngIf="!lesson.isDone">
+          <p class="danger">-עדיין לא נעשה-</p>
         </div>
-      </mat-card-content>
-    </mat-expansion-panel>    
-</mat-card>
-</mat-accordion>
+      </div>
+      <mat-card-subtitle>{{lesson.date}}</mat-card-subtitle>
+        <div *ngIf="lesson.isChecked">
+          <mat-card-subtitle>{{lesson.weightedScore}} :ציון </mat-card-subtitle>
+        </div>
+        <div *ngIf="!lesson.isChecked">
+          <mat-card-subtitle>  לא נבדק עדיין  </mat-card-subtitle>
+        </div>
+    <mat-card-content>
+    <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                     (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        ?מה עשינו בשיעור
+      </mat-panel-title>
+    </mat-expansion-panel-header>   
+      <p>{{lesson.lessonDescription}}</p>
 
+    </mat-expansion-panel> 
+    </mat-accordion> 
+    </mat-card-content>
+    </mat-card>
+  </div>
 
 </div>
 
-<div class="col">
-<mat-card class="card">
 
-    <mat-card-title>שיעור ראשון</mat-card-title>
-    <mat-card-subtitle>10/08/2020</mat-card-subtitle>
-    <mat-divider></mat-divider>
-   <mat-card-content>
-       <br>
-       hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-   </mat-card-content>
 
-<div class="example-button-container">
-  <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
-    <mat-icon>open_in_new_off</mat-icon>
-  </button>
-</div>
-</mat-card>
-</div>
 
-<div class="col">
-<mat-card class="card">
 
-    <mat-card-title>שיעור ראשון</mat-card-title>
-    <mat-card-subtitle>10/08/2020</mat-card-subtitle>
-    <mat-divider></mat-divider>
-   <mat-card-content>
-       <br>
-       hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-   </mat-card-content>
-
-<div class="example-button-container">
-  <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
-    <mat-icon>open_in_new_off</mat-icon>
-  </button>
-</div>
-</mat-card></div>
-
-<div class="col">
-<mat-card class="card">
-
-    <mat-card-title>שיעור ראשון</mat-card-title>
-    <mat-card-subtitle>10/08/2020</mat-card-subtitle>
-    <mat-divider></mat-divider>
-   <mat-card-content>
-       <br>
-       hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-   </mat-card-content>
-
-<div class="example-button-container">
-  <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
-    <mat-icon>open_in_new_off</mat-icon>
-  </button>
-</div>
-</mat-card>
-</div>
-</div>
 </body>
+
+
+<!-- כפתור יפה  -->
+
+<!-- <div class="example-button-container">
+  <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
+    <mat-icon>open_in_new_off</mat-icon>
+ </button>
+</div> -->

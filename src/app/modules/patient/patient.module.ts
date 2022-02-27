@@ -11,9 +11,9 @@ import {SliderModule} from 'primeng/slider'
 import {ContextMenuModule} from 'primeng/contextmenu';
 import {SlideMenuModule} from 'primeng/slidemenu';
 import {ToolbarModule} from 'primeng/toolbar';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { LessonService } from 'src/app/services/lesson.service';
+import {MatListModule} from '@angular/material/list';
 
 
 const ROUTES:Routes=[
@@ -35,8 +35,11 @@ const ROUTES:Routes=[
     SlideMenuModule,
     ContextMenuModule,
     ToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatListModule
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  providers:[
+    LessonService
+  ]
 })
 export class PatientModule { }

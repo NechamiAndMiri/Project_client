@@ -1,6 +1,6 @@
 
 
-export interface Patient{
+export class Patient{
     /**
      *  public int Id { get; set; }
         public int UserId { get; set; }
@@ -8,12 +8,12 @@ export interface Patient{
         public DateTime DateOfBirth { get; set; }
         public int PronunciationProblemId { get; set; }
      */
-   // constructor(
+   constructor(
         id:number,
         userId:number,
         speechTherapistId:number,
         dateOfBirth:Date,
         pronunciationProblemId:number
-  //  ) {}
+   ) {}
     
 }

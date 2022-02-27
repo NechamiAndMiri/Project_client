@@ -13,11 +13,11 @@ export class LessonService {
   
   getLessonsByPatient(patientId:number ):Observable<Lesson[]>{
     
-    return this._http.get<Lesson[]>("api/User/"+patientId);
+    return this._http.get<Lesson[]>("api/Lesson/"+patientId);
 }
 
 getWordsToLesson(lessonId:number):Observable<WordGivenToPractice[]>{
-  return this._http.get<WordGivenToPractice[]>("api/User/"+lessonId);
+  return this._http.get<WordGivenToPractice[]>("api/Lesson/"+lessonId);
 }
 
 }
