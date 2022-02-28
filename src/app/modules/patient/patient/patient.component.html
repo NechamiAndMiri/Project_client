@@ -2,6 +2,8 @@
 
 
 <header class="p-3 bg-dark text-white">
+  <nav class="navbar navbar-expand navbar-dark bg-primary"> <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+              
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
@@ -25,12 +27,111 @@
       </div>
     </div>
   </div>
+</nav>
 </header>
 
 <body>
 
+  <!-- <div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="LessonWords">
+  
+       Position Column 
+       <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> מס' </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+  
+       Name Column 
+      <ng-container matColumnDef="word">
+        <th mat-header-cell *matHeaderCellDef> המילה </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+  
+       Score Column
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> ציון </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>  -->
+
+ 
+
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+  
+          
+          
+          <!-- <nav class="navbar navbar-expand navbar-dark bg-primary"> <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+              <div class="collapse navbar-collapse" id="navbarsExample02">
+                  <ul class="navbar-nav mr-auto">
+                      <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+                      <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
+                  </ul>
+                  <form class="form-inline my-2 my-md-0"> </form>
+              </div>
+          </nav> -->
+          <div id="wrapper" class="toggled">
+              <!-- Sidebar -->
+              <div id="sidebar-wrapper">
+                  <ul class="sidebar-nav">
+                      <li class="sidebar-brand"> <a href="#"> Start Bootstrap </a> </li>
+                      <li> <a href="#">Dashboard</a> </li>
+                      <li> <a href="#">Shortcuts</a> </li>
+                      <li> <a href="#">Overview</a> </li>
+                      <li> <a href="#">Events</a> </li>
+                      <li> <a href="#">About</a> </li>
+                      <li> <a href="#">Services</a> </li>
+                      <li> <a href="#">Contact</a> </li>
+                  </ul>
+              </div> <!-- /#sidebar-wrapper -->
+              <!-- Page Content -->
+              <div id="page-content-wrapper">
+                  <div class="container-fluid">
+                      <h1>Simple Sidebar</h1>
+                      <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                      <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                  </div>
+              </div> <!-- /#page-content-wrapper -->
+          </div> <!-- /#wrapper -->
+          <!-- Bootstrap core JavaScript -->
+          <script src="js/jquery.min.js"></script>
+          <script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
+          <script>
+            $(function(){
+              $("#menu-toggle").click(function(e) {
+                  e.preventDefault();
+                  $("#wrapper").toggleClass("toggled");
+              });
+  
+              $(window).resize(function(e) {
+                if($(window).width()<=768){
+                  $("#wrapper").removeClass("toggled");
+                }else{
+                  $("#wrapper").addClass("toggled");
+                }
+              });
+            });
+             
+          </script>
+     
+
+
+
+
+
+
+
+  
 
   <div *ngIf="this.selectedLesson" class="top-item">
+    <aside>
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;" >
       <mat-selection-list  (selectionChange)="selectLesson((lessonsLst.selectedOptions.selected[0]?.value))"  #lessonsLst [multiple]="false">
         <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'list-group-item list-group-item-action list-group-item-primary':'list-group-item list-group-item-action list-group-item-light'"> 
@@ -38,9 +139,11 @@
         </mat-list-option>
       </mat-selection-list>
       </div>
+</aside>
 
+<main>
       <div>
-        <mat-card>
+        <mat-card class="card,card-lesson">
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>  מה נלמד היום?  </mat-card-title>
@@ -51,40 +154,19 @@
           </mat-card-header>
           <mat-card-content>
             <p>{{this.selectedLesson.lessonDescription}}</p>
-            <div class="example-container mat-elevation-z8">
-              <table mat-table [dataSource]="dataSource">
-            
-                <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                  <th mat-header-cell *matHeaderCellDef> No. </th>
-                  <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                </ng-container>
-            
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef> Name </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
-            
-                <!-- Weight Column -->
-                <ng-container matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef> Weight </th>
-                  <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-                </ng-container>
-            
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="symbol">
-                  <th mat-header-cell *matHeaderCellDef> Symbol </th>
-                  <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-                </ng-container>
-            
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-            </div>
+         
             </mat-card-content>
+
+            <div *ngFor="let word of this.LessonWords">
+              <p-accordion>
+                <p-accordionTab header={{word.wordText}}>
+                   {{word.score}}
+                </p-accordionTab>
+                
+            </p-accordion>
+            </div>
            <mat-card-footer>
-             <div><p>your score is: </p></div>
+             <div><p>your score is: {{this.selectedLesson.weightedScore}}</p></div>
               <mat-action-row>
             <button mat-raised-button color="primary">התחל תרגול</button>
           </mat-action-row>  
@@ -92,6 +174,8 @@
         
         </mat-card>
       </div>
+
+    </main>
   </div>
  
  
@@ -102,7 +186,7 @@
 
   <div class="col" *ngFor="let lesson of this.lessons;let i = index">
  
-    <mat-card class="card">
+    <mat-card class="card-show">
 
       <div (click)="selectLesson(lesson)" class="top-item">
         <mat-card-title>{{i+1}} שיעור</mat-card-title>
@@ -135,6 +219,14 @@
   </div>
 
 </div>
+
+
+
+
+
+
+
+
 
 
 

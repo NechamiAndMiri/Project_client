@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { Lesson } from '../models/lesson.model';
-import { WordGivenToPractice } from '../models/wordGivenToPractice.model';
+import { WordGivenToPractice, WordGivenToPracticeDTO } from '../models/wordGivenToPractice.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +16,9 @@ export class LessonService {
     return this._http.get<Lesson[]>("api/Lesson/"+patientId);
 }
 
-getWordsToLesson(lessonId:number):Observable<WordGivenToPractice[]>{
-  return this._http.get<WordGivenToPractice[]>("api/Lesson/"+lessonId);
+getWordsToLesson(lessonId:number):Observable<WordGivenToPracticeDTO[]>{
+  //debugger;
+  return this._http.get<WordGivenToPracticeDTO[]>("/api/Lesson/get_all_WORDS_FOR_lesson/"+lessonId);
 }
-
+ 
 }

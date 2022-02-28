@@ -12,3 +12,20 @@ export interface WordGivenToPractice
         isValid?:boolean
 
 }
+
+export interface WordGivenToPracticeDTO
+{
+    /**
+     *
+     */
+
+        id:number;
+        lessonId:number;
+        patientRecording:string;
+        score?:number;
+        isValid?:boolean;
+        wordText:string;
+        wordRecording?:string
+
+
+}
