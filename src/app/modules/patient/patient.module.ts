@@ -20,7 +20,8 @@ import { WordExerciseComponent } from './word-exercise/word-exercise.component';
 
 
 const ROUTES:Routes=[
-{path:"",component:PatientComponent}
+{path:"",component:PatientComponent},
+{path:"exercise",component:WordExerciseComponent}
 ]
 
 @NgModule({
