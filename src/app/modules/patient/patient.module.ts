@@ -17,6 +17,10 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {AccordionModule} from 'primeng/accordion';
 import { WordExerciseComponent } from './word-exercise/word-exercise.component';
+import {TabMenuModule} from 'primeng/tabmenu';
+import { MessageModule } from 'primeng/message';
+import {TabViewModule} from 'primeng/tabview';
+import {ButtonModule} from 'primeng/button';
 
 
 const ROUTES:Routes=[
@@ -43,7 +47,11 @@ const ROUTES:Routes=[
     MatExpansionModule,
     MatListModule,
     MatTableModule,
-    AccordionModule
+    AccordionModule,
+    TabMenuModule,
+    TabViewModule,
+    ButtonModule
+    
   ],
   providers:[
     LessonService
