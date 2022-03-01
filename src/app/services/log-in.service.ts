@@ -11,6 +11,7 @@ export class LogInService{
     /**
      *
      */
+    user!:User;
     constructor(private _http:HttpClient) {}
     
 getUser(user:LogInUser ):Observable<User|SpeechTherapistDTO|PatientDTO>{

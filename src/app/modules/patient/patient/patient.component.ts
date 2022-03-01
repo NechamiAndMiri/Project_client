@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Lesson } from 'src/app/models/lesson.model';
 import { PatientDTO } from 'src/app/models/patientDTO.model';
 import { WordExerciseDTO } from 'src/app/models/word-exercise-DTO.model';
 import { WordGivenToPractice, WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model';
 import { LessonService } from 'src/app/services/lesson.service';
+import { PatientService } from 'src/app/services/patient.service';
 
 @Component({
   selector: 'app-patient',
@@ -19,11 +21,11 @@ export class PatientComponent implements OnInit {
   LessonWords:WordGivenToPracticeDTO[]=[];
 
 
-  constructor(private _lessonService:LessonService) { }   
+  constructor(private _lessonService:LessonService,private _patientService:PatientService,private router:Router) { }   
 
 
   ngOnInit(): void {
-    debugger;
+    
      var u=sessionStorage.getItem("user");
     if(u)
       this.user=JSON.parse(u); 
@@ -41,6 +43,11 @@ export class PatientComponent implements OnInit {
     }
     diselect(){
       this.selectedLesson=undefined;
+    }
+
+    startExercise(){
+      this._patientService.LessonWords=this.LessonWords;
+      this.router.navigate(["patient/exercise"])
     }
 
   panelOpenState = false;
