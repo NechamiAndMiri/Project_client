@@ -64,6 +64,7 @@ export class LogInComponent implements OnInit {
       {
         this.user=new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone)
         sessionStorage.setItem("user",JSON.stringify(user) );
+        
         if(this.user instanceof User) console.log("yygygyg")
         this.router.navigate(["/admin"])
       }
