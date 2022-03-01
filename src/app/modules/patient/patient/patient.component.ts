@@ -13,7 +13,7 @@ import { LessonService } from 'src/app/services/lesson.service';
 })
 export class PatientComponent implements OnInit {
   
-  selectedLesson!:Lesson;
+  selectedLesson:Lesson|undefined;
   user!:PatientDTO
   lessons:Lesson[]=[]
   displayedColumns = [  'word','score'];
@@ -39,6 +39,9 @@ export class PatientComponent implements OnInit {
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
         this._lessonService.getWordsToLesson(this.selectedLesson.id).subscribe(data=>{this.LessonWords=data;console.log("words: ");console.log(JSON.stringify(this.LessonWords)+"kkkkkkkkkkkkkkkkkkk")},err=>alert("err!"));
+    }
+    diselect(){
+      this.selectedLesson=undefined;
     }
 
   panelOpenState = false;
