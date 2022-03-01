@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuItem} from 'primeng/api';
 import { Lesson } from 'src/app/models/lesson.model';
 import { PatientDTO } from 'src/app/models/patientDTO.model';
 import { WordExerciseDTO } from 'src/app/models/word-exercise-DTO.model';
