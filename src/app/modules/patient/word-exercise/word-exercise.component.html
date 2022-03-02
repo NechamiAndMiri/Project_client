@@ -1,58 +1,37 @@
-<p>word-exercise works!</p>
-
-<button (click)="allLessons()">back</button>
 
 
-
-
-
-<!-- 
-<div  class="slideshow-container">
-
-   
-    <div class="mySlides fade">
-      <div class="numbertext">1 / 3</div>
-      <img src="img1.jpg" style="width:100%">
-      <div class="text">Caption Text</div>
-    </div>
-  
-    <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>
-      <img src="img2.jpg" style="width:100%">
-      <div class="text">Caption Two</div>
-    </div>
-  
-    <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>
-      <img src="img3.jpg" style="width:100%">
-      <div class="text">Caption Three</div>
-    </div>
-  
-  
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-  </div>
-  <br>
-  
- 
-  <div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
-  </div> -->
-  
-<!--   
-  <p-button icon="pi pi-chevron-up" (click)="openPrev()"></p-button>
-  <p-button icon="pi pi-chevron-down" (click)="openNext()"></p-button>
-   -->
+<body>
+<p-button (click)="allLessons()">back</p-button>
 
   
   <div class="card">
 
     <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true">
         <p-tabPanel  *ngFor="let tab of scrollableTabs;" [header]="tab.title">
-            <p>{{tab.content}}</p>
-            <div><h1>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</h1></div>
+         <div>
+             <div>
+                 <h1 class="display-1">
+                     {{tab.content.wordText}}
+                 </h1>
+             </div>
+            
+       </div>
         </p-tabPanel>
     </p-tabView>
 </div>
+
+<div  *ngIf="activeIndex2>0">
+    <button  pRipple class="p-button-rounded p-button-info p-button-text" class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next"  mat-fab  (click)="activeIndex2=activeIndex2-1" >
+  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <!-- /<span class="visually-hidden">Next</span> -->
+  </button>
+</div>
+
+<div  *ngIf="activeIndex2<this.LessonWords.length-1">
+   <button  pRipple class="p-button-rounded p-button-info p-button-text"  class="carousel-control-prev" type="button" data-bs-target="#myCarousel"  mat-fab  data-bs-slide="prev" (click)="activeIndex2=activeIndex2+1">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <!-- <span class="visually-hidden">Previous</span> -->
+  </button>
+</div>
+
+</body>

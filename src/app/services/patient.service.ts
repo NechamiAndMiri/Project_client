@@ -13,7 +13,7 @@ export class PatientService {
 
   patient!:PatientDTO;
 
-  LessonWords:WordGivenToPracticeDTO[]=[];
+  LessonWords!:WordGivenToPracticeDTO[];
 
   constructor(private _http:HttpClient) { }
 

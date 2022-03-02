@@ -18,7 +18,7 @@ export class PatientComponent implements OnInit {
   user!:PatientDTO
   lessons:Lesson[]=[]
   displayedColumns = [  'word','score'];
-  LessonWords:WordGivenToPracticeDTO[]=[];
+  LessonWords!:WordGivenToPracticeDTO[];
 
 
   constructor(private _lessonService:LessonService,private _patientService:PatientService,private router:Router) { }   
@@ -39,13 +39,14 @@ export class PatientComponent implements OnInit {
   
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
-        this._lessonService.getWordsToLesson(this.selectedLesson.id).subscribe(data=>{this.LessonWords=data;console.log("words: ");console.log(JSON.stringify(this.LessonWords)+"kkkkkkkkkkkkkkkkkkk")},err=>alert("err!"));
+        this._lessonService.getWordsToLesson(this.selectedLesson.id).subscribe(data=>this.LessonWords=data,err=>alert("err!"));
     }
     diselect(){
       this.selectedLesson=undefined;
     }
 
     startExercise(){
+      
       this._patientService.LessonWords=this.LessonWords;
       this.router.navigate(["patient/exercise"])
     }

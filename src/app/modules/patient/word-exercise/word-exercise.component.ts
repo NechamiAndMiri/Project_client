@@ -12,9 +12,7 @@ import {MenuItem} from 'primeng/api';
 export class WordExerciseComponent implements OnInit {
 
   LessonWords:WordGivenToPracticeDTO[]=[];
-scrollableItems!: MenuItem[];
-  activeItem2!: MenuItem; 
-  slideIndex:number = 1;
+  scrollableItems!: MenuItem[];
  
   constructor(private _patientService:PatientService,private router:Router) { }
 
@@ -24,18 +22,20 @@ scrollableItems!: MenuItem[];
   }
   ngOnInit(): void {
     this.LessonWords=this._patientService.LessonWords;
-    this.scrollableItems = Array.from({ length: 10 }, (_, i) => ({ label: `Tab ${i + 1}`, icon: `pi pi-fw pi-display` }));
-    this.activeItem2 = this.scrollableItems[0];
-    
+    this.scrollableTabs= Array.from({ length: this.LessonWords.length }, (_, i) => ({ title: `מילה מס'  ${i + 1}`, content: this.LessonWords[i] }));
+  console.log( this.LessonWords.length)
+
+   
+
+   
   }
 
 
-  k:string[]=['aaaa','bbbbb','cccccc','ddddddd']
 
   activeIndex1: number = 0;
 
   activeIndex2: number = 0;
 
-  scrollableTabs: any[] = Array.from({ length: this.k.length }, (_, i) => ({ title: `מילה מס'  ${i + 1}`, content: this.k[i] }));
+  scrollableTabs!: any[]; 
 
 }

@@ -21,6 +21,7 @@ import {TabMenuModule} from 'primeng/tabmenu';
 import { MessageModule } from 'primeng/message';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
+import {GalleriaModule} from 'primeng/galleria'
 
 
 const ROUTES:Routes=[
@@ -50,7 +51,8 @@ const ROUTES:Routes=[
     AccordionModule,
     TabMenuModule,
     TabViewModule,
-    ButtonModule
+    ButtonModule,
+    GalleriaModule 
     
   ],
   providers:[
