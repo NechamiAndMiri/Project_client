@@ -20,6 +20,7 @@ import {SlideMenuModule} from 'primeng/slidemenu';
 import {MenuItem} from 'primeng/api';
 import {ToolbarModule} from 'primeng/toolbar';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     SlideMenuModule,
     ContextMenuModule,
     ToolbarModule,
-    MatIconModule
+    MatIconModule,
+    DialogModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent],

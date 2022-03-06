@@ -22,6 +22,7 @@ import { MessageModule } from 'primeng/message';
 import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {GalleriaModule} from 'primeng/galleria'
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 const ROUTES:Routes=[
@@ -52,7 +53,8 @@ const ROUTES:Routes=[
     TabMenuModule,
     TabViewModule,
     ButtonModule,
-    GalleriaModule 
+    GalleriaModule,
+    MatDialogModule
     
   ],
   providers:[

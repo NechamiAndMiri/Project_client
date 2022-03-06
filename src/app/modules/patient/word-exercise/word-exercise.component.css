@@ -4,3 +4,48 @@ body{
   padding: 1%;
   align-content: center;
 }
+
+h1 {
+  color: gray;
+  position: relative;
+  z-index: 9999999999999999;
+  margin-top: 0px;
+  display: block;
+  right: 0;
+  top: 0;
+}
+.container
+{
+  position: relative;
+  min-width: 100%;
+  min-height: 800px;
+  
+}
+.center {
+  
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.centerright {
+  position: absolute;
+  bottom: 50%;
+  right: 35px;
+  font-size: 18px;
+}
+.centerleft {
+  position: absolute;
+  bottom: 50%;
+  left: 35px;
+  font-size: 18px;
+}
+
+.div-button-center{
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}

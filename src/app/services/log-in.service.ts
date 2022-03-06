@@ -11,9 +11,12 @@ export class LogInService{
     /**
      *
      */
-    user!:User;
+    user!:User|PatientDTO|SpeechTherapistDTO;
+    adminUser!:User;
     constructor(private _http:HttpClient) {}
-    
+getTheUser():User|SpeechTherapistDTO|PatientDTO{
+    return this.user;
+}    
 getUser(user:LogInUser ):Observable<User|SpeechTherapistDTO|PatientDTO>{
     
         return this._http.post<User|SpeechTherapistDTO|PatientDTO>("api/User/",user);

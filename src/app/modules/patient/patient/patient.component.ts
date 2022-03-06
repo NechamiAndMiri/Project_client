@@ -5,6 +5,7 @@ import { PatientDTO } from 'src/app/models/patientDTO.model';
 import { WordExerciseDTO } from 'src/app/models/word-exercise-DTO.model';
 import { WordGivenToPractice, WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model';
 import { LessonService } from 'src/app/services/lesson.service';
+import { LogInService } from 'src/app/services/log-in.service';
 import { PatientService } from 'src/app/services/patient.service';
 
 @Component({
@@ -21,15 +22,13 @@ export class PatientComponent implements OnInit {
   LessonWords!:WordGivenToPracticeDTO[];
 
 
-  constructor(private _lessonService:LessonService,private _patientService:PatientService,private router:Router) { }   
+  constructor(private _lessonService:LessonService,private _patientService:PatientService,private _logInService:LogInService,private router:Router) { }   
 
 
   ngOnInit(): void {
-    
-     var u=sessionStorage.getItem("user");
-    if(u)
-      this.user=JSON.parse(u); 
   
+    this.user=(this._logInService.getTheUser()) as PatientDTO;
+    this._patientService.patient=this.user;
     this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{this.lessons=data
      console.log(this.lessons)
     
@@ -39,6 +38,7 @@ export class PatientComponent implements OnInit {
   
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
+        this._lessonService.setSelectedLesson(this.selectedLesson);
         this._lessonService.getWordsToLesson(this.selectedLesson.id).subscribe(data=>this.LessonWords=data,err=>alert("err!"));
     }
     diselect(){

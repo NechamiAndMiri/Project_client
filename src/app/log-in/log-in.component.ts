@@ -63,27 +63,31 @@ export class LogInComponent implements OnInit {
       else if((Object)(this.user).patient==undefined&&(Object)(this.user).speechTherapist==undefined) 
       {
         this.user=new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone)
-        sessionStorage.setItem("user",JSON.stringify(user) );
+        this._logInService.user=this.user;
+        this._logInService.adminUser=this.user;
+       // sessionStorage.setItem("user",JSON.stringify(user) );
         
         if(this.user instanceof User) console.log("yygygyg")
         this.router.navigate(["/admin"])
       }
-      //  מפה להמשיך להכניס את היוסר נכון
+      
       else if((Object)(this.user).patient==undefined)
       {
 
          this.user=new SpeechTherapistDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
          (new SpeechTherapist(u.speechTherapist.id,u.speechTherapist.userId,u.speechTherapist.address,u.speechTherapist.prospectus,u.speechTherapist.logo)))
-        sessionStorage.setItem("user",JSON.stringify(user) );
+         this._logInService.user=this.user;
+       //  sessionStorage.setItem("user",JSON.stringify(user) );
         this.router.navigateByUrl("/speechTherapist")
      }
      else if((Object)(this.user).speechTherapist==undefined)
-
+    {
      this.user=new PatientDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
      new Patient(u.patient.id,u.patient.userId,u.patient.speechTherapistId,u.patient.dateOfBirth,u.patient.pronunciationProblemId));
-     sessionStorage.setItem("user",JSON.stringify(user) );
+     this._logInService.user=this.user;
+    //  sessionStorage.setItem("user",JSON.stringify(user) );
      this.router.navigateByUrl("/patient")
-      
+     } 
      },
       err=>{alert("error accured with server connect")}
     )

@@ -1,37 +1,62 @@
 
 
 <body>
-<p-button (click)="allLessons()">back</p-button>
+
 
   
   <div class="card">
 
     <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true">
         <p-tabPanel  *ngFor="let tab of scrollableTabs;" [header]="tab.title">
-         <div>
-             <div>
-                 <h1 class="display-1">
+         <div class="container">
+          <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-success" (click)="allLessons()" ></button>
+          
+             <div class="center">
+                 <h1 style="font-size: 300px;" class="display-1">
                      {{tab.content.wordText}}
                  </h1>
              </div>
+             <div class="div-button-center" >
+               <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button> 
+              
+             </div>
+             <div class="div-button-center" >
+              <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
+
+                 <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+            </div>
+            <div class="div-button-center" > 
+               <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
+                <source [src]="audioBlobUrl" type="audio/mp3">
+              </audio>
+              <div>
+              <button pButton pRipple type="button" *ngIf="!isAudioRecording && audioBlobUrl" class="p-button-outlined p-button-rounded p-button-success" (click)="restartAudioRecordedData()">הקלטה מחדש</button>
+              &nbsp;
+              <button pButton pRipple type="button" *ngIf="!isAudioRecording && audioBlobUrl" icon="pi pi-download" class="p-button-rounded p-button-success p-button-outlined" (click)="downloadAudioRecordedData()" > </button>
+             </div>
+             <!-- <div>
+              <p> הציון האוטומטי שלך הוא: {{calcAutoMark()}}</p>
+            </div> -->
+            </div>
+    
+          
+          <div class="centerright" *ngIf="activeIndex2>0">
+            <button pButton pRipple type="button" icon="pi pi-chevron-right" class="p-button-rounded p-button-secondary p-button-outlined" (click)="activeIndex2=activeIndex2-1;saveRecording()" ></button>
+          </div>
+          
+          
+          <div class="centerleft" *ngIf="activeIndex2<this.LessonWords.length-1">
+
+  <button pButton pRipple type="button" icon="pi pi-chevron-left" class="p-button-rounded p-button-secondary p-button-outlined" (click)="activeIndex2=activeIndex2+1;saveRecording()" ></button>
             
+          </div>
+          <!-- <div *ngIf="this.getSelectedLesson()?.isChecked">
+              <p> הציון הסופי שלך הוא: {{this.LessonWords[this.activeIndex2].score}}</p>
+              <p>אין אפשרות לשנות את הציון</p>
+          </div> -->
+         
        </div>
         </p-tabPanel>
     </p-tabView>
 </div>
-
-<div  *ngIf="activeIndex2>0">
-    <button  pRipple class="p-button-rounded p-button-info p-button-text" class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next"  mat-fab  (click)="activeIndex2=activeIndex2-1" >
-  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-  <!-- /<span class="visually-hidden">Next</span> -->
-  </button>
-</div>
-
-<div  *ngIf="activeIndex2<this.LessonWords.length-1">
-   <button  pRipple class="p-button-rounded p-button-info p-button-text"  class="carousel-control-prev" type="button" data-bs-target="#myCarousel"  mat-fab  data-bs-slide="prev" (click)="activeIndex2=activeIndex2+1">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <!-- <span class="visually-hidden">Previous</span> -->
-  </button>
-</div>
-
 </body>

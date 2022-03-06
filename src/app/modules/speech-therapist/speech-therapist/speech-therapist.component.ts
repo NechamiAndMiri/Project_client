@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SpeechTherapistDTO } from 'src/app/models/speechTherapistDTO.model';
+import { LogInService } from 'src/app/services/log-in.service';
+import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 
 @Component({
   selector: 'app-speech-therapist',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpeechTherapistComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _speechTherapistService:SpeechTherapistService,private _loginService:LogInService) { }
+
+  
 
   ngOnInit(): void {
+      this._speechTherapistService.speechTherapist=(this._loginService.getTheUser() as SpeechTherapistDTO);
   }
 
 }

@@ -7,10 +7,17 @@ import { WordGivenToPractice, WordGivenToPracticeDTO } from '../models/wordGiven
   providedIn: 'root'
 })
 export class LessonService {
+  private selectedLesson?:Lesson;
 
-  constructor(private _http:HttpClient) { }
-  
-  
+  constructor(private _http:HttpClient) {
+   }
+  getSelectedLesson()
+  {
+    return this.selectedLesson;
+  }
+  setSelectedLesson(lesson:Lesson){
+this.selectedLesson=lesson;
+  }
   getLessonsByPatient(patientId:number ):Observable<Lesson[]>{
     
     return this._http.get<Lesson[]>("api/Lesson/"+patientId);
