@@ -9,6 +9,7 @@ import { AudioRecordingService } from 'src/app/services/audio-recording-service.
 
 import {MenuItem} from 'primeng/api';
 import { LessonService } from 'src/app/services/lesson.service';
+import { PatientRecordingDetails } from 'src/app/models/patient-recording-details.model';
 @Component({
   selector: 'app-word-exercise',
   templateUrl: './word-exercise.component.html',
@@ -115,21 +116,26 @@ downloadAudioRecordedData() {
 ngOnDestroy(): void {
   this.abortAudioRecording();
 }
-
+recordDetails:PatientRecordingDetails;
 saveRecording(){
+  // recordDetails={this.LessonWords[this.activeIndex2].id}
+  
+  // addWordRecordDetails(,this.activeIndex2)
   if(!(this._lessonService.getSelectedLesson()?.isChecked))
   {
    let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-  this.audioRecordingService.saveRecording(blob, 'audio/mp3', this.audioName,this.LessonWords[this.activeIndex2].id).subscribe();
+  this.audioRecordingService.saveRecording(blob, 'audio/mp3', this.audioName,this.LessonWords[this.activeIndex2]).subscribe();
   }
+
+  this.audioBlobUrl=undefined;
   
 }
+
+
 
 _downloadFile(data: any, type: string, filename: string): any {
   const blob = new Blob([data], { type: type });
   const url = window.URL.createObjectURL(blob);
-  //this.video.srcObject = stream;
-  //const url = data;
   const anchor = document.createElement('a');
   anchor.download = filename;
   anchor.href = url;

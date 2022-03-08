@@ -3,6 +3,8 @@ import * as RecordRTC from 'recordrtc';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { WordGivenToPracticeDTO } from '../models/wordGivenToPractice.model';
+import { PatientRecordingDetails } from '../models/patient-recording-details.model';
 // import { isNullOrUndefined } from 'util';
 
 interface RecordedAudioOutput {
@@ -15,6 +17,7 @@ interface RecordedAudioOutput {
 })
 export class AudioRecordingService {
 
+ private wordsRecordDetails:PatientRecordingDetails[]=[];
 
   private stream!: any;
   private recorder!: any;
@@ -38,6 +41,11 @@ export class AudioRecordingService {
     return this._recordingFailed.asObservable();
   }
 
+  getWordsRecordDetails(){return this.wordsRecordDetails}
+
+  addWordRecordDetails(newDetails:PatientRecordingDetails,index:number){
+    this.wordsRecordDetails[index]=newDetails;
+  }
 
   startRecording() {
 
@@ -119,13 +127,22 @@ export class AudioRecordingService {
     }
   }
 
-  saveRecording(file: any, type: string, filename: string,wordId:number) :Observable<void>{
+  saveRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
     // debugger;
-    return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
+   // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
+    this.sendWordToServer(word).subscribe();
+   debugger;
+    return this._http.put<void>("api/Lesson/UpdateRecording/",formData);
+
+  }
+  sendWordToServer( word:WordGivenToPracticeDTO)
+  {
+    debugger
+    return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
   }
 
 }
