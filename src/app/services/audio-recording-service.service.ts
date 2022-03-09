@@ -17,7 +17,7 @@ interface RecordedAudioOutput {
 })
 export class AudioRecordingService {
 
- private wordsRecordDetails:PatientRecordingDetails[]=[];
+ private wordsRecordDetails:PatientRecordingDetails[];
 
   private stream!: any;
   private recorder!: any;
@@ -42,10 +42,6 @@ export class AudioRecordingService {
   }
 
   getWordsRecordDetails(){return this.wordsRecordDetails}
-
-  addWordRecordDetails(newDetails:PatientRecordingDetails,index:number){
-    this.wordsRecordDetails[index]=newDetails;
-  }
 
   startRecording() {
 
@@ -127,6 +123,12 @@ export class AudioRecordingService {
     }
   }
 
+
+  addWordRecordDetails(recordDetails:PatientRecordingDetails,index:number)
+  {
+    this.wordsRecordDetails[index]=recordDetails;
+  }
+
   saveRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
@@ -135,14 +137,19 @@ export class AudioRecordingService {
     // debugger;
    // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
     this.sendWordToServer(word).subscribe();
-   debugger;
+   
     return this._http.put<void>("api/Lesson/UpdateRecording/",formData);
 
   }
   sendWordToServer( word:WordGivenToPracticeDTO)
   {
-    debugger
+    
     return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
   }
+
+  // initRecordDetailsArray(len:number)
+  // {
+  //   this.wordsRecordDetails=new PatientRecordingDetails[len];
+  // }
 
 }
