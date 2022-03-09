@@ -74,6 +74,7 @@ export class LogInComponent implements OnInit {
       else if((Object)(this.user).patient==undefined)
       {
 
+        debugger
          this.user=new SpeechTherapistDTO(new User(u.user.id,u.user.firstName,u.user.lastName,u.user.identityNumber,u.user.email,u.user.permissionLevelId,u.user.password,u.user.phone),
          (new SpeechTherapist(u.speechTherapist.id,u.speechTherapist.userId,u.speechTherapist.address,u.speechTherapist.prospectus,u.speechTherapist.logo)))
          this._logInService.user=this.user;

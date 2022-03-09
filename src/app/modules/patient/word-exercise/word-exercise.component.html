@@ -41,13 +41,13 @@
     
           
           <div class="centerright" *ngIf="activeIndex2>0">
-            <button pButton pRipple type="button" icon="pi pi-chevron-right" class="p-button-rounded p-button-secondary p-button-outlined" (click)="saveRecording();activeIndex2=activeIndex2-1;" ></button>
+            <button pButton pRipple type="button" icon="pi pi-chevron-right" class="p-button-rounded p-button-secondary p-button-outlined" (click)="saveRecording();activeIndex2=activeIndex2-1;initRecordDetails()" ></button>
           </div>
           
           
           <div class="centerleft" *ngIf="activeIndex2<this.LessonWords.length-1">
 
-  <button pButton pRipple type="button" icon="pi pi-chevron-left" class="p-button-rounded p-button-secondary p-button-outlined" (click)="saveRecording();activeIndex2=activeIndex2+1;" ></button>
+  <button pButton pRipple type="button" icon="pi pi-chevron-left" class="p-button-rounded p-button-secondary p-button-outlined" (click)="saveRecording();activeIndex2=activeIndex2+1;initRecordDetails()" ></button>
             
           </div>
           <div *ngIf="this.getSelectedLesson()?.isChecked">

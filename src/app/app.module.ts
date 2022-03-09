@@ -21,6 +21,8 @@ import {MenuItem} from 'primeng/api';
 import {ToolbarModule} from 'primeng/toolbar';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {DialogModule} from 'primeng/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import {DialogModule} from 'primeng/dialog';
     ContextMenuModule,
     ToolbarModule,
     MatIconModule,
-    DialogModule
+    DialogModule,
+    MatTabsModule
   ],
   providers: [LogInService],
   bootstrap: [AppComponent],

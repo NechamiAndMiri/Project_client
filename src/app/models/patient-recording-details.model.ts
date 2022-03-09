@@ -1,4 +1,6 @@
-export  interface PatientRecordingDetails{
+
+
+export class PatientRecordingDetails{
 
     wordGivenToPracticeId:number;
     audioBlobUrl: any;

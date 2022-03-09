@@ -1,1 +1,47 @@
-<p>speech-therapist works!</p>
+<mat-tab-group animationDuration="1ms">
+    <mat-tab label="First">Content 1</mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab> 
+  </mat-tab-group>
+
+   <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+ <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+ <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ <!------ Include the above in your HEAD tag ---------->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<!------ Include the above in your HEAD tag ---------->
+<!--  
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">  -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- ---- Include the above in your HEAD tag -------- -->
+<div class="body">
+<div class="content_box">
+	<div class="left_bar">
+
+	    <ul class=" nav-tabs--vertical nav" role="navigation">
+			
+	    	<li class="nav-item">
+		    	<a routerLink="patients" routerLinkActive="active">בחורים<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+	    	</li>
+            <li class="nav-item">
+		    	<a  routerLink="exercises" routerLinkActive="active" >תורמים<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+	    	</li>
+
+	    </ul>
+	</div>
+
+
+  <!-- <div class="center-div">  -->
+<div class="right_bar">
+  <div class="table-design">
+    
+   <router-outlet name="inside"></router-outlet> 
+
+</div>
+</div>
+ </div>
+
+</div>
