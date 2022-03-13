@@ -8,10 +8,27 @@ import { PronunciationProblemsType } from '../models/pronunciation-problems-type
 })
 export class WordService {
 
+  pronunciationProblems:PronunciationProblemsType[]
+
   constructor(private _http:HttpClient) { }
 
-  getUser(pronunciationProblemId:number ):Observable<PronunciationProblemsType>{
-    
-    return this._http.get<PronunciationProblemsType>("api/Word/");
-}
+  getPronunciationProblems():Observable<PronunciationProblemsType[]>{
+    return this._http.get<PronunciationProblemsType[]>("api/Word/");
+  }
+
+
+
+
+// getPronunciationProblems():PronunciationProblemsType[]{
+//   if(this.pronunciationProblems==undefined)
+//       this._getPronunciationProblems().subscribe(data=>{console.log(data);this.pronunciationProblems=data},err=>alert("err!"));
+//       debugger
+//   return this.pronunciationProblems;
+// }
+
+// private _getPronunciationProblems():Observable<PronunciationProblemsType[]>{
+  
+//   return this._http.get<PronunciationProblemsType[]>("api/Word/");
+// }
+
 }
