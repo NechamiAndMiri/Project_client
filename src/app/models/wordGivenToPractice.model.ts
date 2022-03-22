@@ -1,4 +1,4 @@
-export interface WordGivenToPractice
+export interfa  ce WordGivenToPractice
 {
     /**
      *

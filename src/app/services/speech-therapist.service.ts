@@ -10,4 +10,9 @@ export class SpeechTherapistService {
   speechTherapist!:SpeechTherapistDTO;
 
   constructor(private _http:HttpClient) { }
+
+
+  getSpeechTherapist(){
+    return this.speechTherapist;
+  }
 }

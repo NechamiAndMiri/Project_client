@@ -6,6 +6,7 @@ import { PronunciationProblemsType } from 'src/app/models/pronunciation-problems
 import { DifficultyLevel } from 'src/app/models/difficulty-level.model';
 import { Word } from 'src/app/models/word.model';
 import { BehaviorSubject } from 'rxjs';
+import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 
 export class ProblemNode {
   problemName: string;
@@ -128,12 +129,44 @@ export class ChecklistDatabase {
 export class ExercisesComponent implements OnInit {
 
   problems:PronunciationProblemsType[]=[];
+  selectedProblem:PronunciationProblemsType; //לשנות- לבעיה בחורה מהמסך
+  selectedLevel:DifficultyLevel;
+  levelsOfSelectedProblem:DifficultyLevel[];
+  initVal:number;
+
+  constructor(private _database: ChecklistDatabase,private _wordService:WordService,private _speechTherapistService:SpeechTherapistService) {
+      
+    this.start.then(()=>{
+      console.log("inside promise");
+      // this.continue()
+    }).catch(err=>alert(err)).finally(()=>{console.log("done promise")})
+  }
+ async ngOnInit(): Promise<void> {
+     
+  }
+
+
+  async loadLevels(){
+   //move to its right place
+    this.selectedProblem=this.problems![0];
+   await  this._wordService.getProblemDifficultyLevels(this.selectedProblem.id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data=>this.levelsOfSelectedProblem=data);
+  /////////////end
+  console.log(this.levelsOfSelectedProblem)
+}
+
+
+initValue(){
+  this.initVal=this.nextLevelName();
+
+
+}
+
 
 
   start=new Promise<void>(async (resolve,reject)=>{
   await  this._wordService.getPronunciationProblems().subscribe(data=>{this.problems=data;  console.log(this.problems,"  ", data)});
 
-  if(this.problems.length>0){
+  if(this.problems.length>=0){
       resolve();
   }
   else{
@@ -142,13 +175,15 @@ export class ExercisesComponent implements OnInit {
 })
   
 
-  constructor(private _database: ChecklistDatabase,private _wordService:WordService) {
-      
-    this.start.then(()=>{
-      console.log("inside promise");
-      this.continue()
-    }).catch(err=>alert(err)).finally(()=>console.log("done promise"))
+saveNewLevel(val:number){
+  this._wordService.addLevelToProblem(new DifficultyLevel("id": 0,
+    "pronunciationProblemId": this.selectedProblem.id,
+    "difficultyLevel": 0,
+    "speechTherapistId": this._speechTherapistService.speechTherapist.id))
+  {
+    
   }
+}
 
   // async start(){
 
@@ -160,7 +195,7 @@ export class ExercisesComponent implements OnInit {
   //   //this.problems=await this._wordService.getPronunciationProblems().toPromise<PronunciationProblemsType[]>();
   // }
 
-  async continue(){
+  async loadTree(){
     
   for (let index = 0; index < this.problems!.length; index++) {
     this.dataSource.data[index]=new ProblemNode();
@@ -175,16 +210,38 @@ export class ExercisesComponent implements OnInit {
   
       );
       this.treeControl = new FlatTreeControl<ProblemFlatNode>(this.getLevel, this.isExpandable);
-      this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+       this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
    
-      this._database.dataChange.subscribe(data => {
+     await this._database.dataChange.subscribe(data => {
         this.dataSource.data = data;
       });
   }
  
-  async ngOnInit(): Promise<void> {
-    
-  }
+ 
+
+ existLevelName( name:number):boolean{
+   for (let index = 0; index < this.levelsOfSelectedProblem.length; index++) {
+        if(name==this.levelsOfSelectedProblem[index].difficultyLevel)
+            return true;
+   }
+   return false;
+ }
+
+ nextLevelName():number{
+   this.levelsOfSelectedProblem.sort((a,b)=>{return a.difficultyLevel - b.difficultyLevel;})
+   return this.levelsOfSelectedProblem[this.levelsOfSelectedProblem.length-1].difficultyLevel+1;
+ }
+
+
+  async all()
+{
+  await this.loadLevels()
+  // await this.loadTree();
+ await this.initValue();
+ console.log("end")
+}
+
+
 
  /** Map from flat node to nested node. This helps us finding the nested node to be modified */
  flatNodeMap = new Map<ProblemFlatNode, ProblemNode>();

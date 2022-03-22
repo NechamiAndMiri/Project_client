@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,7 +11,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
 import { LogInService } from './services/log-in.service';
 import {MatButtonModule} from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {CheckboxModule} from 'primeng/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
@@ -32,6 +32,7 @@ import {MatTabsModule} from '@angular/material/tabs';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

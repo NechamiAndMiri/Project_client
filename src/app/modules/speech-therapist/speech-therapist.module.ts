@@ -1,4 +1,6 @@
+
 import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SpeechTherapistComponent } from './speech-therapist/speech-therapist.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,7 +10,7 @@ import { ExercisesComponent } from './exercises/exercises.component';
 import { PatientsComponent } from './patients/patients.component';
 //import {MaterialExampleModule} from '@angular/material.module';
 //import {TreeFlatOverviewExample} from './tree-flat-overview-example';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
@@ -17,6 +19,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ButtonModule} from 'primeng/button';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 
 const ROUTES:Routes=[
@@ -59,6 +62,8 @@ const ROUTES:Routes=[
     PatientsComponent
   ],
   imports: [
+ 
+    FormsModule,
     MatTabsModule,
     CommonModule,
     RouterModule.forChild(ROUTES),
@@ -69,7 +74,8 @@ const ROUTES:Routes=[
     MatCheckboxModule,
     MatButtonModule,
     OverlayPanelModule,
-    ButtonModule
+    ButtonModule,
+    InputNumberModule
   ]
 })
 export class SpeechTherapistModule { }
