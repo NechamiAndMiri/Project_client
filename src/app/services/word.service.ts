@@ -24,7 +24,7 @@ export class WordService {
 
   addLevelToProblem(difficultyLevel:DifficultyLevel)
   {
-    return this._http.post<void>('api/Word/',difficultyLevel);
+    return this._http.post<void>("api/Word/",difficultyLevel);
   }
 
   // `https://localhost:44353/api/AngularTest/CheckIfIDExists/${formattedNumber}/${vin}`).pipe(

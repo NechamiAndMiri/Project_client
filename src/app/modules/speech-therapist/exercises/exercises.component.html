@@ -18,13 +18,13 @@
     </mat-tree-node>
   </mat-tree> -->
 
-  <p-button (click)="loadTree()">tree</p-button>
+  <!-- <p-button (click)="loadTree()">tree</p-button>
 
   <p-button (click)="initValue()">initValue</p-button>
 
   <p-button (click)="loadLevels()">load</p-button>
 
-  <p-button (click)="all()">all</p-button>
+  <p-button (click)="all()">all</p-button> -->
 
   <div class="field col-12 md:col-3">
   <p-button  icon="pi pi-plus" (click)="op.toggle($event)">הוספת רמה</p-button>
@@ -39,7 +39,7 @@
               </p-inputNumber>
           </div>
         <div>
-          <p-button [disabled]="existLevelName(in.value)" (click)="saveNewLevel(in.value)">שמירה</p-button>
+          <p-button [disabled]="existLevelName(in.value)" (click)="saveNewLevel()">שמירה</p-button>
           <div *ngIf="existLevelName(in.value)"> מס הרמה כבר קיים </div>
        </div>   
       </ng-template>
@@ -58,7 +58,7 @@
               </p-inputNumber>
           </div>
         <div>
-          <p-button [disabled]="existLevelName(in2.value)" (click)="saveNewLevel(in2.value)">שמירה</p-button>
+          <p-button [disabled]="existLevelName(in2.value)" (click)="saveNewLevel()">שמירה</p-button>
           <div *ngIf="existLevelName(in2.value)"> מס הרמה כבר קיים </div>
        </div>   
       </ng-template>

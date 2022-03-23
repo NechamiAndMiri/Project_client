@@ -135,65 +135,40 @@ export class ExercisesComponent implements OnInit {
   initVal:number;
 
   constructor(private _database: ChecklistDatabase,private _wordService:WordService,private _speechTherapistService:SpeechTherapistService) {
+   
+  }
+ async ngOnInit() {
+      this._wordService.getPronunciationProblems().subscribe(
+        data=>{ this.problems=data;  console.log(this.problems,"  ", data);
+        this.selectedProblem=this.problems![0];
+        this.loadLevels();
+       
+        
+              });
+
+  }
+loadLevels(){
+  this._wordService.getProblemDifficultyLevels(this.selectedProblem.id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(
+    data=>{this.levelsOfSelectedProblem=data;
+        this.initVal=this.nextLevelName(); 
+        this.loadTree();
+      });
+    }
+
+saveNewLevel(){
+  this._wordService.addLevelToProblem(
+      new DifficultyLevel (0,
+      this.selectedProblem.id,
+      this.initVal,
+      this._speechTherapistService.getSpeechTherapist().speechTherapist.id)
+    ).subscribe(data=>{
+      console.log("AAAAAA");
       
-    this.start.then(()=>{
-      console.log("inside promise");
-      // this.continue()
-    }).catch(err=>alert(err)).finally(()=>{console.log("done promise")})
-  }
- async ngOnInit(): Promise<void> {
-     
-  }
-
-
-  async loadLevels(){
-   //move to its right place
-    this.selectedProblem=this.problems![0];
-   await  this._wordService.getProblemDifficultyLevels(this.selectedProblem.id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data=>this.levelsOfSelectedProblem=data);
-  /////////////end
-  console.log(this.levelsOfSelectedProblem)
-}
-
-
-initValue(){
-  this.initVal=this.nextLevelName();
-
-
-}
-
-
-
-  start=new Promise<void>(async (resolve,reject)=>{
-  await  this._wordService.getPronunciationProblems().subscribe(data=>{this.problems=data;  console.log(this.problems,"  ", data)});
-
-  if(this.problems.length>=0){
-      resolve();
-  }
-  else{
-    reject('failed to load Pronunciation Problems');
-  }
-})
-  
-
-saveNewLevel(val:number){
-  this._wordService.addLevelToProblem(new DifficultyLevel("id": 0,
-    "pronunciationProblemId": this.selectedProblem.id,
-    "difficultyLevel": 0,
-    "speechTherapistId": this._speechTherapistService.speechTherapist.id))
+    })
   {
     
   }
 }
-
-  // async start(){
-
-
-
-  //   await  this._wordService.getPronunciationProblems().subscribe(data=>{this.problems=data;  console.log(this.problems,"  ", data)});
-  //   this.continue()
-  //   //this.problems=await this._wordService.getPronunciationProblems();
-  //   //this.problems=await this._wordService.getPronunciationProblems().toPromise<PronunciationProblemsType[]>();
-  // }
 
   async loadTree(){
     
@@ -233,13 +208,6 @@ saveNewLevel(val:number){
  }
 
 
-  async all()
-{
-  await this.loadLevels()
-  // await this.loadTree();
- await this.initValue();
- console.log("end")
-}
 
 
 
