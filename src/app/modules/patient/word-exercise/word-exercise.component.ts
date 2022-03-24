@@ -130,7 +130,7 @@ saveRecording(){
   if(!(this._lessonService.getSelectedLesson()?.isChecked)&&this.audioBlob&&this.audioBlobUrl)
   {
    let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-  this.audioRecordingService.saveRecording(blob, 'audio/mp3', this.audioName,this.LessonWords[this.activeIndex2]).subscribe();
+  this.audioRecordingService.savePatientRecording(blob, 'audio/mp3', this.audioName,this.LessonWords[this.activeIndex2]).subscribe();
   }
 
   this.audioBlobUrl=undefined;

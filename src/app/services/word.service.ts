@@ -3,11 +3,13 @@ import {catchError, Observable, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { PronunciationProblemsType } from '../models/pronunciation-problems-type.model';
 import { DifficultyLevel } from '../models/difficulty-level.model';
+import { Word } from '../models/word.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordService {
+  
 
   pronunciationProblems:PronunciationProblemsType[]
 
@@ -18,13 +20,26 @@ export class WordService {
   }
 
 
-  getProblemDifficultyLevels( problemsTypeId:number,speechTherapistId:number){
+  getProblemDifficultyLevels( problemsTypeId:number,speechTherapistId:number):Observable<DifficultyLevel[]>{
       return this._http.get<DifficultyLevel[]>(`api/Word/${problemsTypeId}/${speechTherapistId}/PronunciationProblemLevels`)
+  }
+
+  getLevelWords(levelId: number):Observable<Word[]> {
+    return this._http.get<Word[]>(`api/Word/${levelId}/LevelWords`);
   }
 
   addLevelToProblem(difficultyLevel:DifficultyLevel)
   {
-    return this._http.post<void>("api/Word/",difficultyLevel);
+    return this._http.post<DifficultyLevel>("api/Word/",difficultyLevel);
+  }
+
+  deleteLevel(levelId:number){
+    
+    return this._http.delete<void>(`api/Word/${levelId}/deleteAllLevelWords`);
+  }
+
+  deleteWord(wordId:number){
+    return this._http.delete<void>(`api/Word/${wordId}/deleteWord`);
   }
 
   // `https://localhost:44353/api/AngularTest/CheckIfIDExists/${formattedNumber}/${vin}`).pipe(

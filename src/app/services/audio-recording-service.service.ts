@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { WordGivenToPracticeDTO } from '../models/wordGivenToPractice.model';
 import { PatientRecordingDetails } from '../models/patient-recording-details.model';
+import { Word } from '../models/word.model';
 // import { isNullOrUndefined } from 'util';
 
 interface RecordedAudioOutput {
@@ -129,19 +130,19 @@ export class AudioRecordingService {
     this.wordsRecordDetails[index]=recordDetails;
   }
 
-  saveRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
+  savePatientRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
     // debugger;
    // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
-    this.sendWordToServer(word).subscribe();
+    this.sendPatientWordToServer(word).subscribe();
    
     return this._http.put<void>("api/Lesson/UpdateRecording/",formData);
 
   }
-  sendWordToServer( word:WordGivenToPracticeDTO)
+  sendPatientWordToServer( word:WordGivenToPracticeDTO)
   {
     
     return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
@@ -151,5 +152,23 @@ export class AudioRecordingService {
   // {
   //   this.wordsRecordDetails=new PatientRecordingDetails[len];
   // }
+
+
+  saveSpeechTherapistRecording(file: any, type: string, filename: string,word:Word) :Observable<void>{
+    let formData: FormData = new FormData();
+    formData.append("asset", file, filename);
+    // const blob = new Blob([data], { type: type });
+    // const url = window.URL.createObjectURL(blob);
+    debugger;
+   
+    this.sendWordToServer(word).subscribe();
+   
+    return this._http.post<void>("api/Word/PostWordRecording/",formData);
+}
+sendWordToServer( word:Word)
+  {
+    
+    return this._http.post<void>("api/Word/word/",word);
+  }
 
 }

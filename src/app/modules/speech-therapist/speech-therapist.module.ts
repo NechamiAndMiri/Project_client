@@ -8,6 +8,10 @@ import { SpeechTherapistGuard } from 'src/app/guards/speech-therapist.guard';
 import {MatTabsModule} from '@angular/material/tabs';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { PatientsComponent } from './patients/patients.component';
+
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+
+
 //import {MaterialExampleModule} from '@angular/material.module';
 //import {TreeFlatOverviewExample} from './tree-flat-overview-example';
 
@@ -20,7 +24,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ButtonModule} from 'primeng/button';
 import {InputNumberModule} from 'primeng/inputnumber';
-
+import {InputTextModule} from 'primeng/inputtext';
 
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
@@ -75,7 +79,10 @@ const ROUTES:Routes=[
     MatButtonModule,
     OverlayPanelModule,
     ButtonModule,
-    InputNumberModule
+    InputNumberModule,
+    InputTextModule,
+    
+     ConfirmDialogModule
   ]
 })
 export class SpeechTherapistModule { }
