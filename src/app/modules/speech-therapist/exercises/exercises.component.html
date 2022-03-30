@@ -1,47 +1,469 @@
 <body>
-<!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl"> -->
-    <!-- This is the tree node template for leaf nodes -->
-    <!-- <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding> -->
-      <!-- use a disabled button to provide padding for tree leaf -->
-      <!-- <button mat-icon-button disabled></button>
-      {{node.name}}
-    </mat-tree-node> -->
-    <!-- This is the tree node template for expandable nodes -->
-    <!-- <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.name">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-        </mat-icon>
-      </button>
-      {{node.name}}
-    </mat-tree-node>
-  </mat-tree> -->
 
-  <!-- <p-button (click)="loadTree()">tree</p-button>
 
-  <p-button (click)="initValue()">initValue</p-button>
+  <!-- <div *ngFor="let problem of this.problemsArr;let problemIndex = index">
+    <div class="problem" (dblclick)="loadLevels(problemIndex);problem.showLevels=!problem.showLevels">
+      <h1>{{problem.ProblemName}}</h1>
+      
+        <div class="field col-12 md:col-3">
+          <p-button  icon="pi pi-plus" (click)="op.toggle($event)">הוספת רמה</p-button>
+          </div>
+         <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+              <ng-template pTemplate>
+                  <h1>{{selectedProblem.problemName}}</h1>
 
-  <p-button (click)="loadLevels()">load</p-button>
+                    <div class="field col-12 md:col-3">
+                      <label for="minmax-buttons">רמת קושי:</label>
+                      <p-inputNumber #in mode="decimal" [showButtons]="true" inputId="minmax-buttons" [(ngModel)]="initVal"  [min]="1" [max]="50">
+                      </p-inputNumber>
+                  </div>
+                <div>
+                  <p-button [disabled]="existLevelName(problemIndex,in.value)" (click)="saveNewLevel(problemIndex);op.hide()" >שמירה</p-button>
+                  <div *ngIf="existLevelName(problemIndex,in.value)"> מס הרמה כבר קיים </div>
+               </div>
+              </ng-template>
+          </p-overlayPanel>
 
-  <p-button (click)="all()">all</p-button> -->
+      
+        <div *ngIf="problem.showLevels">
+            <div  *ngFor="let level of problem.Levels;let levelIndex = index">
+                <mat-card class="level" (click)="loadWords(levelIndex,problemIndex);level.showWords=!level.showWords">
+                  <mat-card-title>{{level.difficultyLevel}}</mat-card-title>
+                  <mat-card-actions >
+                    <div class="field col-12 md:col-3">
+                      <button mat-button  icon="pi pi-plus" (click)="op2.toggle($event)">הוספת מילה</button>
+                      </div>
+                      <p-overlayPanel #op2 [showCloseIcon]="true" [style]="{width: '450px'}">
+                        <ng-template pTemplate>
+                            <h1>{{selectedProblem.problemName}}</h1>
+                            <h4>רמת קושי: &nbsp;{{selectedLevel.difficultyLevel }}</h4>
+                            <span class="p-float-label">
+                              <label for="float-input">טקסט:</label>
+                                <input id="float-input" type="text" pInputText [(ngModel)]="wordText">
+                                 </span>
+                                 <div class="div-button-center" >
+                                  <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
 
-  <div class="field col-12 md:col-3">
+                                </div>
+                                <div class="div-button-center" >
+                                 <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
+
+                                    <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+                               </div>
+                               <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" >
+                                  <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
+                                   <source [src]="audioBlobUrl" type="audio/mp3">
+                                 </audio>
+                                 <div>
+                                 <button pButton pRipple type="button"  class="p-button-outlined p-button-rounded p-button-success" (click)="restartAudioRecordedData()">הקלטה מחדש</button>
+                                 &nbsp;
+                                 <button pButton pRipple type="button"  icon="pi pi-download" class="p-button-rounded p-button-success p-button-outlined" (click)="downloadAudioRecordedData()" > </button>
+                                </div>
+                               </div>
+
+
+                          <div>
+                            <p-button  (click)="saveWord(levelIndex,problemIndex);op2.hide()">שמירה</p-button>
+
+
+                         </div>
+                        </ng-template>
+                    </p-overlayPanel>
+
+                    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" ></p-confirmDialog>
+                    <p-button  icon="pi pi-times" label="Delete level" (click)="confirmLevelDelete(levelIndex,problemIndex)"></p-button>
+
+                  </mat-card-actions> 
+                    <div *ngIf="level.showWords">
+                        <div  *ngFor="let word of level.words;let wordIndex = index">
+                            <mat-card class="word">
+                              <mat-card-title>{{word.wordText}}</mat-card-title>
+                              <mat-card-actions align="end">
+                                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                                <p-button  icon="pi pi-times" label="Delete word" (click)="confirmWordDelete(wordIndex,levelIndex,problemIndex)"></p-button>
+                             
+                              </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+      </div>
+    </div>
+
+ -->
+ <!-- <mat-icon>delete_outline</mat-icon>
+ <mat-icon>record_voice_over</mat-icon>
+ <mat-icon>open_in_new</mat-icon>
+ <mat-icon>delete_forever</mat-icon>
+ <mat-icon>arrow_forward_ios</mat-icon>
+ <mat-icon>arrow_back_ios</mat-icon>
+ <mat-icon>arrow_left</mat-icon>
+ <mat-icon>arrow_drop_down</mat-icon>
+ <mat-icon>navigate_before</mat-icon>
+ <mat-icon>add</mat-icon>
+ <mat-icon>add_circle_outline</mat-icon>
+ <mat-icon>pause_circle_outline</mat-icon>
+ <mat-icon>add_circle_outline</mat-icon>
+ <mat-icon>play_circle_outline</mat-icon>
+ <mat-icon>play_arrow</mat-icon>
+ <mat-icon>mic_off</mat-icon>
+ <mat-icon>mic</mat-icon>
+ <mat-icon>record_voice_over</mat-icon>
+ <mat-icon>chevron_right</mat-icon>
+ <mat-icon>chevron_left</mat-icon>
+ <mat-icon>arrow_right</mat-icon>
+ <mat-icon>arrow_left</mat-icon>
+ <mat-icon>keyboard_arrow_right</mat-icon>
+ <mat-icon>keyboard_arrow_left</mat-icon>
+ <mat-icon>create_new_folder</mat-icon>	
+ <mat-icon>edit</mat-icon>
+ <mat-icon>voice_over_off</mat-icon> -->
+
+
+
+ <ul>
+
+  <li *ngFor="let problem of this.problemsArr;let problemIndex = index">
+    <mat-card class="problem">
+      <div class="icons-container"> 
+        <span class="center">{{problem.ProblemName}}</span>
+          <span class="bottomleft">
+            <button mat-icon-button  (click)="loadLevels(problemIndex);problem.showLevels=!problem.showLevels">
+              <mat-icon *ngIf="!problem.showLevels">keyboard_arrow_left</mat-icon>
+              <mat-icon *ngIf="problem.showLevels">keyboard_arrow_right</mat-icon>
+            </button></span>
+         
+      </div>
+    </mat-card>
+          <p-overlayPanel #op [showCloseIcon]="true"  [style]="{width: '450px'}">
+              <ng-template pTemplate>
+                <span class="label label-info"> הוספת רמה לבעיה {{problemsArr[problemIndex].ProblemName}}</span>
+        
+
+                    <div class="field col-12 md:col-3">
+                      <label for="minmax-buttons">רמת קושי:</label>
+                      <p-inputNumber #in mode="decimal" [showButtons]="true" inputId="minmax-buttons" [(ngModel)]="initVal"  [min]="1" [max]="50">
+                      </p-inputNumber>
+                  </div>
+                <div>
+                  <p-button [disabled]="existLevelName(problemIndex,in.value)" (click)="saveNewLevel(problemIndex);op.hide()" >שמירה</p-button>
+                  <div *ngIf="existLevelName(problemIndex,in.value)"> מס הרמה כבר קיים </div>
+               </div>
+              </ng-template>
+          </p-overlayPanel>
+
+    
+
+
+        <ul *ngIf="problem.showLevels" class="levels-container">
+
+          <div class="field col-12 md:col-3">
+            <button mat-stroked-button (click)="op.toggle($event)" class="btn-add-level"><mat-icon>add</mat-icon></button>
+            <label>הוסף רמה</label>
+          </div>
+          <li *ngFor="let level of problem.Levels;let levelIndex = index" >
+
+            <p-overlayPanel #opEdit  [showCloseIcon]="true"  [style]="{width: '450px'}">
+            
+              <ng-template pTemplate>
+                <span class="label label-info"> עריכת רמה לבעיה {{problemsArr[problemIndex].ProblemName}}</span>
+  
+                    <div class="field col-12 md:col-3">
+                      <label for="minmax-buttons">רמת קושי:</label>
+                      <p-inputNumber #inEdit mode="decimal" [showButtons]="true" inputId="minmax-buttons" [(ngModel)]="currentLevelVal" [min]="1" [max]="50">
+                      </p-inputNumber>
+                  </div>
+                <div>
+                  <p-button [disabled]="existLevelName(problemIndex,inEdit.value)"  (click)="updateLevel(problemIndex,levelIndex);opEdit.hide()" >שמירה</p-button>
+                  <div *ngIf="existLevelName(problemIndex,inEdit.value)"> מס הרמה כבר קיים </div>
+               </div>
+              </ng-template>
+          </p-overlayPanel>
+
+            <mat-card class="level" >
+              <mat-card-content>
+              <div class="icons-container"> 
+                <span class="center"> רמה {{level.difficultyLevel}}</span>
+
+                 <span class="bottomright">
+                   <button mat-icon-button (click)="confirmLevelDelete(levelIndex,problemIndex)"><mat-icon>delete_forever</mat-icon></button>
+                   <button mat-icon-button (click)="currentLevelVal=problemsArr[problemIndex].Levels[levelIndex].difficultyLevel;opEdit.toggle($event);" >	<mat-icon>edit</mat-icon></button>
+                  </span>
+                  <span class="bottomleft">
+                    <button mat-icon-button (click)="loadWords(levelIndex,problemIndex);level.showWords=!level.showWords">
+                      <mat-icon *ngIf="!level.showWords">keyboard_arrow_left</mat-icon>
+                      <mat-icon *ngIf="level.showWords">keyboard_arrow_right</mat-icon>
+                    </button></span>
+                 
+              </div>
+              </mat-card-content>  
+            </mat-card>
+
+             <!-- חלונית נפתחת הוספת מילה -->
+            <p-overlayPanel #op2 [showCloseIcon]="true" [style]="{width: '450px'}">
+              <ng-template pTemplate>
+                <span class="label label-info"> הוספת מילה לבעיה {{problemsArr[problemIndex].ProblemName}}</span>
+                  <h4>רמת קושי: &nbsp;{{problemsArr[problemIndex].Levels[levelIndex].difficultyLevel }}</h4>
+                  <span class="p-float-label">
+                    <label for="float-input">טקסט:</label>
+                      <input id="float-input" type="text" pInputText [(ngModel)]="wordText">
+                       </span>
+                       <div class="div-button-center" >
+                        <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
+
+                      </div>
+                      <div class="div-button-center" >
+                       <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
+
+                          <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+                     </div>
+                     <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" >
+                        <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
+                         <source [src]="audioBlobUrl" type="audio/mp3">
+                       </audio>
+                       <div>
+                       <button pButton pRipple type="button"  class="p-button-outlined p-button-rounded p-button-success" (click)="restartAudioRecordedData()">הקלטה מחדש</button>
+                       &nbsp;
+                       <button pButton pRipple type="button"  icon="pi pi-download" class="p-button-rounded p-button-success p-button-outlined" (click)="downloadAudioRecordedData()" > </button>
+                      </div>
+                     </div>
+
+
+                <div>
+                  <p-button  (click)="saveWord(levelIndex,problemIndex);op2.hide()">שמירה</p-button>
+
+
+               </div>
+              </ng-template>
+            </p-overlayPanel>
+
+
+              <ul  *ngIf="level.showWords" class="words-container">
+
+                <button mat-stroked-button (click)="op2.toggle($event)" class="btn-add-word"><mat-icon>add</mat-icon></button>
+                <label>הוסף מילה</label>
+                
+                <!-- חלונית נפתחת עריכת מילה -->
+                <p-overlayPanel #opEdit2 [showCloseIcon]="true" [style]="{width: '450px'}">
+                  <ng-template pTemplate>
+                    <span class="label label-info">עריכת מילה  </span>
+                    <span class="label label-info">עבור הבעיה  {{problemsArr[problemIndex].ProblemName}}</span>
+                      <h4>רמת קושי: &nbsp;{{problemsArr[problemIndex].Levels[levelIndex].difficultyLevel }}</h4>
+                      <span class="p-float-label">
+                        <label for="float-input">טקסט:</label>
+                          <input id="float-input" type="text" pInputText [(ngModel)]="wordText">
+                           </span>
+                           <div class="div-button-center" >
+                            <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
+    
+                          </div>
+                          <div class="div-button-center" >
+                           <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
+    
+                              <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+                         </div>
+                         <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" >
+                            <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
+                             <source [src]="audioBlobUrl" type="audio/mp3">
+                           </audio>
+                           <div>
+                           <button pButton pRipple type="button"  class="p-button-outlined p-button-rounded p-button-success" (click)="restartAudioRecordedData()">הקלטה מחדש</button>
+                           &nbsp;
+                           <button pButton pRipple type="button"  icon="pi pi-download" class="p-button-rounded p-button-success p-button-outlined" (click)="downloadAudioRecordedData()" > </button>
+                          </div>
+                         </div>
+    
+    
+                    <div>
+                      <p-button  (click)="updateWord(levelIndex,problemIndex);opEdit2.hide()">שמירה</p-button>
+    
+    
+                   </div>
+                  </ng-template>
+                </p-overlayPanel>
+    
+
+
+                <li  *ngFor="let word of level.words;let wordIndex = index">
+                  <mat-card class="word">
+                    <div class="icons-container"> 
+                      <span class="center">{{word.wordText}}</span>
+                      <span class="bottomright">
+                        <button mat-icon-button  (click)="confirmWordDelete(wordIndex,levelIndex,problemIndex)"><mat-icon>delete_forever</mat-icon></button>
+                        <button mat-icon-button (click)="wordText=problemsArr[problemIndex].Levels[levelIndex].words[wordIndex].wordText;opEdit2.toggle($event);" >	<mat-icon>edit</mat-icon></button>
+                      </span>
+                        
+                           <div class="bottomleft">
+                          <!-- <audio  controls>
+                            <source [src]="audioBlobUrl" type="audio/mp3">
+                          </audio> -->
+                        </div>
+                      </div>
+                  </mat-card>
+                </li>
+              </ul>
+          </li>
+
+        </ul>
+
+      
+  
+  </li>
+</ul>
+
+<p-confirmDialog [style]="{width: '50vw'}"  [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+
+<!-- 
+  <div *ngFor="let problem of this.problemsArr;let problemIndex = index">*****
+    <mat-card class="problem" (dblclick)="loadLevels(problemIndex);problem.showLevels=!problem.showLevels">
+      <mat-card-title>{{problem.ProblemName}}</mat-card-title>
+      <mat-card-actions >
+        <div class="field col-12 md:col-3">
+          <button mat-button icon="pi pi-plus" (click)="op.toggle($event)">הוספת רמה</button>
+          </div>
+         <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+              <ng-template pTemplate>
+                  <h1>{{selectedProblem.problemName}}</h1>
+
+                    <div class="field col-12 md:col-3">
+                      <label for="minmax-buttons">רמת קושי:</label>
+                      <p-inputNumber #in mode="decimal" [showButtons]="true" inputId="minmax-buttons" [(ngModel)]="initVal"  [min]="1" [max]="50">
+                      </p-inputNumber>
+                  </div>
+                <div>
+                  <p-button [disabled]="existLevelName(problemIndex,in.value)" (click)="saveNewLevel(problemIndex);op.hide()" >שמירה</p-button>
+                  <div *ngIf="existLevelName(problemIndex,in.value)"> מס הרמה כבר קיים </div>
+               </div>
+              </ng-template>
+          </p-overlayPanel>
+
+      </mat-card-actions>***********
+        <div *ngIf="problem.showLevels">**********
+            <div  *ngFor="let level of problem.Levels;let levelIndex = index">******
+                <mat-card class="level" (click)="loadWords(levelIndex,problemIndex);level.showWords=!level.showWords">
+                  <mat-card-title>{{level.difficultyLevel}}</mat-card-title>
+                  <mat-card-actions >
+                    <div class="field col-12 md:col-3">
+                      <button mat-button  icon="pi pi-plus" (click)="op2.toggle($event)">הוספת מילה</button>
+                      </div>
+                      <p-overlayPanel #op2 [showCloseIcon]="true" [style]="{width: '450px'}">
+                        <ng-template pTemplate>
+                            <h1>{{selectedProblem.problemName}}</h1>
+                            <h4>רמת קושי: &nbsp;{{selectedLevel.difficultyLevel }}</h4>
+                            <span class="p-float-label">
+                              <label for="float-input">טקסט:</label>
+                                <input id="float-input" type="text" pInputText [(ngModel)]="wordText">
+                                 </span>
+                                 <div class="div-button-center" >
+                                  <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
+
+                                </div>
+                                <div class="div-button-center" >
+                                 <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
+
+                                    <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
+                               </div>
+                               <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" >
+                                  <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
+                                   <source [src]="audioBlobUrl" type="audio/mp3">
+                                 </audio>
+                                 <div>
+                                 <button pButton pRipple type="button"  class="p-button-outlined p-button-rounded p-button-success" (click)="restartAudioRecordedData()">הקלטה מחדש</button>
+                                 &nbsp;
+                                 <button pButton pRipple type="button"  icon="pi pi-download" class="p-button-rounded p-button-success p-button-outlined" (click)="downloadAudioRecordedData()" > </button>
+                                </div>
+                               </div>
+
+
+                          <div>
+                            <p-button  (click)="saveWord(levelIndex,problemIndex);op2.hide()">שמירה</p-button>
+
+
+                         </div>
+                        </ng-template>
+                    </p-overlayPanel>
+
+                    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" ></p-confirmDialog>
+                    <p-button  icon="pi pi-times" label="Delete level" (click)="confirmLevelDelete(levelIndex,problemIndex)"></p-button>
+
+                  </mat-card-actions>*******
+                    <div *ngIf="level.showWords">*****
+                        <div  *ngFor="let word of level.words;let wordIndex = index">*****
+                            <mat-card class="word">
+                              <mat-card-title>{{word.wordText}}</mat-card-title>
+                              <mat-card-actions align="end">
+                                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                                <p-button  icon="pi pi-times" label="Delete word" (click)="confirmWordDelete(wordIndex,levelIndex,problemIndex)"></p-button>
+                             
+                              </mat-card-actions>
+                            </mat-card>****
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card>
+    </div> -->
+
+<!--
+  <mat-card class="word">
+      <mat-card-title>Actions Buttons</mat-card-title>
+      <mat-card-subtitle>End</mat-card-subtitle>
+      <mat-card-actions align="start">
+        <button mat-button>Like</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div *ngFor="let problem of this.problemsArr;let problemIndex = index">
+      <p-card header="{{problem.ProblemName}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}" (dblclick)="loadLevels(problemIndex);problem.showLevels=!problem.showLevels">
+          <p>{{problem.ProblemName}}</p>
+          <div *ngIf="problem.showLevels">
+              <div  *ngFor="let level of problem.Levels;let levelIndex = index">
+                  <p-card header="{{level.difficultyLevel}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}" (click)="loadWords(levelIndex,problemIndex);level.showWords=!level.showWords">
+                      <p>{{level.difficultyLevel}} level</p>
+                      <div *ngIf="level.showWords">
+                          <div  *ngFor="let word of level.words;let wordIndex = index">
+                              <p-card header="{{word.wordText}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+                                  <p>{{word.wordText}}</p>
+                                  <button>record</button>
+                              </p-card>
+                          </div>
+                      </div>
+                  </p-card>
+              </div>
+          </div>
+      </p-card>
+      </div> -->
+
+
+
+
+  <!-- <div class="field col-12 md:col-3">
   <p-button  icon="pi pi-plus" (click)="op.toggle($event)">הוספת רמה</p-button>
   </div>
  <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
       <ng-template pTemplate>
           <h1>{{selectedProblem.problemName}}</h1>
-         
+
             <div class="field col-12 md:col-3">
               <label for="minmax-buttons">רמת קושי:</label>
               <p-inputNumber #in mode="decimal" [showButtons]="true" inputId="minmax-buttons" [(ngModel)]="initVal"  [min]="1" [max]="50">
               </p-inputNumber>
           </div>
         <div>
-          <p-button [disabled]="existLevelName(in.value)" (click)="saveNewLevel();op.hide()" >שמירה</p-button>
+          <p-button [disabled]="existLevelName(in.value)" (click)="op.hide()" >שמירה</p-button> -->
+
+
+          <!-- saveNewLevel(); -->
+<!--
+
           <div *ngIf="existLevelName(in.value)"> מס הרמה כבר קיים </div>
-       </div>   
+       </div>
       </ng-template>
   </p-overlayPanel>
 
@@ -52,20 +474,20 @@
       <ng-template pTemplate>
           <h1>{{selectedProblem.problemName}}</h1>
           <h4>רמת קושי: &nbsp;{{selectedLevel.difficultyLevel }}</h4>
-          <span class="p-float-label"> 
+          <span class="p-float-label">
             <label for="float-input">טקסט:</label>
-              <input id="float-input" type="text" pInputText [(ngModel)]="wordText"> 
+              <input id="float-input" type="text" pInputText [(ngModel)]="wordText">
                </span>
                <div class="div-button-center" >
-                <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button> 
-               
+                <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success " *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
+
               </div>
               <div class="div-button-center" >
                <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger " *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
- 
+
                   <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
              </div>
-             <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" > 
+             <div *ngIf="!isAudioRecording && audioBlobUrl"  class="div-button-center" >
                 <audio *ngIf="!isAudioRecording && audioBlobUrl"  controls>
                  <source [src]="audioBlobUrl" type="audio/mp3">
                </audio>
@@ -78,76 +500,21 @@
 
 
         <div>
-          <p-button  (click)="saveWord();op2.hide()">שמירה</p-button>
-   
-       </div>   
+          <p-button  (click)="op2.hide()">שמירה</p-button> -->
+          <!-- saveWord(); -->
+<!--
+       </div>
       </ng-template>
-  </p-overlayPanel>
+  </p-overlayPanel> -->
 
 
-  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-  <p-button (click)="confirmLevelDelete()" icon="pi pi-times" label="Delete level"></p-button>
+  <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  <p-button  icon="pi pi-times" label="Delete level"></p-button> -->
+  <!-- (click)=""confirmLevelDelete() -->
 
-  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-  <p-button (click)="confirmWordDelete()" icon="pi pi-times" label="Delete word"></p-button>
+  <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
+  <!-- <p-button  icon="pi pi-times" label="Delete word"></p-button> -->
+  <!-- (click)=""confirmWordDelete() -->
 
 
- 
 
-  <!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-      <button mat-icon-button disabled></button>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-      <button mat-icon-button disabled></button>
-      <mat-form-field appearance="fill">
-        <mat-label>New item...</mat-label>
-        <input matInput #itemValue placeholder="Ex. Lettuce">
-      </mat-form-field>
-      <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.item">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-        </mat-icon>
-      </button>
-      <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
-    </mat-tree-node>
-  </mat-tree> -->
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-      <button mat-icon-button disabled></button>
-      <!-- <mat-checkbox class="checklist-leaf-node"
-                    [checked]="checklistSelection.isSelected(node)"
-                    (change)="todoLeafItemSelectionToggle(node)"></mat-checkbox> -->
-                    {{node.item}}
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-      <button mat-icon-button disabled></button>
-      <mat-form-field appearance="fill">
-        <mat-label>New item...</mat-label>
-        <input matInput #itemValue placeholder="Ex. Lettuce">
-      </mat-form-field>
-      <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.item">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-        </mat-icon>
-      </button>
-      <!-- <mat-checkbox [checked]="descendantsAllSelected(node)"
-                    [indeterminate]="descendantsPartiallySelected(node)"
-                    (change)="todoItemSelectionToggle(node)"></mat-checkbox> -->
-                    {{node.item}}
-      <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
-    </mat-tree-node>
-  </mat-tree>
-</body>

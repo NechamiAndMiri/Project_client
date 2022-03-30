@@ -23,7 +23,7 @@ import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {DialogModule} from 'primeng/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
 
-
+      
 @NgModule({
   declarations: [
     AppComponent,

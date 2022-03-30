@@ -25,6 +25,9 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ButtonModule} from 'primeng/button';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextModule} from 'primeng/inputtext';
+import {CardModule} from 'primeng/card';
+import {MatCardModule} from '@angular/material/card';
+
 
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
@@ -54,9 +57,9 @@ const ROUTES:Routes=[
 //   //   redirectTo:"patients"
 //   // }
 //     ]}
-  
-  
-  
+
+
+
 //   ];
 
 @NgModule({
@@ -66,7 +69,7 @@ const ROUTES:Routes=[
     PatientsComponent
   ],
   imports: [
- 
+
     FormsModule,
     MatTabsModule,
     CommonModule,
@@ -81,8 +84,10 @@ const ROUTES:Routes=[
     ButtonModule,
     InputNumberModule,
     InputTextModule,
-    
-     ConfirmDialogModule
+
+     ConfirmDialogModule,
+     CardModule,
+     MatCardModule
   ]
 })
 export class SpeechTherapistModule { }

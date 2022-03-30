@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, tap} from 'rxjs';
+import {catchError, observable, Observable, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { PronunciationProblemsType } from '../models/pronunciation-problems-type.model';
 import { DifficultyLevel } from '../models/difficulty-level.model';
@@ -40,6 +40,10 @@ export class WordService {
 
   deleteWord(wordId:number){
     return this._http.delete<void>(`api/Word/${wordId}/deleteWord`);
+  }
+
+  updateLevel(id:number,level:number){
+    return this._http.put<boolean>(`api/Word/${id}/${level}`,null);
   }
 
   // `https://localhost:44353/api/AngularTest/CheckIfIDExists/${formattedNumber}/${vin}`).pipe(

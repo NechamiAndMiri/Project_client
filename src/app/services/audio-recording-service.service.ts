@@ -18,6 +18,8 @@ interface RecordedAudioOutput {
 })
 export class AudioRecordingService {
 
+ 
+
  private wordsRecordDetails:PatientRecordingDetails[];
 
   private stream!: any;
@@ -159,7 +161,6 @@ export class AudioRecordingService {
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
-    debugger;
    
     this.sendWordToServer(word).subscribe();
    
@@ -170,5 +171,14 @@ sendWordToServer( word:Word)
     
     return this._http.post<void>("api/Word/word/",word);
   }
+
+  updateSpeechTherapistRecording(blob: Blob, type: string, audioName: any, word: Word) {
+    let formData: FormData = new FormData();
+    formData.append("asset", blob, audioName);
+    this.sendWordToServer(word).subscribe();
+    return this._http.put<void>("api/Word/",formData);
+
+  }
+ 
 
 }

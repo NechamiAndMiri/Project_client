@@ -29,7 +29,8 @@ export class PatientComponent implements OnInit {
   
     this.user=(this._logInService.getTheUser()) as PatientDTO;
     this._patientService.patient=this.user;
-    this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{this.lessons=data
+    this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{this.lessons=data;
+      
      console.log(this.lessons)
     
     });
