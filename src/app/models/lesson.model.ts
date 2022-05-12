@@ -18,7 +18,7 @@
         lessonDescription:string;
         weightedScore?:number;
         isDone:boolean
-        pronunciationProblemName?:number;
+        pronunciationProblemName?:string;
         difficultyLevel?:number;
       
      }

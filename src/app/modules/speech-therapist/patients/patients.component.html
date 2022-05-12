@@ -1,1 +1,176 @@
-<p>patients works!</p>
+<div class="container">
+
+
+  <!-- טבלה ראשית -->
+  <div class="table-div" *ngIf="selectedPatient==undefined||selectedPatient==null">
+
+
+    <mat-form-field appearance="standard">
+      <mat-label>חיפוש מטופל</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="הכנס מילה לחיפוש" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- f name Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> שם </th>
+          <td mat-cell *matCellDef="let row"> {{row.user.firstName}} </td>
+        </ng-container>
+
+        <!-- l name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> משפחה </th>
+          <td mat-cell *matCellDef="let row"> {{row.user.lastName}} </td>
+        </ng-container>
+
+        <!-- identityNumber Column -->
+        <ng-container matColumnDef="identityNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ת.ז. </th>
+          <td mat-cell *matCellDef="let row"> {{row.user.identityNumber}} </td>
+        </ng-container>
+
+        <!-- email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> דוא"ל </th>
+          <td mat-cell *matCellDef="let row"> {{row.user.email}} </td>
+        </ng-container>
+
+        <!-- phone Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון </th>
+          <td mat-cell *matCellDef="let row"> {{row.user.phone}} </td>
+        </ng-container>
+
+        <!-- dateOfBirth Column -->
+        <ng-container matColumnDef="dateOfBirth">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> גיל </th>
+          <td mat-cell *matCellDef="let row"> {{this.calculateAge(row.patient.dateOfBirth)}} </td>
+        </ng-container>
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+          (click)="selectPatient(row)"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+        </tr>
+
+      </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons 
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- טבלה צידית  -->
+  <div *ngIf="selectedPatient!=undefined">
+    <div class="right-table-div">
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- f name Column -->
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> שם </th>
+            <td mat-cell *matCellDef="let row"> {{row.user.firstName}} {{row.user.lastName}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="rightDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: rightDisplayedColumns;" class="example-element-row"
+            (click)="selectPatient(row)"></tr>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- תצוגת שיעורים למטופל ספציפי -->
+    <div class="left">
+      <ul>
+        <button mat-stroked-button (click)="openAddLessonDialog()">
+          <mat-icon>add</mat-icon>
+        </button>
+
+        <p-dialog header="הוספת שיעור" [(visible)]="displayLessonDialog" [style]="{width: '50vw'}">
+
+          <form [formGroup]="lessonForm" class="example-form">
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>תאריך</mat-label>
+              <input formControlName="date" type="date" matInput value="{{today}}" [errorStateMatcher]="matcher">
+
+              <mat-error>
+                תאריך <strong>חובה</strong>
+              </mat-error>
+            </mat-form-field>
+            <br /><br />
+
+
+            <mat-form-field appearance="fill">
+              <mat-label>Select an option</mat-label>
+              <mat-select formControlName="level" [(value)]="selectedLevel"  >
+                <mat-option  *ngFor="let level of difficultyLevelsOfSelectedPatient" value="{{level}}">{{level.difficultyLevel}} רמה </mat-option>
+                
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>רמת קושי</mat-label>
+              <input formControlName="level" type="number" matInput placeholder="רמת קושי" [errorStateMatcher]="matcher">
+              <mat-error>
+                רמת קושי <strong>חובה</strong>
+              </mat-error>
+            </mat-form-field>
+            <br><br>
+
+    
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>תיאור</mat-label>
+              <textarea #input matInput maxlength="300"  formControlName="description" matInput
+                placeholder="תיאור השיעור" [errorStateMatcher]="matcher"></textarea>
+                <mat-hint align="start">{{input.value?.length || 0}}/300</mat-hint>
+              <mat-error>
+              על תיאור השיעור להכיל לפחות 15 תוים
+              </mat-error>
+            </mat-form-field>
+            <br><br>
+
+          </form>
+          <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="addLesson()" label="אישור"  [disabled]="!lessonForm.valid" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-dialog>
+
+        <li *ngFor="let lesson of selectedPatientLessons" (click)="selectLesson(lesson)">
+          <div>{{lesson.date}}</div>
+          <div>{{lesson.lessonDescription}}</div>
+          <mat-checkbox value="lesson.isChecked"></mat-checkbox>
+          <ul>
+            <li *ngFor="let word of selectedLessonWords">
+              <span>{{word.wordText}}</span>
+              <span>{{word.score}}</span>
+            </li>
+          </ul>
+        
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+
+
+
+
+
+  <p-tag value="New" icon="pi pi-plus"></p-tag>
+
+
+</div>

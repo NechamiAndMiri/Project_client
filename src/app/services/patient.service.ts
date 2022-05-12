@@ -9,13 +9,17 @@ import { WordGivenToPracticeDTO } from '../models/wordGivenToPractice.model';
 })
 export class PatientService {
 
-
-
   patient!:PatientDTO;
 
   LessonWords!:WordGivenToPracticeDTO[];
 
   constructor(private _http:HttpClient) { }
+
+  getSpeechTerapistPatients(speechTherapistId: number):Observable<PatientDTO[]> {
+      
+    return this._http.get<PatientDTO[]>(`api/Patient/${speechTherapistId}`)
+  }
+
 
   
 }

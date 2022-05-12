@@ -126,7 +126,7 @@ saveRecording(){
   //  this.recordDetails.audioName=this.audioName;
   
   //  this.audioRecordingService.addWordRecordDetails(this.recordDetails,this.activeIndex2);
-  //  debugger
+  //     
   if(!(this._lessonService.getSelectedLesson()?.isChecked)&&this.audioBlob&&this.audioBlobUrl)
   {
    let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
@@ -139,7 +139,7 @@ saveRecording(){
 
 initRecordDetails()
 {
-  // debugger
+  //    
   // this.recordDetails=(this.audioRecordingService.getWordsRecordDetails())![this.activeIndex2];
   // this.audioBlob=this.recordDetails.audioBlob;
   // this.audioBlobUrl=this.recordDetails.audioBlobUrl;

@@ -27,8 +27,13 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
+import {DialogModule} from 'primeng/dialog';
 
-
+import { TagModule } from 'primeng/tag';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
 {
@@ -87,7 +92,14 @@ const ROUTES:Routes=[
 
      ConfirmDialogModule,
      CardModule,
-     MatCardModule
+     MatCardModule,
+      MatTableModule,
+      TagModule,
+      DialogModule,
+      MatSortModule,
+      MatPaginatorModule,
+      MatSelectModule
+
   ]
 })
 export class SpeechTherapistModule { }

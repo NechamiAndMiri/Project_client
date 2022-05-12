@@ -137,7 +137,7 @@ export class AudioRecordingService {
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
-    // debugger;
+    //   
    // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
     this.sendPatientWordToServer(word).subscribe();
    
@@ -178,6 +178,11 @@ sendWordToServer( word:Word)
     this.sendWordToServer(word).subscribe();
     return this._http.put<void>("api/Word/",formData);
 
+  }
+
+  getWordRecord(word:Word):any{
+      
+    return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
   }
  
 

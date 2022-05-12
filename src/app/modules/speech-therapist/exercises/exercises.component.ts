@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injectable, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl, TreeControl } from '@angular/cdk/tree';
 import { WordService } from 'src/app/services/word.service';
@@ -13,43 +13,41 @@ import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/a
 import { SelectionModel } from '@angular/cdk/collections';
 
 
-class nProblem
-{
-  id:number;
-  ProblemName:string;
-  Levels:nLevel[];
-  showLevels:boolean;
+class nProblem {
+  id: number;
+  ProblemName: string;
+  Levels: nLevel[];
+  showLevels: boolean;
   /**
    *
    */
-  constructor(id:number,ProblemName:string,Levels:nLevel[],showLevels:boolean) {
- this.id=id;
- this.ProblemName=ProblemName;
- this.Levels=Levels;
- this.showLevels=showLevels;
+  constructor(id: number, ProblemName: string, Levels: nLevel[], showLevels: boolean) {
+    this.id = id;
+    this.ProblemName = ProblemName;
+    this.Levels = Levels;
+    this.showLevels = showLevels;
   }
 
 }
 
-class nLevel
-{
-  id:number;
-  pronunciationProblemId:number;
-  difficultyLevel:number;
-  speechTherapistId:number;
-  words:Word[];
-  showWords:boolean;
+class nLevel {
+  id: number;
+  pronunciationProblemId: number;
+  difficultyLevel: number;
+  speechTherapistId: number;
+  words: Word[];
+  showWords: boolean;
   /**
    *
    */
-  constructor(id:number, pronunciationProblemId:number,difficultyLevel:number,
-    speechTherapistId:number,words:Word[],showWords:boolean ) {
-    this.difficultyLevel=difficultyLevel
-    this.id=id
-    this.pronunciationProblemId=pronunciationProblemId
-    this.showWords=showWords
-    this.speechTherapistId=speechTherapistId
-    this.words=words
+  constructor(id: number, pronunciationProblemId: number, difficultyLevel: number,
+    speechTherapistId: number, words: Word[], showWords: boolean) {
+    this.difficultyLevel = difficultyLevel
+    this.id = id
+    this.pronunciationProblemId = pronunciationProblemId
+    this.showWords = showWords
+    this.speechTherapistId = speechTherapistId
+    this.words = words
 
   }
 }
@@ -75,25 +73,25 @@ class nLevel
   selector: 'app-exercises',
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.css'],
-  providers: [ConfirmationService,MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 export class ExercisesComponent implements OnInit {
 
-  problems:PronunciationProblemsType[]=[];
-  selectedProblem:PronunciationProblemsType; //לשנות- לבעיה בחורה מהמסך
+  problems: PronunciationProblemsType[] = [];
+  selectedProblem: PronunciationProblemsType; //לשנות- לבעיה בחורה מהמסך
 
-  levelsOfSelectedProblem:DifficultyLevel[];
-  selectedLevel:DifficultyLevel;
+  levelsOfSelectedProblem: DifficultyLevel[];
+  selectedLevel: DifficultyLevel;
 
-  levelWords:Word[];
-  selectedWord:Word;
+  levelWords: Word[];
+  selectedWord: Word;
 
-  initVal:number;
-  currentLevelVal:number;
+  initVal: number;
+  currentLevelVal: number;
 
-  wordText:string;
+  wordText: string;
 
-problemsArr:nProblem[]=[];
+  problemsArr: nProblem[] = [];
 
 
   //------------records var:-----------
@@ -112,18 +110,24 @@ problemsArr:nProblem[]=[];
 
   audioStream!: any;
 
-  audioConf = { audio: true}
+  audioConf = { audio: true }
+
+  prev_url: any;
+
+  // @ViewChild('myAudio') playerRef: ElementRef<HTMLAudioElement>;
+
+  isDownloadaudio: boolean;
+  audio: HTMLAudioElement;
   //-----------------------------------
 
-  constructor(private _wordService:WordService,private _speechTherapistService:SpeechTherapistService,
-    private ref: ChangeDetectorRef,private audioRecordingService: AudioRecordingService,private sanitizer: DomSanitizer,
-    private confirmationService: ConfirmationService, private messageService: MessageService)
-  {
+  constructor(private _wordService: WordService, private _speechTherapistService: SpeechTherapistService,
+    private ref: ChangeDetectorRef, private audioRecordingService: AudioRecordingService, private sanitizer: DomSanitizer,
+    private confirmationService: ConfirmationService, private messageService: MessageService) {
 
     this.audioRecordingService.recordingFailed().subscribe(() => {
       this.isAudioRecording = false;
       this.ref.detectChanges();
- });
+    });
 
     this.audioRecordingService.getRecordedTime().subscribe((time: any) => {
       this.audioRecordedTime = time;
@@ -139,23 +143,23 @@ problemsArr:nProblem[]=[];
 
 
     this._wordService.getPronunciationProblems().subscribe(
-      data=>{
+      data => {
 
-         this.problems=data;  console.log(this.problems,"  ", data);
-         this.problemsArr=this.problems.map(problem=>{return new nProblem(problem.id,problem.problemName,[],false)})
-         //להוריד את 2 השורות הבאות
-      //this.selectedProblem=this.problems![0];
+        this.problems = data; console.log(this.problems, "  ", data);
+        this.problemsArr = this.problems.map(problem => { return new nProblem(problem.id, problem.problemName, [], false) })
+        //להוריד את 2 השורות הבאות
+        //this.selectedProblem=this.problems![0];
 
       });
   }
- async ngOnInit() {
+  async ngOnInit() {
 
 
   }
-  existLevelName(problemIndex:number, name:number):boolean{
+  existLevelName(problemIndex: number, name: number): boolean {
     for (let index = 0; index < this.problemsArr[problemIndex].Levels.length; index++) {
-         if(name==this.problemsArr[problemIndex].Levels[index].difficultyLevel)
-             return true;
+      if (name == this.problemsArr[problemIndex].Levels[index].difficultyLevel)
+        return true;
     }
     return false;
   }
@@ -163,91 +167,93 @@ problemsArr:nProblem[]=[];
 
 
 
-  nextLevelName(problemIndex:number):number{
-    this.problemsArr[problemIndex].Levels.sort((a,b)=>{return a.difficultyLevel - b.difficultyLevel;})
-    return this.problemsArr[problemIndex].Levels[this.problemsArr[problemIndex].Levels.length-1].difficultyLevel+1;
+  nextLevelName(problemIndex: number): number {
+    this.problemsArr[problemIndex].Levels.sort((a, b) => { return a.difficultyLevel - b.difficultyLevel; })
+    return this.problemsArr[problemIndex].Levels[this.problemsArr[problemIndex].Levels.length - 1].difficultyLevel + 1;
   }
 
 
-loadLevels(problemIndex:number){
-  this._wordService.getProblemDifficultyLevels( this.problemsArr[problemIndex].id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(
-      data=>{
-       var levelsArr=data.map((level:any)=>{return new nLevel(level.id,level.pronunciationProblemId,level.difficultyLevel,level.speechTherapistId,[],false)});
-       this.problemsArr[problemIndex].Levels=levelsArr;
+  loadLevels(problemIndex: number) {
+    this._wordService.getProblemDifficultyLevels(this.problemsArr[problemIndex].id, this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(
+      data => {
+        var levelsArr = data.map((level: any) => { return new nLevel(level.id, level.pronunciationProblemId, level.difficultyLevel, level.speechTherapistId, [], false) });
+        this.problemsArr[problemIndex].Levels = levelsArr;
 
-        this.initVal=this.nextLevelName(problemIndex);
-
-      });
-    }
-
-
-
-    loadWords(levelIndex:number,problemIndex:number){
-      this._wordService.getLevelWords( this.problemsArr[problemIndex].Levels[levelIndex].id).subscribe(data=>{
-        //var wordsArr=data.map((word)=>{return new Word(word.id,word.wordText,word.wordRecording,word.difficultyLevelId)});
-
-        this.problemsArr[problemIndex].Levels[levelIndex].words=data;
+        this.initVal = this.nextLevelName(problemIndex);
 
       });
-    }
-
-
-saveNewLevel(problemIndex:number){
-  this._wordService.addLevelToProblem(
-      new DifficultyLevel (0,
-       this.problemsArr[problemIndex].id,
-      this.initVal,
-      this._speechTherapistService.getSpeechTherapist().speechTherapist.id)
-    ).subscribe(data=>{
-      this.problemsArr[problemIndex].Levels.push(new nLevel(data.id,data.pronunciationProblemId,data.difficultyLevel,data.speechTherapistId,[],false));
-      this.initVal=this.nextLevelName(problemIndex);
-
-    })}
-
-    updateLevel(problemIndex:number,levelIndex:number){
-        this._wordService.updateLevel(this.problemsArr[problemIndex].Levels[levelIndex].id,this.currentLevelVal).subscribe((bool)=>{
-          console.log('apdate level');
-          if(bool==true)
-          this.problemsArr[problemIndex].Levels[levelIndex].difficultyLevel=this.currentLevelVal;
-          this.initVal=this.nextLevelName(problemIndex);
-      });
-    }
+  }
 
 
 
-  confirmLevelDelete(levelIndex:number,problemIndex:number) {
+  loadWords(levelIndex: number, problemIndex: number) {
+    this._wordService.getLevelWords(this.problemsArr[problemIndex].Levels[levelIndex].id).subscribe(data => {
+      //var wordsArr=data.map((word)=>{return new Word(word.id,word.wordText,word.wordRecording,word.difficultyLevelId)});
+
+      this.problemsArr[problemIndex].Levels[levelIndex].words = data;
+
+    });
+  }
+
+
+  saveNewLevel(problemIndex: number) {
+    this._wordService.addLevelToProblem(
+      new DifficultyLevel(0,
+        this.problemsArr[problemIndex].id,
+        this.initVal,
+        this._speechTherapistService.getSpeechTherapist().speechTherapist.id)
+    ).subscribe(data => {
+      this.problemsArr[problemIndex].Levels.push(new nLevel(data.id, data.pronunciationProblemId, data.difficultyLevel, data.speechTherapistId, [], false));
+      this.initVal = this.nextLevelName(problemIndex);
+
+    })
+  }
+
+  updateLevel(problemIndex: number, levelIndex: number) {
+    this._wordService.updateLevel(this.problemsArr[problemIndex].Levels[levelIndex].id, this.currentLevelVal).subscribe((bool) => {
+      console.log('apdate level');
+      if (bool == true)
+        this.problemsArr[problemIndex].Levels[levelIndex].difficultyLevel = this.currentLevelVal;
+      this.initVal = this.nextLevelName(problemIndex);
+    });
+  }
+
+
+
+  confirmLevelDelete(levelIndex: number, problemIndex: number) {
     this.confirmationService.confirm({
-        message: ` האם אתה רוצה למחוק את רמה מספר ${this.problemsArr[problemIndex].Levels[levelIndex].difficultyLevel}??
+      message: ` האם אתה רוצה למחוק את רמה מספר ${this.problemsArr[problemIndex].Levels[levelIndex].difficultyLevel}??
       במחיקת הרמה ימחקו אוטומטית כל המילים השייכות לרמה זו`,
-        header: 'מחיקת רמה',
-        icon: 'pi pi-info-circle',
-        rejectLabel:` ביטול` ,
-        acceptLabel:' אישור ',
-        accept: () => {
-           this._wordService.deleteLevel(this.problemsArr[problemIndex].Levels[levelIndex].id).subscribe(
-             ()=>this.loadLevels(problemIndex));
-        },
-        reject: () => {console.log("level not removed");
-        }
+      header: 'מחיקת רמה',
+      icon: 'pi pi-info-circle',
+      rejectLabel: ` ביטול`,
+      acceptLabel: ' אישור ',
+      accept: () => {
+        this._wordService.deleteLevel(this.problemsArr[problemIndex].Levels[levelIndex].id).subscribe(
+          () => this.loadLevels(problemIndex));
+      },
+      reject: () => {
+        console.log("level not removed");
+      }
     });
 
-}
+  }
 
 
-  confirmWordDelete(wordIndex:number,levelIndex:number,problemIndex:number)
-  {
+  confirmWordDelete(wordIndex: number, levelIndex: number, problemIndex: number) {
     this.confirmationService.confirm({
       message: ` האם אתה רוצה למחוק את המילה ${this.problemsArr[problemIndex].Levels[levelIndex].words[wordIndex].wordText}??`,
       header: 'מחיקת מילה',
       icon: 'pi pi-info-circle',
-      rejectLabel:` ביטול` ,
-      acceptLabel:' אישור ',
+      rejectLabel: ` ביטול`,
+      acceptLabel: ' אישור ',
       accept: () => {
-         this._wordService.deleteWord(this.problemsArr[problemIndex].Levels[levelIndex].words[wordIndex].id).subscribe(()=>this.loadWords(levelIndex,problemIndex));
+        this._wordService.deleteWord(this.problemsArr[problemIndex].Levels[levelIndex].words[wordIndex].id).subscribe(() => this.loadWords(levelIndex, problemIndex));
       },
-      reject: () => {console.log("word not removed");
+      reject: () => {
+        console.log("word not removed");
       }
-  });
+    });
   }
 
 
@@ -298,38 +304,73 @@ saveNewLevel(problemIndex:number){
 
 
 
-  saveWord(levelIndex:number,problemIndex:number){
+  saveWord(levelIndex: number, problemIndex: number) {
 
-    if(this.audioBlob&&this.audioBlobUrl)
-    {
-     let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-    let w=new Word(0,this.wordText,"",this.problemsArr[problemIndex].Levels[levelIndex].id)
-    this.audioRecordingService.saveSpeechTherapistRecording(blob, 'audio/mp3', this.audioName,w).subscribe(
-      ()=>this.loadWords(levelIndex,problemIndex)
-    );
+    if (this.audioBlob && this.audioBlobUrl) {
+      let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
+      let w = new Word(0, this.wordText, "", this.problemsArr[problemIndex].Levels[levelIndex].id)
+      this.audioRecordingService.saveSpeechTherapistRecording(blob, 'audio/mp3', this.audioName, w).subscribe(
+        () => this.loadWords(levelIndex, problemIndex)
+      );
     }
-    this.wordText="";
-    this.audioBlobUrl=undefined;
+    this.wordText = "";
+    this.audioBlobUrl = undefined;
 
   }
 
-  updateWord(levelIndex:number,problemIndex:number){
-    if(this.audioBlob&&this.audioBlobUrl)
-    {
-     let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-    let w=new Word(0,this.wordText,"",this.problemsArr[problemIndex].Levels[levelIndex].id)
-    this.audioRecordingService.updateSpeechTherapistRecording(blob, 'audio/mp3', this.audioName,w).subscribe(
-      ()=>this.loadWords(levelIndex,problemIndex)
-    );
+  updateWord(levelIndex: number, problemIndex: number) {
+    if (this.audioBlob && this.audioBlobUrl) {
+      let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
+      let w = new Word(0, this.wordText, "", this.problemsArr[problemIndex].Levels[levelIndex].id)
+      this.audioRecordingService.updateSpeechTherapistRecording(blob, 'audio/mp3', this.audioName, w).subscribe(
+        () => this.loadWords(levelIndex, problemIndex)
+      );
     }
-    this.wordText="";
-    this.audioBlobUrl=undefined;
+    this.wordText = "";
+    this.audioBlobUrl = undefined;
 
   }
 
-ngOnDestroy(): void {
-  this.abortAudioRecording();
-}
+  playWordRecord(word: Word) {
+    // this.isDownloadaudio = false;
+    let blob;
+    this.audioRecordingService.getWordRecord(word).subscribe((b: any) => {
+      this.isDownloadaudio = true;
+      blob = new Blob([b], { type: 'audio/mp3' });
+
+      this.audioBlob = b.body;
+      this.audioName = b.title;
+      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+
+      this.audio = new Audio();
+      // this.audio.srcObject = blob as MediaProvider;
+      this.audio.src =  this.audioBlobUrl.changingThisBreaksApplicationSecurity
+      this.audio.play();
+      //this will make sure to update when time updates.
+      this.audio.ontimeupdate = (event) => {
+         var currentTime = this.audio.currentTime;
+         this.ref.detectChanges();
+      }
+      // this.playerRef.nativeElement.play();
+
+      // this.ref.detectChanges();
+    });
+
+
+
+
+    //   let audio = new Audio();
+    // audio.src = "";
+    // audio.load();
+    // audio.play();
+
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.abortAudioRecording();
+  }
 
 
 
@@ -337,101 +378,101 @@ ngOnDestroy(): void {
 
 
 
-//-------------------------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------------------
 
-    // existLevelName( name:number):boolean{
-    //     for (let index = 0; index < this.levelsOfSelectedProblem.length; index++) {
-    //          if(name==this.levelsOfSelectedProblem[index].difficultyLevel)
-    //              return true;
-    //     }
-    //     return false;
-    //   }
+  // existLevelName( name:number):boolean{
+  //     for (let index = 0; index < this.levelsOfSelectedProblem.length; index++) {
+  //          if(name==this.levelsOfSelectedProblem[index].difficultyLevel)
+  //              return true;
+  //     }
+  //     return false;
+  //   }
 
-    //   nextLevelName():number{
-    //     this.levelsOfSelectedProblem.sort((a,b)=>{return a.difficultyLevel - b.difficultyLevel;})
-    //     return this.levelsOfSelectedProblem[this.levelsOfSelectedProblem.length-1].difficultyLevel+1;
-    //   }
+  //   nextLevelName():number{
+  //     this.levelsOfSelectedProblem.sort((a,b)=>{return a.difficultyLevel - b.difficultyLevel;})
+  //     return this.levelsOfSelectedProblem[this.levelsOfSelectedProblem.length-1].difficultyLevel+1;
+  //   }
 
-    //   loadLevels(){
-    //   this._wordService.getProblemDifficultyLevels(this.selectedProblem.id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(
-    //       data=>{this.levelsOfSelectedProblem=data;
-    //       this.selectedLevel=this.levelsOfSelectedProblem![0];
-    //         this.initVal=this.nextLevelName();
-    //         //this.loadTree();
+  //   loadLevels(){
+  //   this._wordService.getProblemDifficultyLevels(this.selectedProblem.id,this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(
+  //       data=>{this.levelsOfSelectedProblem=data;
+  //       this.selectedLevel=this.levelsOfSelectedProblem![0];
+  //         this.initVal=this.nextLevelName();
+  //         //this.loadTree();
 
-    //         this.loadWords();
-    //       });
-    //     }
+  //         this.loadWords();
+  //       });
+  //     }
 
-    //   loadWords(){
-    //       this._wordService.getLevelWords(this.selectedLevel.id).subscribe(data=>{
-    //         this.levelWords=data;
-    //         this.selectedWord=this.levelWords![0];
-    //       });
-    //     }
+  //   loadWords(){
+  //       this._wordService.getLevelWords(this.selectedLevel.id).subscribe(data=>{
+  //         this.levelWords=data;
+  //         this.selectedWord=this.levelWords![0];
+  //       });
+  //     }
 
-    //     saveNewLevel(){
-    //   this._wordService.addLevelToProblem(
-    //       new DifficultyLevel (0,
-    //       this.selectedProblem.id,
-    //       this.initVal,
-    //       this._speechTherapistService.getSpeechTherapist().speechTherapist.id)
-    //     ).subscribe(data=>{
-    //       console.log("AAAAAA");
-    //       this.levelsOfSelectedProblem.push(data);
-    //       this.initVal=this.nextLevelName();
+  //     saveNewLevel(){
+  //   this._wordService.addLevelToProblem(
+  //       new DifficultyLevel (0,
+  //       this.selectedProblem.id,
+  //       this.initVal,
+  //       this._speechTherapistService.getSpeechTherapist().speechTherapist.id)
+  //     ).subscribe(data=>{
+  //       console.log("AAAAAA");
+  //       this.levelsOfSelectedProblem.push(data);
+  //       this.initVal=this.nextLevelName();
 
-    //     })}
+  //     })}
 
-    //     confirmLevelDelete() {
-    //       this.confirmationService.confirm({
-    //           message: ` האם אתה רוצה למחוק את רמה מספר ${this.selectedLevel.difficultyLevel}??
-    //         במחיקת הרמה ימחקו אוטומטית כל המילים השייכות לרמה זו`,
-    //           header: 'מחיקת רמה',
-    //           icon: 'pi pi-info-circle',
-    //           rejectLabel:` ביטול` ,
-    //           acceptLabel:' אישור ',
-    //           accept: () => {
-    //              this._wordService.deleteLevel(this.selectedLevel.id).subscribe(
-    //                ()=>this.loadLevels());
-    //           },
-    //           reject: () => {console.log("level not removed");
-    //           }
-    //       });
+  //     confirmLevelDelete() {
+  //       this.confirmationService.confirm({
+  //           message: ` האם אתה רוצה למחוק את רמה מספר ${this.selectedLevel.difficultyLevel}??
+  //         במחיקת הרמה ימחקו אוטומטית כל המילים השייכות לרמה זו`,
+  //           header: 'מחיקת רמה',
+  //           icon: 'pi pi-info-circle',
+  //           rejectLabel:` ביטול` ,
+  //           acceptLabel:' אישור ',
+  //           accept: () => {
+  //              this._wordService.deleteLevel(this.selectedLevel.id).subscribe(
+  //                ()=>this.loadLevels());
+  //           },
+  //           reject: () => {console.log("level not removed");
+  //           }
+  //       });
 
-    //   }
+  //   }
 
 
-    // confirmWordDelete()
-    // {
-    //   this.confirmationService.confirm({
-    //     message: ` האם אתה רוצה למחוק את המילה ${this.selectedWord.wordText}??`,
-    //     header: 'מחיקת מילה',
-    //     icon: 'pi pi-info-circle',
-    //     rejectLabel:` ביטול` ,
-    //     acceptLabel:' אישור ',
-    //     accept: () => {
-    //        this._wordService.deleteWord(this.selectedWord.id).subscribe(()=>this.loadWords());
-    //     },
-    //     reject: () => {console.log("word not removed");
-    //     }
-    // });
-    // }
+  // confirmWordDelete()
+  // {
+  //   this.confirmationService.confirm({
+  //     message: ` האם אתה רוצה למחוק את המילה ${this.selectedWord.wordText}??`,
+  //     header: 'מחיקת מילה',
+  //     icon: 'pi pi-info-circle',
+  //     rejectLabel:` ביטול` ,
+  //     acceptLabel:' אישור ',
+  //     accept: () => {
+  //        this._wordService.deleteWord(this.selectedWord.id).subscribe(()=>this.loadWords());
+  //     },
+  //     reject: () => {console.log("word not removed");
+  //     }
+  // });
+  // }
 
-    //   saveWord(){
+  //   saveWord(){
 
-    //     if(this.audioBlob&&this.audioBlobUrl)
-    //     {
-    //      let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-    //     let w=new Word(0,this.wordText,"",this.selectedLevel.id)
-    //     this.audioRecordingService.saveSpeechTherapistRecording(blob, 'audio/mp3', this.audioName,w).subscribe(
-    //       ()=>this.loadWords()
-    //     );
-    //     }
-    //     this.wordText="";
-    //     this.audioBlobUrl=undefined;
+  //     if(this.audioBlob&&this.audioBlobUrl)
+  //     {
+  //      let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
+  //     let w=new Word(0,this.wordText,"",this.selectedLevel.id)
+  //     this.audioRecordingService.saveSpeechTherapistRecording(blob, 'audio/mp3', this.audioName,w).subscribe(
+  //       ()=>this.loadWords()
+  //     );
+  //     }
+  //     this.wordText="";
+  //     this.audioBlobUrl=undefined;
 
-    //   }
+  //   }
 }
 
 

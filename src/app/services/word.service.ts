@@ -55,7 +55,7 @@ export class WordService {
 // getPronunciationProblems():PronunciationProblemsType[]{
 //   if(this.pronunciationProblems==undefined)
 //       this._getPronunciationProblems().subscribe(data=>{console.log(data);this.pronunciationProblems=data},err=>alert("err!"));
-//       debugger
+//          
 //   return this.pronunciationProblems;
 // }
 
