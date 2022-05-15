@@ -152,6 +152,7 @@
           <div>{{lesson.date}}</div>
           <div>{{lesson.lessonDescription}}</div>
           <mat-checkbox value="lesson.isChecked"></mat-checkbox>
+          <button mat-button (click)="updateLesson(lesson)">לעריכת השיעור</button>
           <ul>
             <li *ngFor="let word of selectedLessonWords">
               <span>{{word.wordText}}</span>
@@ -159,18 +160,82 @@
             </li>
           </ul>
 
+
+         
+
         </li>
+
+        <p-dialog header="עריכת שיעור" [(visible)]="displayLessonDialogToUpdate" [style]="{width: '50vw'}">
+          
+          <div >
+          <h1>השיעור התקיים ב {{currentLesson.date}}</h1>
+          <label>{{currentLesson.difficultyLevel}}</label>
+          <label>מה עשינו בשיעור?</label>
+          <label>{{currentLesson.lessonDescription}}</label>
+          </div>
+
+
+          
+
+            <form [formGroup]="lessonFormToUpdate" class="example-form">
+  
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>תאריך</mat-label>
+                <input formControlName="date" type="date" matInput [value]="currentLesson.date" [errorStateMatcher]="matcher">
+  
+                <mat-error>
+                  תאריך <strong>חובה</strong>
+                </mat-error>
+              </mat-form-field>
+              <br /><br />
+  
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Select an option</mat-label>
+                <mat-select  formControlName="level" [(value)]="currentLesson.difficultyLevel"  >
+                  <mat-option class="front" *ngFor="let level of difficultyLevelsOfSelectedPatient;" >{{level.difficultyLevel}} רמה </mat-option>
+  
+                </mat-select>
+              </mat-form-field>
+  
+  
+  
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>תיאור</mat-label>
+                <textarea #input matInput maxlength="300"  formControlName="description" matInput
+                  placeholder="תיאור השיעור" [errorStateMatcher]="matcher" [value]="currentLesson.lessonDescription"></textarea>
+                  <mat-hint align="start">{{input.value?.length || 0}}/300</mat-hint>
+                <mat-error>
+                על תיאור השיעור להכיל לפחות 15 תוים
+                </mat-error>
+              </mat-form-field>
+              <br><br>
+  
+            </form>
+           
+          
+        <ng-template pTemplate="footer">
+          <p-button icon="pi pi-check" (click)="finishUpdateLesson()" label="אישור"  [disabled]="!lessonForm.valid" styleClass="p-button-text"></p-button>
+        </ng-template>
+      </p-dialog>
 
       </ul>
     </div>
   </div>
 
 
+    <!-- דיאלוג לעדכון -->
+
+         
+    <!-- סוף דיאלוג -->
 
 
 
 
   <p-tag value="New" icon="pi pi-plus"></p-tag>
+
+
+  
 
 
 </div>

@@ -56,10 +56,18 @@ export class PatientsComponent implements OnInit {
   selectedLevel: DifficultyLevel;
 
   displayLessonDialog: boolean;
+  displayLessonDialogToUpdate:boolean;
+  currentLesson:Lesson;
 
   today = new Date();
 
   lessonForm: FormGroup = new FormGroup({
+    "level": new FormControl("", [Validators.required]),
+    "date": new FormControl("", Validators.required),
+    "description": new FormControl("", [Validators.required, Validators.minLength(15)])
+  });
+
+  lessonFormToUpdate: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
     "date": new FormControl("", Validators.required),
     "description": new FormControl("", [Validators.required, Validators.minLength(15)])
@@ -119,6 +127,30 @@ export class PatientsComponent implements OnInit {
     this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
     })
+   // this.displayLessonDialogToUpdate = true;
+
+  }
+  updateLesson(lesson:Lesson){
+    this.currentLesson=lesson;
+    this.displayLessonDialogToUpdate =true;
+
+  }
+  finishUpdateLesson(){
+   
+debugger
+    const newLesson = {
+      "id":0,
+      "patientId": this.selectedPatient.id,
+      "date": this.lessonFormToUpdate.get('date')?.value,
+      "isChecked": false,
+      "difficultyLevelId": this.lessonFormToUpdate.get('level')?.value.id,
+      "lessonDescription": this.lessonFormToUpdate.get('description')?.value,
+      "isDone": false
+    }
+    this._lessonService.updateLesson(newLesson).subscribe(()=>
+      this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {this.selectedPatientLessons = data;})
+    );
+    this.displayLessonDialogToUpdate=false;
   }
 
   openAddLessonDialog() {
@@ -143,8 +175,6 @@ export class PatientsComponent implements OnInit {
     this._lessonService.addLesson(newLesson).subscribe((lesson) => {
       this.selectedPatientLessons.push(lesson);
     })
-
-
 
 
     this.displayLessonDialog = false;

@@ -23,7 +23,7 @@ export class LessonService {
   }
 
   getLessonsByPatient(patientId: number): Observable<Lesson[]> {
-
+    debugger
     return this._http.get<Lesson[]>("api/Lesson/" + patientId);
   }
 
@@ -33,5 +33,9 @@ export class LessonService {
   }
   addLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<Lesson> {
     return this._http.post<Lesson>(`/api/Lesson`,newLesson);
+  }
+  updateLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<void>{
+    debugger
+    return this._http.put<void>(`/api/Lesson/lesson`,newLesson);
   }
 }
