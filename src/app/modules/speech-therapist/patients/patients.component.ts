@@ -20,6 +20,22 @@ import { WordService } from 'src/app/services/word.service';
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css']
 })
+
+export interface FlatPatient   {
+        id:number;
+        speechTherapistId:number;
+        dateOfBirth:Date;
+        pronunciationProblemId:number;
+        firstName:string;
+        lastName:string;
+        identityNumber:string;
+        email:string;
+        permissionLevelId: number;
+        password:string;
+        phone:string;
+
+  }
+
 export class PatientsComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'identityNumber', 'email', 'phone', 'dateOfBirth'];
   rightDisplayedColumns: string[] = ['fullName']
@@ -106,16 +122,7 @@ export class PatientsComponent implements OnInit {
 
   addLesson() {
 
-    // {
-    //   "id": 0,
-    //   "patientId": 2,
-    //   "date": "2022-05-12T15:35:40.665Z",
-    //   "isChecked": true,
-    //   "difficultyLevelId": 12,
-    //   "lessonDescription": "stringfrtryt4ry54y5s",
-    //   "weightedScore": 0,
-    //   "isDone": true
-    // }
+
 
     const newLesson = {
       "id":0,
@@ -125,7 +132,7 @@ export class PatientsComponent implements OnInit {
       "difficultyLevelId": this.lessonForm.get('level')?.value.id,
       "lessonDescription": this.lessonForm.get('description')?.value,
       "isDone": false
-      
+
     }
 
     this._lessonService.addLesson(newLesson).subscribe((lesson) => {
