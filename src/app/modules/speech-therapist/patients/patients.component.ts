@@ -14,14 +14,8 @@ import { PatientService } from 'src/app/services/patient.service';
 import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 import { WordService } from 'src/app/services/word.service';
 
-
-@Component({
-  selector: 'app-patients',
-  templateUrl: './patients.component.html',
-  styleUrls: ['./patients.component.css']
-})
-
 export interface FlatPatient   {
+  
         id:number;
         speechTherapistId:number;
         dateOfBirth:Date;
@@ -30,16 +24,23 @@ export interface FlatPatient   {
         lastName:string;
         identityNumber:string;
         email:string;
-        permissionLevelId: number;
+        // permissionLevelId: number;
         password:string;
         phone:string;
 
   }
 
+@Component({
+  selector: 'app-patients',
+  templateUrl: './patients.component.html',
+  styleUrls: ['./patients.component.css']
+})
+
+
 export class PatientsComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'identityNumber', 'email', 'phone', 'dateOfBirth'];
   rightDisplayedColumns: string[] = ['fullName']
-  dataSource: MatTableDataSource<PatientDTO>;
+  dataSource: MatTableDataSource<FlatPatient>;
   patients: PatientDTO[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -60,7 +61,7 @@ export class PatientsComponent implements OnInit {
   lessonForm: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
     "date": new FormControl("", Validators.required),
-    "description": new FormControl("", [Validators.required, Validators.minLength(25)])
+    "description": new FormControl("", [Validators.required, Validators.minLength(15)])
   });
 
   matcher = new MyErrorStateMatcher();
@@ -70,9 +71,13 @@ export class PatientsComponent implements OnInit {
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService, private _lessonService: LessonService, private _wordService: WordService) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
-      this.patients = data; console.log(data); this.dataSource = new MatTableDataSource(this.patients)
+      this.patients = data; console.log(data);
+      this.dataSource = new MatTableDataSource(this.patients.map(p=>
+        {return  <FlatPatient>{id:p.patient.id,speechTherapistId:p.patient.speechTherapistId,dateOfBirth:p.patient.dateOfBirth,
+                              pronunciationProblemId:p.patient.pronunciationProblemId,firstName:p.user.firstName,lastName:p.user.lastName,
+                              identityNumber:p.user.identityNumber,email:p.user.email,password:p.user.password,phone:p.user.phone}}));
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;;
+      this.dataSource.sort = this.sort;
     })
 
     // Assign the data to the data source for the table to render
