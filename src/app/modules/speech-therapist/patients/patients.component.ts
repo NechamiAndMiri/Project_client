@@ -67,7 +67,7 @@ export class PatientsComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-
+//jhyufeftye
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService, private _lessonService: LessonService, private _wordService: WordService) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
