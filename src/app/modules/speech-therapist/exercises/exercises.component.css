@@ -54,7 +54,7 @@ ul,li{
   list-style: none;
   align-items: flex-start;
 }
- 
+
 .bottomright {
   position: absolute;
   bottom: 12px;
@@ -76,9 +76,18 @@ ul,li{
 }
 
 .center {
- 
+
   bottom: 8px;
   text-align: center;
   font-size: 24px;
  font-weight: bold;
+}
+.container{
+  padding: 10px;
+  margin: 10px;
+
+}
+
+.div-button-center{
+  align-items: center;
 }

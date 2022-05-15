@@ -89,6 +89,8 @@ export class ExercisesComponent implements OnInit {
   initVal: number;
   currentLevelVal: number;
 
+  wordToEdit:Word;
+
   wordText: string;
 
   problemsArr: nProblem[] = [];
@@ -321,49 +323,76 @@ export class ExercisesComponent implements OnInit {
   updateWord(levelIndex: number, problemIndex: number) {
     if (this.audioBlob && this.audioBlobUrl) {
       let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-      let w = new Word(0, this.wordText, "", this.problemsArr[problemIndex].Levels[levelIndex].id)
-      this.audioRecordingService.updateSpeechTherapistRecording(blob, 'audio/mp3', this.audioName, w).subscribe(
+      this.audioRecordingService.updateSpeechTherapistRecording(blob, 'audio/mp3', this.audioName, this.wordToEdit).subscribe(
         () => this.loadWords(levelIndex, problemIndex)
       );
     }
     this.wordText = "";
     this.audioBlobUrl = undefined;
-
   }
 
+  // updateWordWithoutRecord(levelIndex: number, problemIndex: number){
+  //   this.audioRecordingService.updateSpeechTherapistRecording(blob, 'audio/mp3', this.audioName, this.wordToEdit).subscribe(
+  //     () => this.loadWords(levelIndex, problemIndex)
+  //   );
+
+  // }
+
+  //of Tehila
+  // playWordRecord(word: Word) {
+  //   // this.isDownloadaudio = false;
+  //   let blob;
+  //   this.audioRecordingService.getWordRecord(word).subscribe((b: any) => {
+  //     this.isDownloadaudio = true;
+  //     blob = new Blob([b], { type: 'audio/mp3' });
+
+  //     this.audioBlob = b.body;
+  //     this.audioName = b.title;
+  //     this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+
+  //     this.audio = new Audio();
+  //     // this.audio.srcObject = blob as MediaProvider;
+  //     this.audio.src =  this.audioBlobUrl.changingThisBreaksApplicationSecurity
+  //     this.audio.play();
+  //     //this will make sure to update when time updates.
+  //     this.audio.ontimeupdate = (event) => {
+  //        var currentTime = this.audio.currentTime;
+  //        this.ref.detectChanges();
+  //     }
+  //   });
+  // }
+
   playWordRecord(word: Word) {
-    // this.isDownloadaudio = false;
     let blob;
     this.audioRecordingService.getWordRecord(word).subscribe((b: any) => {
       this.isDownloadaudio = true;
       blob = new Blob([b], { type: 'audio/mp3' });
 
-      this.audioBlob = b.body;
-      this.audioName = b.title;
-      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+      let audioBlob1 = b.body;
+      let audioName1 = b.title;
+      let audioBlobUrl1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
 
-      this.audio = new Audio();
+      let audio1 = new Audio();
       // this.audio.srcObject = blob as MediaProvider;
-      this.audio.src =  this.audioBlobUrl.changingThisBreaksApplicationSecurity
-      this.audio.play();
+      audio1.src =  (audioBlobUrl1 as any).changingThisBreaksApplicationSecurity
+      audio1.play();
       //this will make sure to update when time updates.
-      this.audio.ontimeupdate = (event) => {
-         var currentTime = this.audio.currentTime;
+      audio1.ontimeupdate = (event) => {
+         var currentTime = audio1.currentTime;
          this.ref.detectChanges();
       }
-      // this.playerRef.nativeElement.play();
-
-      // this.ref.detectChanges();
     });
+  }
 
-
-
-
-    //   let audio = new Audio();
-    // audio.src = "";
-    // audio.load();
-    // audio.play();
-
+  playNewWordRecord(){
+    this.audio = new Audio();
+    this.audio.src =  this.audioBlobUrl.changingThisBreaksApplicationSecurity
+    this.audio.play();
+    //this will make sure to update when time updates.
+    this.audio.ontimeupdate = (event) => {
+       var currentTime = this.audio.currentTime;
+       this.ref.detectChanges();
+    }
   }
 
 
