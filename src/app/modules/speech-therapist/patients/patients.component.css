@@ -60,3 +60,10 @@ tr.example-element-row:hover {
 .example-label{
   text-align: right;
 }
+
+.front{
+  z-index: 5;
+}
+.cdk-overlay-container, .cdk-overlay-pane {
+  z-index: 9999 !important;
+}

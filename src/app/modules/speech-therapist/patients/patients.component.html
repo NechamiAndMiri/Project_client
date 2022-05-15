@@ -115,12 +115,12 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Select an option</mat-label>
-              <mat-select formControlName="level" [(value)]="selectedLevel"  >
-                <mat-option  *ngFor="let level of difficultyLevelsOfSelectedPatient" value="{{level}}">{{level.difficultyLevel}} רמה </mat-option>
+              <mat-select  formControlName="level" [(value)]="selectedLevel"  >
+                <mat-option class="front" *ngFor="let level of difficultyLevelsOfSelectedPatient;" [value]="level">{{level.difficultyLevel}} רמה </mat-option>
                 
               </mat-select>
             </mat-form-field>
-
+<!-- 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>רמת קושי</mat-label>
               <input formControlName="level" type="number" matInput placeholder="רמת קושי" [errorStateMatcher]="matcher">
@@ -128,7 +128,7 @@
                 רמת קושי <strong>חובה</strong>
               </mat-error>
             </mat-form-field>
-            <br><br>
+            <br><br> -->
 
     
             <mat-form-field class="example-full-width" appearance="fill">

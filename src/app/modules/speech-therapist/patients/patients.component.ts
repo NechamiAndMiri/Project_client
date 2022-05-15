@@ -86,8 +86,9 @@ export class PatientsComponent implements OnInit {
     this.selectedLessonWords = []
     this.selectedPatient = patient;
     this._lessonService.getLessonsByPatient(patient.patient.id).subscribe((data) => {
-      this._wordService.getProblemDifficultyLevels(patient.patient.id, patient.patient.speechTherapistId)
-        .subscribe((data) => { this.difficultyLevelsOfSelectedPatient = data; })
+      this._wordService.getProblemDifficultyLevels(patient.patient.pronunciationProblemId, patient.patient.speechTherapistId)
+        .subscribe((levels) => { this.difficultyLevelsOfSelectedPatient = levels;console.log(levels);
+         })
       this.selectedPatientLessons = data;
     })
   }
@@ -105,25 +106,26 @@ export class PatientsComponent implements OnInit {
 
   addLesson() {
 
-
-    //   id:number;
-    //   patientId:number;
-    //   date:Date;
-    //   isChecked:boolean;
-    //  // difficultyLevelId:number;
-    //   lessonDescription:string;
-    //   weightedScore?:number;
-    //   isDone:boolean
-    //   pronunciationProblemName?:number;
-    //   difficultyLevel?:number;
+    // {
+    //   "id": 0,
+    //   "patientId": 2,
+    //   "date": "2022-05-12T15:35:40.665Z",
+    //   "isChecked": true,
+    //   "difficultyLevelId": 12,
+    //   "lessonDescription": "stringfrtryt4ry54y5s",
+    //   "weightedScore": 0,
+    //   "isDone": true
+    // }
 
     const newLesson = {
-      patientId: this.selectedPatient.patient.id,
-      date: this.lessonForm.get('date')?.value,
-      isChecked: false,
-      lessonDescription: this.lessonForm.get('description')?.value,
-      isDone: false,
-      difficultyLevelId: this.lessonForm.get('level')?.value.id
+      "id":0,
+      "patientId": this.selectedPatient.patient.id,
+      "date": this.lessonForm.get('date')?.value,
+      "isChecked": false,
+      "difficultyLevelId": this.lessonForm.get('level')?.value.id,
+      "lessonDescription": this.lessonForm.get('description')?.value,
+      "isDone": false
+      
     }
 
     this._lessonService.addLesson(newLesson).subscribe((lesson) => {
