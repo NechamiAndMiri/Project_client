@@ -17,6 +17,7 @@ import { WordService } from 'src/app/services/word.service';
 export interface FlatPatient   {
 
         id:number;
+        userId:number;
         speechTherapistId:number;
         dateOfBirth:Date;
         pronunciationProblemId:number;
@@ -24,7 +25,7 @@ export interface FlatPatient   {
         lastName:string;
         identityNumber:string;
         email:string;
-        // permissionLevelId: number;
+        permissionLevelId: number;
         password:string;
         phone:string;
 
@@ -45,7 +46,7 @@ export class PatientsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  selectedPatient: PatientDTO;
+  selectedPatient: FlatPatient;
   difficultyLevelsOfSelectedPatient: DifficultyLevel[];
   selectedPatientLessons: Lesson[];
   selectedLessonWords: WordGivenToPracticeDTO[];
@@ -67,14 +68,13 @@ export class PatientsComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-//jhyufeftyegggggggggggggg
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService, private _lessonService: LessonService, private _wordService: WordService) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
       this.patients = data; console.log(data);
       this.dataSource = new MatTableDataSource(this.patients.map(p=>
-        {return  <FlatPatient>{id:p.patient.id,speechTherapistId:p.patient.speechTherapistId,dateOfBirth:p.patient.dateOfBirth,
-                              pronunciationProblemId:p.patient.pronunciationProblemId,firstName:p.user.firstName,lastName:p.user.lastName,
+        {return  <FlatPatient>{id:p.patient.id,userId:p.patient.userId,speechTherapistId:p.patient.speechTherapistId,dateOfBirth:p.patient.dateOfBirth,
+                              pronunciationProblemId:p.patient.pronunciationProblemId,firstName:p.user.firstName,lastName:p.user.lastName,permissionLevelId:p.user.permissionLevelId,
                               identityNumber:p.user.identityNumber,email:p.user.email,password:p.user.password,phone:p.user.phone}}));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -103,11 +103,11 @@ export class PatientsComponent implements OnInit {
     return current.getFullYear() - (birthDate1).getFullYear();
   }
 
-  selectPatient(patient: PatientDTO) {
+  selectPatient(patient: FlatPatient) {
     this.selectedLessonWords = []
     this.selectedPatient = patient;
-    this._lessonService.getLessonsByPatient(patient.patient.id).subscribe((data) => {
-      this._wordService.getProblemDifficultyLevels(patient.patient.pronunciationProblemId, patient.patient.speechTherapistId)
+    this._lessonService.getLessonsByPatient(patient.id).subscribe((data) => {
+      this._wordService.getProblemDifficultyLevels(patient.pronunciationProblemId, patient.speechTherapistId)
         .subscribe((levels) => { this.difficultyLevelsOfSelectedPatient = levels;console.log(levels);
          })
       this.selectedPatientLessons = data;
@@ -131,7 +131,7 @@ export class PatientsComponent implements OnInit {
 
     const newLesson = {
       "id":0,
-      "patientId": this.selectedPatient.patient.id,
+      "patientId": this.selectedPatient.id,
       "date": this.lessonForm.get('date')?.value,
       "isChecked": false,
       "difficultyLevelId": this.lessonForm.get('level')?.value.id,
