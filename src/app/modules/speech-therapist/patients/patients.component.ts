@@ -15,7 +15,7 @@ import { SpeechTherapistService } from 'src/app/services/speech-therapist.servic
 import { WordService } from 'src/app/services/word.service';
 
 export interface FlatPatient   {
-  
+
         id:number;
         speechTherapistId:number;
         dateOfBirth:Date;
@@ -67,7 +67,7 @@ export class PatientsComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-//jhyufeftye
+//jhyufeftyegggggggggggggg
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService, private _lessonService: LessonService, private _wordService: WordService) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
