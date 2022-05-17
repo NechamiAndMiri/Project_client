@@ -57,7 +57,7 @@ export class PatientsComponent implements OnInit {
 
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
-  currentLesson:Lesson;
+  
 
   today = new Date();
 
@@ -130,14 +130,11 @@ export class PatientsComponent implements OnInit {
    // this.displayLessonDialogToUpdate = true;
 
   }
-  updateLesson(lesson:Lesson){
-    this.currentLesson=lesson;
+  updateLesson(){
     this.displayLessonDialogToUpdate =true;
-
   }
   finishUpdateLesson(){
-   
-debugger
+
     const newLesson = {
       "id":0,
       "patientId": this.selectedPatient.id,
@@ -158,9 +155,6 @@ debugger
   }
 
   addLesson() {
-
-
-
     const newLesson = {
       "id":0,
       "patientId": this.selectedPatient.id,
