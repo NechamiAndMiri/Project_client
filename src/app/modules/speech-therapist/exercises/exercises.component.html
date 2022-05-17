@@ -282,7 +282,7 @@
             >
               <ng-template pTemplate>
                 <div class="container">
-                  <span class="label label-info">עריכת מילה </span>
+                  <span class="label label-info">עריכת הקלטה </span>
                   <span class="label label-info"
                     >עבור הבעיה
                     {{ problemsArr[problemIndex].ProblemName }}</span
@@ -294,13 +294,7 @@
                     }}
                   </h4>
                   <span class="p-float-label">
-                    <label for="float-input">טקסט:</label>
-                    <input
-                      id="float-input"
-                      type="text"
-                      pInputText
-                      [(ngModel)]="wordToEdit.wordText"
-                    />
+                    <h2>{{wordToEdit.wordText}}</h2>
                   </span>
                   <div class="div-button-center"></div>
                   <div class="div-button-center">
@@ -346,16 +340,16 @@
                   </div>
 
                   <div>
-                    <p-button
+                    <p-button [disabled]="!audioBlobUrl"
                       (click)="
                         updateWord(levelIndex,problemIndex); opEdit2.hide()
                       "
-                      >עם ההקלטה החדשה שמירה</p-button>
+                      >אישור </p-button>
                       <p-button
                       (click)="
                          opEdit2.hide()
                       "
-                      >שמירה עם ההקלטה הישנה</p-button>
+                      >ביטול</p-button>
                   </div>
                 </div>
               </ng-template>
