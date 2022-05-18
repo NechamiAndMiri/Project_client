@@ -19,6 +19,6 @@
         weightedScore?:number;
         isDone:boolean
         pronunciationProblemName?:string;
-        difficultyLevel?:number;
+        difficultyLevel:number;
       
      }

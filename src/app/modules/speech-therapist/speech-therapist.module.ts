@@ -34,6 +34,10 @@ import { TagModule } from 'primeng/tag';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
 {
@@ -98,7 +102,11 @@ const ROUTES:Routes=[
       DialogModule,
       MatSortModule,
       MatPaginatorModule,
-      MatSelectModule
+      MatSelectModule,
+      InputTextareaModule,
+      CalendarModule,
+      DropdownModule
+
 
   ]
 })

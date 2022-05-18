@@ -156,10 +156,7 @@
   </div>
 
 
-  <!-- דיאלוג לעדכון -->
-
-
-  <!-- סוף דיאלוג -->
+ 
 
 
 
@@ -176,58 +173,71 @@
 
 
 
+ <!-- דיאלוג לעדכון -->
+
+ <p-dialog [(visible)]="displayLessonDialogToUpdate" [style]="{width: '450px'}" header="עדכון שיעור והוספת מילים" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+     
+      <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+            <label for="date"> :השיעור התקיים בתאריך</label>
+          </div>
+          <div class="p-field p-col">
+            <p-calendar class="input-edit" id="date"  [(ngModel)]="date" ></p-calendar>
+          </div> 
+      </div>
+      <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+            <label for="level"> :רמת השיעור</label>
+          </div>
+          <div class="p-field p-col">
+            <p-inputNumber class="input-edit" id="level" [(ngModel)]="num"></p-inputNumber>
+          </div>
+      </div>
+      <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+            <label for="description"> מה עשינו בשיעור? </label>
+          </div>
+          <div class="p-field p-col">
+            <textarea id="description" pInputTextarea [(ngModel)]="selectedLesson.lessonDescription" required rows="2" cols="20"></textarea>
+          </div>
+      </div>
+      <div class="p-formgrid p-grid">
+        <p-dropdown [options]="difficultyLevelsOfSelectedPatient" [(ngModel)]="selectedLevel" placeholder="בחר רמת קושי" optionLabel="difficultyLevel" optionValue="DifficultyLevel" [showClear]="true"></p-dropdown>
+
+      </div>
+   
 
 
-<p-dialog header="עריכת שיעור" [(visible)]="displayLessonDialogToUpdate" [style]="{width: '50vw'}">
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayLessonDialogToUpdate=false"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="finishUpdateLesson()"></button>
+  </ng-template>
+</p-dialog>
+
+
+<!-- 
+
+<p-dialog header="עריכת שיעור"  [(visible)]="displayLessonDialogToUpdate" [style]="{width: '50vw'}">
           
           <div >
-          <h1>השיעור התקיים ב {{selectedLesson?.date}}</h1>
-          <label>{{selectedLesson?.difficultyLevel}}</label>
-          <label>מה עשינו בשיעור?</label>
-          <label>{{selectedLesson?.lessonDescription}}</label>
+            <h2>הגענו כבר לרמה {{selectedLesson?.difficultyLevel}} !</h2>
+          <label>תאריך: {{selectedLesson?.date}}</label>
+          <h2>מה עשינו בשיעור?<b>  {{selectedLesson?.lessonDescription}}  </b></h2>
+          <h2></h2>
           </div>
 
+          <button mat-button>לעריכת פרטי השיעור</button>
+
 
           
-
-            <form [formGroup]="lessonFormToUpdate" class="example-form">
-  
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>תאריך</mat-label>
-                <input formControlName="date" type="date" matInput [value]="selectedLesson?.date" [errorStateMatcher]="matcher">
-  
-                <mat-error>
-                  תאריך <strong>חובה</strong>
-                </mat-error>
-              </mat-form-field>
-              <br /><br />
-  
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Select an option</mat-label>
-                <mat-select  formControlName="level" [value]="selectedLesson?.difficultyLevel"  >
-                  <mat-option class="front" *ngFor="let level of difficultyLevelsOfSelectedPatient;" >{{level.difficultyLevel}} רמה </mat-option>
-  
-                </mat-select>
-              </mat-form-field>
-  
-  
-  
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>תיאור</mat-label>
-                <textarea #input matInput maxlength="300"  formControlName="description" matInput
-                  placeholder="תיאור השיעור" [errorStateMatcher]="matcher" [value]="selectedLesson?.lessonDescription"></textarea>
-                  <mat-hint align="start">{{input.value?.length || 0}}/300</mat-hint>
-                <mat-error>
-                על תיאור השיעור להכיל לפחות 15 תוים
-                </mat-error>
-              </mat-form-field>
-              <br><br>
-  
-            </form>
            
-          
+          <h2>הוספת מילים לשיעור: </h2>
         <ng-template pTemplate="footer">
           <p-button icon="pi pi-check" (click)="finishUpdateLesson()" label="אישור"  [disabled]="!lessonForm.valid" styleClass="p-button-text"></p-button>
         </ng-template>
-      </p-dialog>
+      </p-dialog> -->
+      
+  <!-- סוף דיאלוג -->

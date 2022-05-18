@@ -67,3 +67,16 @@ tr.example-element-row:hover {
 .cdk-overlay-container, .cdk-overlay-pane {
   z-index: 9999 !important;
 }
+
+ .p-inputtext{
+  border-style: none;
+  background: none;
+  box-shadow: none;
+}
+
+.input-edit{
+  border-style: none;
+  background: none;
+  box-shadow: none;
+}
+

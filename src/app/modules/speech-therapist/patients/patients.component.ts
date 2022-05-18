@@ -31,6 +31,20 @@ export interface FlatPatient   {
 
   }
 
+  //delete it
+  export interface Product {
+    id?:string;
+    code?:string;
+    name?:string;
+    description?:string;
+    price?:number;
+    quantity?:number;
+    inventoryStatus?:string;
+    category?:string;
+    image?:string;
+    rating?:number;
+}
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -55,9 +69,13 @@ export class PatientsComponent implements OnInit {
 
   selectedLevel: DifficultyLevel;
 
+  submitted:boolean;
+  date=new Date()
+  num=8;
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
-  
+    //delete it
+    product: Product;
 
   today = new Date();
 
@@ -66,13 +84,7 @@ export class PatientsComponent implements OnInit {
     "date": new FormControl("", Validators.required),
     "description": new FormControl("", [Validators.required, Validators.minLength(15)])
   });
-
-  lessonFormToUpdate: FormGroup = new FormGroup({
-    "level": new FormControl("", [Validators.required]),
-    "date": new FormControl("", Validators.required),
-    "description": new FormControl("", [Validators.required, Validators.minLength(15)])
-  });
-
+  
   matcher = new MyErrorStateMatcher();
 
 
@@ -131,28 +143,34 @@ export class PatientsComponent implements OnInit {
 
   }
   updateLesson(){
-    this.displayLessonDialogToUpdate =true;
+    this.displayLessonDialogToUpdate =true; 
+      // this.product = {};
+      // this.submitted = false;
+     
+  
   }
   finishUpdateLesson(){
 
-    const newLesson = {
-      "id":0,
-      "patientId": this.selectedPatient.id,
-      "date": this.lessonFormToUpdate.get('date')?.value,
-      "isChecked": false,
-      "difficultyLevelId": this.lessonFormToUpdate.get('level')?.value.id,
-      "lessonDescription": this.lessonFormToUpdate.get('description')?.value,
-      "isDone": false
-    }
-    this._lessonService.updateLesson(newLesson).subscribe(()=>
-      this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {this.selectedPatientLessons = data;})
-    );
+    // const newLesson = {
+    //   "id":0,
+    //   "patientId": this.selectedPatient.id,
+    //   "date": this.lessonFormToUpdate.get('date')?.value,
+    //   "isChecked": false,
+    //   "difficultyLevelId": this.lessonFormToUpdate.get('level')?.value.id,
+    //   "lessonDescription": this.lessonFormToUpdate.get('description')?.value,
+    //   "isDone": false
+    // }
+    // this._lessonService.updateLesson(newLesson).subscribe(()=>
+    //   this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {this.selectedPatientLessons = data;})
+    // );
     this.displayLessonDialogToUpdate=false;
   }
 
   openAddLessonDialog() {
     this.displayLessonDialog = true;
   }
+
+
 
   addLesson() {
     const newLesson = {
