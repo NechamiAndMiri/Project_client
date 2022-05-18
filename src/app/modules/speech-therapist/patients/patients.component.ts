@@ -13,6 +13,8 @@ import { LessonService } from 'src/app/services/lesson.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 import { WordService } from 'src/app/services/word.service';
+import { PrimeNGConfig, SelectItemGroup } from "primeng/api";
+import { Word } from 'src/app/models/word.model';
 
 export interface FlatPatient   {
 
@@ -54,10 +56,15 @@ export class PatientsComponent implements OnInit {
   selectedLesson: Lesson;
 
   selectedLevel: DifficultyLevel;
+  levelWords:Word[]=[]
+  SelectedLevelsWords:Word[]=[];
 
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
   
+  // countries: any[];
+  // selectedCountries: any[];
+ 
 
   today = new Date();
 
@@ -76,7 +83,8 @@ export class PatientsComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService, private _lessonService: LessonService, private _wordService: WordService) {
+  constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService,
+     private _lessonService: LessonService, private _wordService: WordService,private primengConfig: PrimeNGConfig) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
       this.patients = data; console.log(data);
@@ -88,11 +96,23 @@ export class PatientsComponent implements OnInit {
       this.dataSource.sort = this.sort;
     })
 
-    // Assign the data to the data source for the table to render
-
+    // this.countries = [
+    //   { name: "Australia", code: "AU" },
+    //   { name: "Brazil", code: "BR" },
+    //   { name: "China", code: "CN" },
+    //   { name: "Egypt", code: "EG" },
+    //   { name: "France", code: "FR" },
+    //   { name: "Germany", code: "DE" },
+    //   { name: "India", code: "IN" },
+    //   { name: "Japan", code: "JP" },
+    //   { name: "Spain", code: "ES" },
+    //   { name: "United States", code: "US" }
+    // ];
+    this.getWordsForLevels(5);// get the word when the level change-do it  this.selectedLevel.id
   }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
   }
 
   applyFilter(event: Event) {
@@ -173,6 +193,13 @@ export class PatientsComponent implements OnInit {
 
     this.displayLessonDialog = false;
 
+  }
+
+  getWordsForLevels(levelId:number)
+  {
+    this._wordService.getLevelWords(levelId).subscribe((words)=>{
+      this.levelWords=words;
+    })
   }
 }
 

@@ -10,6 +10,7 @@ import { Word } from '../models/word.model';
 })
 export class WordService {
   
+  
 
   pronunciationProblems:PronunciationProblemsType[]
 
@@ -27,6 +28,8 @@ export class WordService {
   getLevelWords(levelId: number):Observable<Word[]> {
     return this._http.get<Word[]>(`api/Word/${levelId}/LevelWords`);
   }
+  
+  
 
   addLevelToProblem(difficultyLevel:DifficultyLevel)
   {

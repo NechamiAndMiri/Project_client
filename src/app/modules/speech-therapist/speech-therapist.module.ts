@@ -34,6 +34,9 @@ import { TagModule } from 'primeng/tag';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ListboxModule} from 'primeng/listbox';
+
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
 {
@@ -98,7 +101,9 @@ const ROUTES:Routes=[
       DialogModule,
       MatSortModule,
       MatPaginatorModule,
-      MatSelectModule
+      MatSelectModule,
+      MultiSelectModule,
+      ListboxModule
 
   ]
 })

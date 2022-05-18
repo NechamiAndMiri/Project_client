@@ -231,3 +231,13 @@
           <p-button icon="pi pi-check" (click)="finishUpdateLesson()" label="אישור"  [disabled]="!lessonForm.valid" styleClass="p-button-text"></p-button>
         </ng-template>
       </p-dialog>
+
+
+      <p-listbox [options]="levelWords" [(ngModel)]="SelectedLevelsWords" [metaKeySelection]="false" [checkbox]="true"
+  [filter]="true" [multiple]="true" optionLabel="name" [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
+  <ng-template let-word pTemplate="item">
+    <div class="country-item">
+      <div>{{word.wordText}}</div>
+    </div>
+  </ng-template>
+</p-listbox>
