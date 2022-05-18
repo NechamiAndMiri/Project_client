@@ -37,6 +37,8 @@ import { MatSelect, MatSelectModule } from '@angular/material/select';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ListboxModule} from 'primeng/listbox';
 
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
@@ -105,8 +107,10 @@ const ROUTES:Routes=[
       MatSelectModule,
       InputTextareaModule,
       CalendarModule,
-      DropdownModule
+      DropdownModule,
 
+      MultiSelectModule,
+      ListboxModule
 
   ]
 })
