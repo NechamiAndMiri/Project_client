@@ -73,7 +73,7 @@ class nLevel {
   selector: 'app-exercises',
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.css'],
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService]
 })
 export class ExercisesComponent implements OnInit {
 
@@ -124,7 +124,7 @@ export class ExercisesComponent implements OnInit {
 
   constructor(private _wordService: WordService, private _speechTherapistService: SpeechTherapistService,
     private ref: ChangeDetectorRef, private audioRecordingService: AudioRecordingService, private sanitizer: DomSanitizer,
-    private confirmationService: ConfirmationService, private messageService: MessageService) {
+    private confirmationService: ConfirmationService) {
 
     this.audioRecordingService.recordingFailed().subscribe(() => {
       this.isAudioRecording = false;

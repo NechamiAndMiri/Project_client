@@ -26,6 +26,7 @@ export interface WordGivenToPracticeDTO
         isValid?:boolean;
         wordText:string;
         wordRecording?:string
+        wordId:number
 
 
 }
