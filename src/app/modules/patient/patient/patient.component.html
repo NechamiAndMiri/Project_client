@@ -42,6 +42,7 @@
                   <mat-selection-list  (selectionChange)="selectLesson((lessonsLst.selectedOptions.selected[0]?.value))"  #lessonsLst [multiple]="false">
                     <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'list-group-item list-group-item-action list-group-item-primary':'list-group-item list-group-item-action list-group-item-light'">
                       {{lesson.lessonDescription}}
+
                     </mat-list-option>
                   </mat-selection-list>
                   </div>

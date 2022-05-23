@@ -24,7 +24,11 @@ table {
 }
 
 tr.example-element-row:hover {
-  background: rgb(158, 203, 250);
+  background: rgb(222, 236, 251);
+}
+
+tr.example-element-row-choosed {
+  background: rgb(132, 176, 223);
 }
 
 .container{
