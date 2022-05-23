@@ -2,12 +2,12 @@ table {
     width: 100%;
     text-align: center;
   }
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
   }
-  
+
   td, th {
     width: 16%;
   }
@@ -16,7 +16,7 @@ table {
 
     text-align: center;
     position: absolute;
-    
+
   }
 
   th.mat-header-cell {
@@ -24,22 +24,21 @@ table {
 }
 
 tr.example-element-row:hover {
-  background: rgb(158, 203, 250);
+  background: rgb(222, 236, 251);
 }
 
-tr.example-element-row:focus {
-  background: rgb(238, 145, 238);
+tr.example-element-row-choosed {
+  background: rgb(132, 176, 223);
 }
-
 
 .container{
   margin: 10px;
   padding: 10px;
   position: relative;
-  
+
 }
 .right-table-div{
- 
+
   max-width: 20%;
   width: fit-content;
   text-align: center;
@@ -73,11 +72,13 @@ tr.example-element-row:focus {
   z-index: 9999 !important;
 }
 
- .p-inputtext{
+/* unsuful for now */
+
+ /* .p-inputtext{
   border-style: none;
   background: none;
   box-shadow: none;
-}
+} */
 
 .input-edit{
   border-style: none;
