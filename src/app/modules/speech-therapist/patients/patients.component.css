@@ -24,8 +24,13 @@ table {
 }
 
 tr.example-element-row:hover {
-  background: rgb(205, 221, 238);
+  background: rgb(158, 203, 250);
 }
+
+tr.example-element-row:focus {
+  background: rgb(238, 145, 238);
+}
+
 
 .container{
   margin: 10px;
@@ -67,3 +72,16 @@ tr.example-element-row:hover {
 .cdk-overlay-container, .cdk-overlay-pane {
   z-index: 9999 !important;
 }
+
+ .p-inputtext{
+  border-style: none;
+  background: none;
+  box-shadow: none;
+}
+
+.input-edit{
+  border-style: none;
+  background: none;
+  box-shadow: none;
+}
+
