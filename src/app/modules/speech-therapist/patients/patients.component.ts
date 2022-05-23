@@ -73,19 +73,19 @@ export class PatientsComponent implements OnInit {
   selectedLevel: DifficultyLevel;
   levelWords:Word[]=[]
   selectedLevelsWords:Word[]=[];
- 
+
 
   submitted:boolean;
   date=new Date()
-  num=8;
+
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
     //delete it
     product: Product;
-  
+
   // countries: any[];
   // selectedCountries: any[];
- 
+
 
   today = new Date();
 
@@ -94,7 +94,7 @@ export class PatientsComponent implements OnInit {
     "date": new FormControl("", Validators.required),
     "description": new FormControl("", [Validators.required, Validators.minLength(15)])
   });
-  
+
   matcher = new MyErrorStateMatcher();
 
 
@@ -110,7 +110,7 @@ export class PatientsComponent implements OnInit {
                               identityNumber:p.user.identityNumber,email:p.user.email,password:p.user.password,phone:p.user.phone}}));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      
+
     })
 
     // this.countries = [
@@ -125,7 +125,7 @@ export class PatientsComponent implements OnInit {
     //   { name: "Spain", code: "ES" },
     //   { name: "United States", code: "US" }
     // ];
-  
+
   }
 
   ngOnInit(): void {
@@ -186,16 +186,22 @@ export class PatientsComponent implements OnInit {
         });
   }
 
- 
+
 
   updateLesson(lesson: Lesson){
     this.selectedLesson = lesson;
-      this.getWordsForLevel(this.selectedLesson.difficultyLevel);// get the word when the level change-do it  this.selectedLevel.id
-      this.displayLessonDialogToUpdate =true; 
+    debugger;
+      this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
+      this.displayLessonDialogToUpdate =true;
       // this.product = {};
       // this.submitted = false;
   }
- 
+
+  updateLevelToLesson(level:DifficultyLevel){
+    this.selectedLesson.difficultyLevelId=level.id;
+    this.selectedLesson.difficultyLevelName=level.difficultyLevel
+  }
+
   finishUpdateLesson(){
 
     // const newLesson = {
@@ -218,7 +224,7 @@ export class PatientsComponent implements OnInit {
   }
 
   addPrevLevelWords(){
-    debugger
+
   let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
     id: 0,
     lessonId: this.selectedLesson.id,
@@ -229,7 +235,7 @@ export class PatientsComponent implements OnInit {
     wordRecording: word.wordRecording,
     wordId: word.id,
   }})
-debugger
+
 this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
   console.log(this.selectedLessonWords);
   this.selectedLevelsWords=[];
@@ -266,12 +272,12 @@ this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
     const index: number = this.selectedLessonWords.indexOf(word);
     if (index !== -1)
         this.selectedLessonWords.splice(index, 1);
-    
+
   }
 
   checks(x:any){
     console.log(x);
-    
+
   }
 }
 
