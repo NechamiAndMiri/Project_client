@@ -133,7 +133,7 @@
       <div class="p-field p-col">
         <p-inplace [closable]="true">
           <ng-template pTemplate="display">
-            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date.toLocaleString()}}</label>
+            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date.toLocaleString().split('T')[0]}}</label>
           </ng-template>
           <ng-template pTemplate="content">
             <div class="p-field p-col">
@@ -217,8 +217,8 @@
         </p-dropdown>
       </div>
       <div class="p-field p-col">
-        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWords" [metaKeySelection]="false" [checkbox]="true"
-          [filter]="true" [multiple]="true" optionLabel="wordText" optionLabel="Word"
+        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWords"  [checkbox]="true"
+           [multiple]="true" optionLabel="wordText" optionLabel="Word"
           [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
           <ng-template let-word pTemplate="item">
             <div class="item">
