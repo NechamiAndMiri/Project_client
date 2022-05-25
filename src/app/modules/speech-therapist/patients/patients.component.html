@@ -53,8 +53,7 @@
 
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
-          (click)="selectPatient(row)"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row==selectedPatient?'example-element-row-choosed':'example-element-row'" (click)="selectPatient(row)"></tr>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
@@ -82,8 +81,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="rightDisplayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: rightDisplayedColumns;" class="example-element-row"
-            (click)="selectPatient(row)"></tr>
+          <tr mat-row *matRowDef="let row; columns: rightDisplayedColumns;" [ngClass]="row==selectedPatient?'example-element-row-choosed':'example-element-row'"   (click)="selectPatient(row)"></tr>
         </table>
 
       </div>
@@ -96,52 +94,14 @@
           <mat-icon>add</mat-icon>
         </button>
 
-        <p-dialog header="הוספת שיעור" [(visible)]="displayLessonDialog" [style]="{width: '50vw'}">
 
-          <form [formGroup]="lessonForm" class="example-form">
-
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>תאריך</mat-label>
-              <input formControlName="date" type="date" matInput value="{{today}}" [errorStateMatcher]="matcher">
-
-              <mat-error>
-                תאריך <strong>חובה</strong>
-              </mat-error>
-            </mat-form-field>
-            <br /><br />
-
-
-            <mat-form-field appearance="fill">
-              <mat-label>Select an option</mat-label>
-              <mat-select formControlName="level" [(value)]="selectedLevel">
-                <mat-option class="front" *ngFor="let level of difficultyLevelsOfSelectedPatient;" [value]="level">
-                  {{level.difficultyLevel}} רמה </mat-option>
-
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>תיאור</mat-label>
-              <textarea #input matInput maxlength="300" formControlName="description" matInput
-                placeholder="תיאור השיעור" [errorStateMatcher]="matcher"></textarea>
-              <mat-hint align="start">{{input.value?.length || 0}}/300</mat-hint>
-              <mat-error>
-                על תיאור השיעור להכיל לפחות 15 תוים
-              </mat-error>
-            </mat-form-field>
-            <br><br>
-
-          </form>
-          <ng-template pTemplate="footer">
-            <p-button icon="pi pi-check" (click)="addLesson()" label="אישור" [disabled]="!lessonForm.valid"
-              styleClass="p-button-text"></p-button>
-          </ng-template>
-        </p-dialog>
-
-        <li *ngFor="let lesson of selectedPatientLessons" (click)="selectLesson(lesson)">
+        <li *ngFor="let lesson of selectedPatientLessons">
+          <button mat-button (click)="selectLesson(lesson)">לבחירת השיעור</button>
+          <button mat-button (click)="deleteLesson(lesson)">למחיקת השיעור</button>
           <div>{{lesson.date}}</div>
           <div>{{lesson.lessonDescription}}</div>
           <mat-checkbox value="lesson.isChecked"></mat-checkbox>
-          <button mat-button (click)="updateLesson()">לעריכת השיעור</button>
+          <button mat-button (click)="updateLesson(lesson)">לעריכת השיעור</button>
           <ul>
             <li *ngFor="let word of selectedLessonWords">
               <span>{{word.wordText}}</span>
@@ -150,102 +110,244 @@
           </ul>
         </li>
 
-        <!-- dialog updat here -->
       </ul>
     </div>
   </div>
 
 
- 
-
-
-
-
   <p-tag value="New" icon="pi pi-plus"></p-tag>
-
-
-
-
-
 </div>
 
 
 
 
 
- <!-- דיאלוג לעדכון -->
+<!-- דיאלוג לעדכון -->
 
- <p-dialog [(visible)]="displayLessonDialogToUpdate" [style]="{width: '450px'}" header="עדכון שיעור והוספת מילים" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="displayLessonDialogToUpdate" [style]="{width: '450px'}" header="עדכון שיעור והוספת מילים"
+  [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-     
-      <div class="p-formgrid p-grid">
-          <div class="p-field p-col">
-            <label for="date"> :השיעור התקיים בתאריך</label>
-          </div>
-          <div class="p-field p-col">
-            <p-calendar class="input-edit" id="date"  [(ngModel)]="date" ></p-calendar>
-          </div> 
+
+    <div class="p-formgrid p-grid">
+
+      <div class="p-field p-col">
+        <p-inplace [closable]="true">
+          <ng-template pTemplate="display">
+            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date.toLocaleString()}}</label>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="p-field p-col">
+              <label for="date"> :השיעור התקיים בתאריך</label>
+            </div>
+            <p-calendar [showIcon]="true" class="input-edit" id="date" [(ngModel)]="selectedLesson.date"></p-calendar>
+          </ng-template>
+        </p-inplace>
       </div>
-      <div class="p-formgrid p-grid">
-          <div class="p-field p-col">
-            <label for="level"> :רמת השיעור</label>
-          </div>
-          <div class="p-field p-col">
-            <p-inputNumber class="input-edit" id="level" [(ngModel)]="num"></p-inputNumber>
-          </div>
+
+    </div>
+    <div class="p-formgrid p-grid">
+
+      <div class="p-field p-col">
+        <p-inplace [closable]="true">
+          <ng-template pTemplate="display">
+            <label for="level">{{selectedLesson.difficultyLevelName}} :רמת השיעור</label>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="p-field p-col">
+              <label for="level"> :רמת השיעור</label>
+            </div>
+            <p-dropdown #selection [options]="difficultyLevelsOfSelectedPatient" placeholder="בחר רמת קושי"
+              [virtualScroll]="true" optionLabel="difficultyLevel" (onChange)="updateLevelToLesson(selection.value)">
+            </p-dropdown>
+          </ng-template>
+        </p-inplace>
       </div>
-      <div class="p-formgrid p-grid">
+    </div>
+    <div class="p-formgrid p-grid">
+
+      <p-inplace [closable]="true">
+        <ng-template pTemplate="display">
           <div class="p-field p-col">
             <label for="description"> מה עשינו בשיעור? </label>
           </div>
           <div class="p-field p-col">
-            <textarea id="description" pInputTextarea [(ngModel)]="selectedLesson.lessonDescription" required rows="2" cols="20"></textarea>
+            <p id="description">{{selectedLesson.lessonDescription}}</p>
           </div>
-      </div>
-      <div class="p-formgrid p-grid">
-        <p-dropdown [options]="difficultyLevelsOfSelectedPatient" [(ngModel)]="selectedLevel" placeholder="בחר רמת קושי" optionLabel="difficultyLevel" optionValue="DifficultyLevel" [showClear]="true"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="p-field p-col">
+            <label for="description"> מה עשינו בשיעור? </label>
+          </div>
+          <div class="p-field p-col">
+            <textarea id="description" pInputTextarea [(ngModel)]="selectedLesson.lessonDescription" required rows="2"
+              cols="20"></textarea>
+          </div>
+        </ng-template>
+      </p-inplace>
+    </div>
 
+    <div *ngIf="selectedLessonWords!.length>0">
+    <p-divider align="left" type="dashed">
+      <div class="inline-flex align-items-center">
+        <b> המילים שלנו הפעם: </b>
       </div>
-   
+    </p-divider>
+    <div class="p-formgrid p-grid">
+      <p-chip *ngFor="let word of selectedLessonWords" [label]="word.wordText" [removable]="true"
+        (onRemove)="removeWordFromLesson(word)"></p-chip>
+    </div>
+    <p-divider align="center">
+      <div class="inline-flex align-items-center">
+        <b> רוצה להוסיף עוד מילים?</b>
+      </div>
+    </p-divider>
+</div>
+
+<p-divider *ngIf="!selectedLessonWords||selectedLessonWords.length==0" align="center">
+  <div class="inline-flex align-items-center">
+    <b>הוספת מילים </b>
+  </div>
+</p-divider>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="levelSelection"> בחירת מילים מרמה:</label>
+        <p-dropdown id="levelSelection" [options]="difficultyLevelsOfSelectedPatient" [virtualScroll]="true"
+          (onChange)="addPrevLevelWords();getWordsForLevel(selectedLevel.id);" [(ngModel)]="selectedLevel"
+          placeholder="בחר רמת קושי" optionLabel="difficultyLevel" [style]="{'width':'10rem'}">
+        </p-dropdown>
+      </div>
+      <div class="p-field p-col">
+        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWords" [metaKeySelection]="false" [checkbox]="true"
+          [filter]="true" [multiple]="true" optionLabel="wordText" optionLabel="Word"
+          [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
+          <ng-template let-word pTemplate="item">
+            <div class="item">
+              <div>{{word.wordText}}</div>
+            </div>
+          </ng-template>
+        </p-listbox>
+      </div>
+    </div>
+
 
 
   </ng-template>
-  
+
   <ng-template pTemplate="footer">
-      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayLessonDialogToUpdate=false"></button>
-      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="finishUpdateLesson()"></button>
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+      (click)="displayLessonDialogToUpdate=false"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+      (click)="finishUpdateLesson()"></button>
   </ng-template>
 </p-dialog>
 
+<!-- <p-dialog [(visible)]="displayLessonDialogToUpdate" [style]="{width: '450px'}" header="עדכון שיעור והוספת מילים"
+  [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
 
-<!-- 
-
-<p-dialog header="עריכת שיעור"  [(visible)]="displayLessonDialogToUpdate" [style]="{width: '50vw'}">
-          
-          <div >
-            <h2>הגענו כבר לרמה {{selectedLesson?.difficultyLevel}} !</h2>
-          <label>תאריך: {{selectedLesson?.date}}</label>
-          <h2>מה עשינו בשיעור?<b>  {{selectedLesson?.lessonDescription}}  </b></h2>
-          <h2></h2>
-          </div>
-
-          <button mat-button>לעריכת פרטי השיעור</button>
-
-
-          
-           
-          <h2>הוספת מילים לשיעור: </h2>
-        <ng-template pTemplate="footer">
-          <p-button icon="pi pi-check" (click)="finishUpdateLesson()" label="אישור"  [disabled]="!lessonForm.valid" styleClass="p-button-text"></p-button>
-        </ng-template>
-      </p-dialog>
-
-    -->
-      <p-listbox [options]="levelWords" [(ngModel)]="SelectedLevelsWords" [metaKeySelection]="false" [checkbox]="true"
-  [filter]="true" [multiple]="true" optionLabel="name" [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
-  <ng-template let-word pTemplate="item">
-    <div class="country-item">
-      <div>{{word.wordText}}</div>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="date"> :השיעור התקיים בתאריך</label>
+      </div>
+      <div class="p-field p-col">
+        <p-calendar class="input-edit" id="date" [(ngModel)]="date"></p-calendar>
+      </div>
     </div>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="level"> :רמת השיעור</label>
+      </div>
+      <div class="p-field p-col">
+        <p-inputNumber class="input-edit" id="level" [(ngModel)]="num"></p-inputNumber>
+      </div>
+    </div>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="description"> מה עשינו בשיעור? </label>
+      </div>
+      <div class="p-field p-col">
+        <textarea id="description" pInputTextarea [(ngModel)]="selectedLesson.lessonDescription" required rows="2"
+          cols="20"></textarea>
+      </div>
+    </div>
+    <div class="p-formgrid p-grid">
+      <p-chip *ngFor="let word of selectedLessonWords" [label]="word.wordText" [removable]="true" (onRemove)="removeWordFromLesson(word)"></p-chip>
+
+    </div>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="levelSelection"> בחירת מילים מרמה:</label>
+        <p-dropdown id="levelSelection" [options]="difficultyLevelsOfSelectedPatient" [virtualScroll]="true"
+          (onChange)="addPrevLevelWords();getWordsForLevel(selectedLevel.id);" [(ngModel)]="selectedLevel"
+          placeholder="בחר רמת קושי" optionLabel="difficultyLevel" [showClear]="true" [style]="{'width':'10rem'}">
+        </p-dropdown>
+      </div>
+      <div class="p-field p-col">
+        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWords" [metaKeySelection]="false" [checkbox]="true"
+          [filter]="true" [multiple]="true" optionLabel="wordText" optionLabel="Word"
+          [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
+          <ng-template let-word pTemplate="item">
+            <div class="item">
+              <div>{{word.wordText}}</div>
+            </div>
+          </ng-template>
+        </p-listbox>
+      </div>
+    </div>
+
+
+
   </ng-template>
-</p-listbox>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+      (click)="displayLessonDialogToUpdate=false"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+      (click)="finishUpdateLesson()"></button>
+  </ng-template>
+</p-dialog> -->
+
+<!-- דיאלוג הוספת שיעור חדש  -->
+<p-dialog header="הוספת שיעור" [(visible)]="displayLessonDialog" [style]="{width: '50vw'}">
+
+  <form [formGroup]="lessonForm" class="example-form">
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>תאריך</mat-label>
+      <input formControlName="date" type="date" matInput value="{{today}}" [errorStateMatcher]="matcher">
+
+      <mat-error>
+        תאריך <strong>חובה</strong>
+      </mat-error>
+    </mat-form-field>
+    <br /><br />
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Select an option</mat-label>
+      <mat-select formControlName="level" [(value)]="selectedLevel">
+        <mat-option class="front" *ngFor="let level of difficultyLevelsOfSelectedPatient;" [value]="level">
+          {{level.difficultyLevel}} רמה </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>תיאור</mat-label>
+      <textarea #input matInput maxlength="300" formControlName="description" matInput placeholder="תיאור השיעור"
+        [errorStateMatcher]="matcher"></textarea>
+      <mat-hint align="start">{{input.value?.length || 0}}/300</mat-hint>
+      <mat-error>
+        על תיאור השיעור להכיל לפחות 15 תוים
+      </mat-error>
+    </mat-form-field>
+    <br><br>
+
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="addLesson()" label="אישור" [disabled]="!lessonForm.valid"
+      styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

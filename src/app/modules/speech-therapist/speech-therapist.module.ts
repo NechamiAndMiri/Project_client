@@ -39,6 +39,10 @@ import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {ListboxModule} from 'primeng/listbox';
+import { ChipModule } from 'primeng/chip';
+import {InplaceModule} from 'primeng/inplace';
+import {DividerModule} from 'primeng/divider';
+
 
 const ROUTES:Routes=[
 {path:"" ,pathMatch:"full",component:SpeechTherapistComponent},
@@ -110,7 +114,10 @@ const ROUTES:Routes=[
       DropdownModule,
 
       MultiSelectModule,
-      ListboxModule
+      ListboxModule,
+   ChipModule,
+   InplaceModule,
+   DividerModule
 
   ]
 })
