@@ -32,21 +32,6 @@ export interface FlatPatient   {
         phone:string;
 
   }
-
-  //delete it
-  export interface Product {
-    id?:string;
-    code?:string;
-    name?:string;
-    description?:string;
-    price?:number;
-    quantity?:number;
-    inventoryStatus?:string;
-    category?:string;
-    image?:string;
-    rating?:number;
-}
-
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -66,7 +51,8 @@ export class PatientsComponent implements OnInit {
   selectedPatient: FlatPatient;
   difficultyLevelsOfSelectedPatient: DifficultyLevel[];
   selectedPatientLessons: Lesson[];
-  selectedLessonWords: WordGivenToPracticeDTO[];
+  selectedLessonWords: WordGivenToPracticeDTO[]=[];
+  selectedLessonWordsToShow: Word[]=[];
   //maybe to delet later selectedLesson
   selectedLesson: Lesson;
 
@@ -76,18 +62,12 @@ export class PatientsComponent implements OnInit {
 
 
   submitted:boolean;
-  date=new Date()
+  
 
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
-    //delete it
-    product: Product;
 
-  // countries: any[];
-  // selectedCountries: any[];
-
-
-  today = new Date();
+  today=new Date(); 
 
   lessonForm: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
@@ -113,19 +93,6 @@ export class PatientsComponent implements OnInit {
 
     })
 
-    // this.countries = [
-    //   { name: "Australia", code: "AU" },
-    //   { name: "Brazil", code: "BR" },
-    //   { name: "China", code: "CN" },
-    //   { name: "Egypt", code: "EG" },
-    //   { name: "France", code: "FR" },
-    //   { name: "Germany", code: "DE" },
-    //   { name: "India", code: "IN" },
-    //   { name: "Japan", code: "JP" },
-    //   { name: "Spain", code: "ES" },
-    //   { name: "United States", code: "US" }
-    // ];
-
   }
 
   ngOnInit(): void {
@@ -149,7 +116,6 @@ export class PatientsComponent implements OnInit {
   }
 
   selectPatient(patient: FlatPatient) {
-    this.selectedLessonWords = []
     this.selectedPatient = patient;
     this._lessonService.getLessonsByPatient(patient.id).subscribe((data) => {
       this._wordService.getProblemDifficultyLevels(patient.pronunciationProblemId, patient.speechTherapistId)
@@ -163,6 +129,12 @@ export class PatientsComponent implements OnInit {
     this.selectedLesson = lesson;
     this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
+      this.selectedLessonWordsToShow =  this.selectedLessonWords.map((word)=>{return <Word>{
+        id: word.wordId,
+        wordText: word.wordText,
+        wordRecording: word.wordRecording,
+        difficultyLevelId:word.difficultyLevelId
+      }});
     })
   }
 
@@ -189,12 +161,9 @@ export class PatientsComponent implements OnInit {
 
 
   updateLesson(lesson: Lesson){
-    this.selectedLesson = lesson;
-    debugger;
+      this.selectedLesson = lesson;
       this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
       this.displayLessonDialogToUpdate =true;
-      // this.product = {};
-      // this.submitted = false;
   }
 
   updateLevelToLesson(level:DifficultyLevel){
@@ -216,6 +185,8 @@ export class PatientsComponent implements OnInit {
     // this._lessonService.updateLesson(newLesson).subscribe(()=>
     //   this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {this.selectedPatientLessons = data;})
     // );
+
+
     this.displayLessonDialogToUpdate=false;
   }
 
@@ -223,23 +194,24 @@ export class PatientsComponent implements OnInit {
     this.displayLessonDialog = true;
   }
 
-  addPrevLevelWords(){
+//   addPrevLevelWords(){
 
-  let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
-    id: 0,
-    lessonId: this.selectedLesson.id,
-    patientRecording: "",
-    score: undefined,
-    isValid: false,
-    wordText: word.wordText,
-    wordRecording: word.wordRecording,
-    wordId: word.id,
-  }})
+//   let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
+//     id: 0,
+//     lessonId: this.selectedLesson.id,
+//     patientRecording: "",
+//     score: undefined,
+//     isValid: false,
+//     wordText: word.wordText,
+//     wordRecording: word.wordRecording,
+//     wordId: word.id,
+//     difficultyLevelId:word.difficultyLevelId
+//   }})
 
-this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
-  console.log(this.selectedLessonWords);
-  this.selectedLevelsWords=[];
-  }
+// this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
+//   console.log(this.selectedLessonWords);
+//   this.selectedLevelsWords=[];
+//   }
 
   addLesson() {
     const newLesson = {
@@ -268,10 +240,10 @@ this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
       this.levelWords=words;
     })
   }
-  removeWordFromLesson(word:WordGivenToPracticeDTO){
-    const index: number = this.selectedLessonWords.indexOf(word);
-    if (index !== -1)
-        this.selectedLessonWords.splice(index, 1);
+  removeWordFromLesson(wordId:number){
+     this.selectedLessonWords.forEach((w,i)=>{if(w.id==wordId) this.selectedLessonWords.splice(i, 1);})
+    // if (index !== -1)
+    //     this.selectedLessonWords.splice(index, 1);
 
   }
 

@@ -23,6 +23,7 @@ export interface WordGivenToPracticeDTO
         lessonId:number;
         patientRecording:string;
         score?:number;
+        difficultyLevelId:number;
         isValid?:boolean;
         wordText:string;
         wordRecording?:string
