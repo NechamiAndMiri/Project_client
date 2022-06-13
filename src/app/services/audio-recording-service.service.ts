@@ -185,5 +185,9 @@ sendWordToServer( word:Word)
     return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
   }
 
+  getSpeechTherapistWordRecord(wordId:number,wordText:string):any{
+
+    return this._http.get<Blob>(`/api/Word/${wordId}/${wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
+  }
 
 }

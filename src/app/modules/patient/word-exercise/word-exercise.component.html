@@ -1,17 +1,12 @@
 <body>
   <div class="card">
-    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true">
+    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="playWordRecord()">
       <p-tabPanel *ngFor="let tab of scrollableTabs" [header]="tab.title">
         <div class="container">
-          <button
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-arrow-right"
-            class="p-button-rounded p-button-success"
-            (click)="allLessons()"
-          ></button>
+          <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-success"
+            (click)="allLessons()"></button>
 
+          <button mat-button (click)="playWordRecord()">הקלטה קלינאית</button>
           <div class="center">
             <h1 style="font-size: 300px" class="display-1">
               {{ tab.content.wordText }}
@@ -19,57 +14,30 @@
           </div>
           <div class="div-button-center">
 
-            <button
-              pButton
-              pRipple
-              type="button"
-              label="התחל הקלטה"
-              class="p-button-rounded p-button-success"
-              *ngIf="!isAudioRecording && !audioBlobUrl"
-              (click)="startAudioRecording()"
-            ></button>
+            <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success"
+              *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
           </div>
           <div class="div-button-center">
-            <button
-              pButton
-              pRipple
-              type="button"
-              label="עצור הקלטה"
-              class="p-button-rounded p-button-danger"
-              *ngIf="isAudioRecording && !audioBlobUrl"
-              (click)="stopAudioRecording()"
-            ></button>
+            <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger"
+              *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
 
             <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl">
               {{ audioRecordedTime }}
             </div>
           </div>
-          <div
-            *ngIf="!isAudioRecording && audioBlobUrl"
-            class="div-button-center"
-          >
+          <div *ngIf="!isAudioRecording && audioBlobUrl" class="div-button-center">
             <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
               <source [src]="audioBlobUrl" type="audio/mp3" />
             </audio>
             <div>
-              <button
-                pButton
-                pRipple
-                type="button"
-                class="p-button-outlined p-button-rounded p-button-success"
-                (click)="restartAudioRecordedData()"
-              >
+              <button pButton pRipple type="button" class="p-button-outlined p-button-rounded p-button-success"
+                (click)="restartAudioRecordedData()">
                 הקלטה מחדש
               </button>
               &nbsp;
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-download"
+              <button pButton pRipple type="button" icon="pi pi-download"
                 class="p-button-rounded p-button-success p-button-outlined"
-                (click)="downloadAudioRecordedData()"
-              ></button>
+                (click)="downloadAudioRecordedData()"></button>
             </div>
             <div>
               <p>הציון האוטומטי שלך הוא: {{ calcAutoMark() }}</p>
@@ -77,36 +45,23 @@
           </div>
 
           <div class="centerright" *ngIf="activeIndex2 > 0">
-            <button
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-chevron-right"
-              class="p-button-rounded p-button-secondary p-button-outlined"
-              (click)="
+            <button pButton pRipple type="button" icon="pi pi-chevron-right"
+              class="p-button-rounded p-button-secondary p-button-outlined" (click)="
                 saveRecording();
                 activeIndex2 = activeIndex2 - 1;
+                playWordRecord();
                 initRecordDetails()
-              "
-            ></button>
+              "></button>
           </div>
 
-          <div
-            class="centerleft"
-            *ngIf="activeIndex2 < this.LessonWords.length - 1"
-          >
-            <button
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-chevron-left"
-              class="p-button-rounded p-button-secondary p-button-outlined"
-              (click)="
+          <div class="centerleft" *ngIf="activeIndex2 < this.LessonWords.length - 1">
+            <button pButton pRipple type="button" icon="pi pi-chevron-left"
+              class="p-button-rounded p-button-secondary p-button-outlined" (click)="
                 saveRecording();
                 activeIndex2 = activeIndex2 + 1;
+                playWordRecord();
                 initRecordDetails()
-              "
-            ></button>
+              "></button>
           </div>
           <div *ngIf="this.getSelectedLesson()?.isChecked">
             <p>
