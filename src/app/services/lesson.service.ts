@@ -8,7 +8,7 @@ import { WordGivenToPractice, WordGivenToPracticeDTO } from '../models/wordGiven
   providedIn: 'root'
 })
 export class LessonService {
- 
+
 
   private selectedLesson?: Lesson;
 
@@ -24,7 +24,7 @@ export class LessonService {
   }
 
   getLessonsByPatient(patientId: number): Observable<Lesson[]> {
-    
+
     return this._http.get<Lesson[]>("api/Lesson/" + patientId);
   }
 
@@ -39,6 +39,12 @@ export class LessonService {
   updateLesson(newLesson:Lesson):Observable<void>{
     // newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }
     return this._http.put<void>(`/api/Lesson/lesson`,newLesson);
+  }
+
+  handLesson(){
+    if(this.selectedLesson)
+      {this.selectedLesson.isDone=true;}
+      return this._http.put<void>(`/api/Lesson/lesson`,this.selectedLesson);
   }
 
   putWordsToLesson(lessonId:number,words:WordGivenToPracticeDTO[]){

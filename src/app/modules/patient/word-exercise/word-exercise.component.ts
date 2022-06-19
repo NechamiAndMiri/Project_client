@@ -186,6 +186,12 @@ export class WordExerciseComponent implements OnInit {
     });
   }
 
+  handLesson() {
+    this._lessonService.handLesson().subscribe(() => {
+      this.saveRecording();
+      this.allLessons()
+    })
+  }
 
   _downloadFile(data: any, type: string, filename: string): any {
     const blob = new Blob([data], { type: type });
