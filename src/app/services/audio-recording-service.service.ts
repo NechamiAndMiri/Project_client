@@ -127,9 +127,13 @@ export class AudioRecordingService {
   }
 
 
-  addWordRecordDetails(recordDetails:PatientRecordingDetails,index:number)
-  {
-    this.wordsRecordDetails[index]=recordDetails;
+  // addWordRecordDetails(recordDetails:PatientRecordingDetails,index:number)
+  // {
+  //   this.wordsRecordDetails[index]=recordDetails;
+  // }
+
+  getPatientRecording(wordId:number):any{
+    return this._http.get<Blob>(`/api/Lesson/getPatienRecording/${wordId}`,{observe: 'response', responseType: 'blob' as 'json'} );
   }
 
   savePatientRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
@@ -150,12 +154,7 @@ export class AudioRecordingService {
     return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
   }
 
-  // initRecordDetailsArray(len:number)
-  // {
-  //   this.wordsRecordDetails=new PatientRecordingDetails[len];
-  // }
-
-
+ 
   saveSpeechTherapistRecording(file: any, type: string, filename: string,word:Word) :Observable<void>{
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
