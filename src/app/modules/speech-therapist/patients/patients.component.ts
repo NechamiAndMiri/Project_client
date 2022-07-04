@@ -32,13 +32,14 @@ export interface FlatPatient {
   phone: string;
 
 }
+const scoreThreshold=56;
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css'],
   providers: [ConfirmationService]
 })
-
 
 export class PatientsComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'identityNumber', 'email', 'phone', 'dateOfBirth'];
@@ -61,9 +62,10 @@ export class PatientsComponent implements OnInit {
   selectedLevelsWords: Word[] = [];
 
 
+
   submitted:boolean;
 
-
+  displayLessonDialogToCheck:boolean;
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate: boolean;
 
@@ -133,7 +135,11 @@ export class PatientsComponent implements OnInit {
     this.selectedLesson = lesson;
     this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
-      this.selectedLessonWordsToShow = this.selectedLessonWords.map((word) => {
+      })
+  }
+
+  mapLessonWords(){
+    this.selectedLessonWordsToShow = this.selectedLessonWords.map((word) => {
         return <Word>{
           id: word.wordId,
           wordText: word.wordText,
@@ -141,7 +147,13 @@ export class PatientsComponent implements OnInit {
           difficultyLevelId: word.difficultyLevelId
         }
       });
-    })
+  }
+
+
+
+  checkLesson(lesson:Lesson){
+    this.selectLesson(lesson);
+    this.displayLessonDialogToCheck=true;
   }
 
   deleteLesson(lesson: Lesson) {
@@ -170,6 +182,7 @@ export class PatientsComponent implements OnInit {
   updateLesson(lesson: Lesson) {
     //this.selectedLesson = lesson;
     this.selectLesson(lesson);
+    this.mapLessonWords();
     this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
     this.displayLessonDialogToUpdate = true;
   }
@@ -278,6 +291,24 @@ export class PatientsComponent implements OnInit {
     // if (index !== -1)
     //     this.selectedLessonWords.splice(index, 1);
 
+  }
+
+  changeIsValid(index:number){
+    let score=this.selectedLessonWords[index].score||0;
+      if (score>scoreThreshold) {
+        this.selectedLessonWords[index].isValid = true;
+      }
+      else{
+        this.selectedLessonWords[index].isValid = false;
+      }
+  }
+
+  recalculateLessonScore(){
+    let sum=0;
+    for(let i = 0; i < this.selectedLessonWords.length; i++){
+        sum+=this.selectedLessonWords[i].score||0;
+    }
+    this.selectedLesson.weightedScore=sum/this.selectedLessonWords.length;
   }
 
   checks(x: any) {
