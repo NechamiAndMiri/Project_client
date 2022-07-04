@@ -16,22 +16,22 @@ import { WordService } from 'src/app/services/word.service';
 import { ConfirmationService, PrimeNGConfig, SelectItemGroup } from "primeng/api";
 import { Word } from 'src/app/models/word.model';
 
-export interface FlatPatient   {
+export interface FlatPatient {
 
-        id:number;
-        userId:number;
-        speechTherapistId:number;
-        dateOfBirth:Date;
-        pronunciationProblemId:number;
-        firstName:string;
-        lastName:string;
-        identityNumber:string;
-        email:string;
-        permissionLevelId: number;
-        password:string;
-        phone:string;
+  id: number;
+  userId: number;
+  speechTherapistId: number;
+  dateOfBirth: Date;
+  pronunciationProblemId: number;
+  firstName: string;
+  lastName: string;
+  identityNumber: string;
+  email: string;
+  permissionLevelId: number;
+  password: string;
+  phone: string;
 
-  }
+}
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -51,23 +51,23 @@ export class PatientsComponent implements OnInit {
   selectedPatient: FlatPatient;
   difficultyLevelsOfSelectedPatient: DifficultyLevel[];
   selectedPatientLessons: Lesson[];
-  selectedLessonWords: WordGivenToPracticeDTO[]=[];
-  selectedLessonWordsToShow: Word[]=[];
+  selectedLessonWords: WordGivenToPracticeDTO[] = [];
+  selectedLessonWordsToShow: Word[] = [];
   //maybe to delet later selectedLesson
   selectedLesson: Lesson;
 
   selectedLevel: DifficultyLevel;
-  levelWords:Word[]=[]
-  selectedLevelsWords:Word[]=[];
+  levelWords: Word[] = []
+  selectedLevelsWords: Word[] = [];
 
 
   submitted:boolean;
 
 
   displayLessonDialog: boolean;
-  displayLessonDialogToUpdate:boolean;
+  displayLessonDialogToUpdate: boolean;
 
-  today=new Date();
+  today = new Date();
 
   lessonForm: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
@@ -79,15 +79,18 @@ export class PatientsComponent implements OnInit {
 
 
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService,
-     private _lessonService: LessonService, private _wordService: WordService,private primengConfig: PrimeNGConfig,
-     private confirmationService: ConfirmationService) {
+    private _lessonService: LessonService, private _wordService: WordService, private primengConfig: PrimeNGConfig,
+    private confirmationService: ConfirmationService) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
       this.patients = data; console.log(data);
-      this.dataSource = new MatTableDataSource(this.patients.map(p=>
-        {return  <FlatPatient>{id:p.patient.id,userId:p.patient.userId,speechTherapistId:p.patient.speechTherapistId,dateOfBirth:p.patient.dateOfBirth,
-                              pronunciationProblemId:p.patient.pronunciationProblemId,firstName:p.user.firstName,lastName:p.user.lastName,permissionLevelId:p.user.permissionLevelId,
-                              identityNumber:p.user.identityNumber,email:p.user.email,password:p.user.password,phone:p.user.phone}}));
+      this.dataSource = new MatTableDataSource(this.patients.map(p => {
+        return <FlatPatient>{
+          id: p.patient.id, userId: p.patient.userId, speechTherapistId: p.patient.speechTherapistId, dateOfBirth: p.patient.dateOfBirth,
+          pronunciationProblemId: p.patient.pronunciationProblemId, firstName: p.user.firstName, lastName: p.user.lastName, permissionLevelId: p.user.permissionLevelId,
+          identityNumber: p.user.identityNumber, email: p.user.email, password: p.user.password, phone: p.user.phone
+        }
+      }));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
@@ -119,8 +122,9 @@ export class PatientsComponent implements OnInit {
     this.selectedPatient = patient;
     this._lessonService.getLessonsByPatient(patient.id).subscribe((data) => {
       this._wordService.getProblemDifficultyLevels(patient.pronunciationProblemId, patient.speechTherapistId)
-        .subscribe((levels) => { this.difficultyLevelsOfSelectedPatient = levels;console.log(levels);
-         })
+        .subscribe((levels) => {
+          this.difficultyLevelsOfSelectedPatient = levels; console.log(levels);
+        })
       this.selectedPatientLessons = data;
     })
   }
@@ -129,93 +133,119 @@ export class PatientsComponent implements OnInit {
     this.selectedLesson = lesson;
     this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
-      this.selectedLessonWordsToShow =  this.selectedLessonWords.map((word)=>{return <Word>{
-        id: word.wordId,
-        wordText: word.wordText,
-        wordRecording: word.wordRecording,
-        difficultyLevelId:word.difficultyLevelId
-      }});
+      this.selectedLessonWordsToShow = this.selectedLessonWords.map((word) => {
+        return <Word>{
+          id: word.wordId,
+          wordText: word.wordText,
+          wordRecording: word.wordRecording,
+          difficultyLevelId: word.difficultyLevelId
+        }
+      });
     })
   }
 
-  deleteLesson(lesson:Lesson){
+  deleteLesson(lesson: Lesson) {
     this.confirmationService.confirm({
-          message:'לא יהיה ניתן לשחזר את השיעור!',
-          header: 'מחיקת שיעור',
-          icon: 'pi pi-info-circle',
-          rejectLabel: ` ביטול`,
-          acceptLabel: ' אישור ',
-          accept: () => {
-            this._lessonService.deleteLesson(lesson.id).subscribe(()=>
-              this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {
-              this.selectedPatientLessons=data;}
-            )
-            );
-          },
-          reject: () => {
-            console.log("שיעור not removed");
+      message: 'לא יהיה ניתן לשחזר את השיעור!',
+      header: 'מחיקת שיעור',
+      icon: 'pi pi-info-circle',
+      rejectLabel: ` ביטול`,
+      acceptLabel: ' אישור ',
+      accept: () => {
+        this._lessonService.deleteLesson(lesson.id).subscribe(() =>
+          this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {
+            this.selectedPatientLessons = data;
           }
-        });
+          )
+        );
+      },
+      reject: () => {
+        console.log("שיעור not removed");
+      }
+    });
   }
 
 
 
-  updateLesson(lesson: Lesson){
-      this.selectedLesson = lesson;
-      this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
-      this.displayLessonDialogToUpdate =true;
+  updateLesson(lesson: Lesson) {
+    //this.selectedLesson = lesson;
+    this.selectLesson(lesson);
+    this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
+    this.displayLessonDialogToUpdate = true;
   }
 
-  updateLevelToLesson(level:DifficultyLevel){
-    this.selectedLesson.difficultyLevelId=level.id;
-    this.selectedLesson.difficultyLevelName=level.difficultyLevel
+  updateLevelToLesson(level: DifficultyLevel) {
+    this.selectedLesson.difficultyLevelId = level.id;
+    this.selectedLesson.difficultyLevelName = level.difficultyLevel
   }
 
-  finishUpdateLesson(){
+  finishUpdateLesson() {
 
-    // const newLesson = {
-    //   "id":0,
-    //   "patientId": this.selectedPatient.id,
-    //   "date": this.lessonFormToUpdate.get('date')?.value,
-    //   "isChecked": false,
-    //   "difficultyLevelId": this.lessonFormToUpdate.get('level')?.value.id,
-    //   "lessonDescription": this.lessonFormToUpdate.get('description')?.value,
-    //   "isDone": false
-    // }
-    // this._lessonService.updateLesson(newLesson).subscribe(()=>
-    //   this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {this.selectedPatientLessons = data;})
-    // );
+    //הקריאה לשרת היא רק בגלל שזה בתוך אינפלייס שיש לו נגמודל עם הסלקטד לסון
+    this._lessonService.updateLesson(this.selectedLesson).subscribe(() =>
+      this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => { this.selectedPatientLessons = data; })
+    );
 
+    let newWords = this.selectedLessonWordsToShow.map((word) => {
+      return <WordGivenToPracticeDTO>{
+        lessonId: this.selectedLesson.id,
+        patientRecording: '',
+        score: undefined,
+        difficultyLevelId: word.difficultyLevelId,
+        isValid: undefined,
+        wordText: word.wordText,
+        wordRecording: word.wordRecording,
+        wordId: word.id
+      }
+    });
 
-    this.displayLessonDialogToUpdate=false;
+    if (this.selectedLessonWords?.length > 0) {
+      //put lesson words
+      this._lessonService.putWordsToLesson(this.selectedLesson.id, newWords).subscribe(() => {
+        this.displayLessonDialogToUpdate = false;
+        //?האם לבחור עכשיו שוב את השיעור או לשחרר את הבחירה בכלל?
+        //this.selectedLesson=undefined;
+        this.selectedLessonWordsToShow = [];
+       });
+    }
+    else {
+      //post lesson words
+      this._lessonService.postWordsToLesson(newWords).subscribe(() => {
+        this.displayLessonDialogToUpdate = false;
+        //?האם לבחור עכשיו שוב את השיעור או לשחרר את הבחירה בכלל?
+        //this.selectedLesson=undefined;
+        this.selectedLessonWordsToShow = [];
+      });
+    }
+
   }
 
   openAddLessonDialog() {
     this.displayLessonDialog = true;
   }
 
-//   addPrevLevelWords(){
+  //   addPrevLevelWords(){
 
-//   let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
-//     id: 0,
-//     lessonId: this.selectedLesson.id,
-//     patientRecording: "",
-//     score: undefined,
-//     isValid: false,
-//     wordText: word.wordText,
-//     wordRecording: word.wordRecording,
-//     wordId: word.id,
-//     difficultyLevelId:word.difficultyLevelId
-//   }})
+  //   let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
+  //     id: 0,
+  //     lessonId: this.selectedLesson.id,
+  //     patientRecording: "",
+  //     score: undefined,
+  //     isValid: false,
+  //     wordText: word.wordText,
+  //     wordRecording: word.wordRecording,
+  //     wordId: word.id,
+  //     difficultyLevelId:word.difficultyLevelId
+  //   }})
 
-// this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
-//   console.log(this.selectedLessonWords);
-//   this.selectedLevelsWords=[];
-//   }
+  // this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
+  //   console.log(this.selectedLessonWords);
+  //   this.selectedLevelsWords=[];
+  //   }
 
   addLesson() {
     const newLesson = {
-      "id":0,
+      "id": 0,
       "patientId": this.selectedPatient.id,
       "date": this.lessonForm.get('date')?.value,
       "isChecked": false,
@@ -235,20 +265,22 @@ export class PatientsComponent implements OnInit {
 
   }
 
-  getWordsForLevel(levelId:number)
-  {
-    this._wordService.getLevelWords(levelId).subscribe((words)=>{
-      this.levelWords=words;
+  getWordsForLevel(levelId: number) {
+    this._wordService.getLevelWords(levelId).subscribe((words) => {
+      this.levelWords = words;
     })
   }
-  removeWordFromLesson(wordId:number){
-     this.selectedLessonWords.forEach((w,i)=>{if(w.id==wordId) this.selectedLessonWords.splice(i, 1);})
+  removeWordFromLesson(wordId: number) {
+    debugger;
+    //this.selectedLessonWords.forEach((w, i) => { if (w.id == wordId) this.selectedLessonWords.splice(i, 1); })
+    this.selectedLessonWordsToShow.forEach((w, i) => { if (w.id == wordId) this.selectedLessonWordsToShow.splice(i, 1); })
+
     // if (index !== -1)
     //     this.selectedLessonWords.splice(index, 1);
 
   }
 
-  checks(x:any){
+  checks(x: any) {
     console.log(x);
 
 

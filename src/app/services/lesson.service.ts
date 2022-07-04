@@ -35,15 +35,24 @@ export class LessonService {
   addLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<Lesson> {
     return this._http.post<Lesson>(`/api/Lesson`,newLesson);
   }
+  //i've changed some stuff-pay attention
+  updateLesson(newLesson:Lesson):Observable<void>{
+    // newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }
+    return this._http.put<void>(`/api/Lesson/lesson`,newLesson);
+  }
 
   handLesson(){
     if(this.selectedLesson)
       {this.selectedLesson.isDone=true;}
       return this._http.put<void>(`/api/Lesson/lesson`,this.selectedLesson);
   }
-  updateLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<void>{
 
-    return this._http.put<void>(`/api/Lesson/lesson`,newLesson);
+  putWordsToLesson(lessonId:number,words:WordGivenToPracticeDTO[]){
+    return this._http.put<void>(`/api/Lesson/${lessonId}/putWordsForLesson`,words);
+  }
+
+  postWordsToLesson(words:WordGivenToPracticeDTO[]){
+    return this._http.post<void>(`/api/Lesson/PostWordsToLesson`,words);
   }
 
   deleteLesson(id: number):Observable<void> {

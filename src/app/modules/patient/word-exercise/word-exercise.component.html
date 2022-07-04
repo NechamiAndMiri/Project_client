@@ -1,12 +1,13 @@
 <body>
   <div class="card">
-    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="playWordRecord()">
+    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="saveRecording();playWordRecord()">
       <p-tabPanel *ngFor="let tab of scrollableTabs" [header]="tab.title">
         <div class="container">
           <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-success"
-            (click)="allLessons()"></button>
+            (click)="saveRecording();allLessons()"></button>
 
           <button mat-button (click)="playWordRecord()">הקלטה קלינאית</button>
+          <button mat-button (click)="playPatientRecord()">הקלטה patient</button>
           <div class="center">
             <h1 style="font-size: 300px" class="display-1">
               {{ tab.content.wordText }}
@@ -47,20 +48,22 @@
           <div class="centerright" *ngIf="activeIndex2 > 0">
             <button pButton pRipple type="button" icon="pi pi-chevron-right"
               class="p-button-rounded p-button-secondary p-button-outlined" (click)="
-                saveRecording();
-                activeIndex2 = activeIndex2 - 1;
+                 activeIndex2 = activeIndex2 - 1;
+              saveRecording();
+               
                 playWordRecord();
-                initRecordDetails()
+              
               "></button>
           </div>
 
           <div class="centerleft" *ngIf="activeIndex2 < this.LessonWords.length - 1">
             <button pButton pRipple type="button" icon="pi pi-chevron-left"
               class="p-button-rounded p-button-secondary p-button-outlined" (click)="
-                saveRecording();
-                activeIndex2 = activeIndex2 + 1;
+                 activeIndex2 = activeIndex2 + 1;
+              saveRecording();
+               
                 playWordRecord();
-                initRecordDetails()
+             
               "></button>
           </div>
           <div *ngIf="this.getSelectedLesson()?.isChecked">
