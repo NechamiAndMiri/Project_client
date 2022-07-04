@@ -62,12 +62,12 @@ export class PatientsComponent implements OnInit {
 
 
   submitted:boolean;
-  
+
 
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate:boolean;
 
-  today=new Date(); 
+  today=new Date();
 
   lessonForm: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
@@ -232,6 +232,7 @@ export class PatientsComponent implements OnInit {
 
     this.displayLessonDialog = false;
 
+
   }
 
   getWordsForLevel(levelId:number)
@@ -249,6 +250,7 @@ export class PatientsComponent implements OnInit {
 
   checks(x:any){
     console.log(x);
+
 
   }
 }
