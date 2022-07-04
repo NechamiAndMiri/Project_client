@@ -118,15 +118,6 @@ export class WordExerciseComponent implements OnInit {
   }
   recordDetails: PatientRecordingDetails = new PatientRecordingDetails();
   saveRecording() {
-
-    // פתרון לא נכון, צריך לשלוף ממסד הנתונים
-    //  this.recordDetails.wordGivenToPracticeId= this.LessonWords[this.activeIndex2].id;
-    //  this.recordDetails.audioBlob=this.audioBlob;
-    //  this.recordDetails.audioBlobUrl=this.audioBlobUrl;
-    //  this.recordDetails.audioName=this.audioName;
-
-    //  this.audioRecordingService.addWordRecordDetails(this.recordDetails,this.activeIndex2);
-    //
     if (!(this._lessonService.getSelectedLesson()?.isChecked) && this.audioBlob && this.audioBlobUrl) {
       let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
       this.audioRecordingService.savePatientRecording(blob, 'audio/mp3', this.audioName, this.LessonWords[this.activeIndex2]).subscribe();
@@ -136,14 +127,6 @@ export class WordExerciseComponent implements OnInit {
 
   }
 
-  initRecordDetails() {
-    //
-    // this.recordDetails=(this.audioRecordingService.getWordsRecordDetails())![this.activeIndex2];
-    // this.audioBlob=this.recordDetails.audioBlob;
-    // this.audioBlobUrl=this.recordDetails.audioBlobUrl;
-    // this.audioName=this.recordDetails.audioName;
-
-  }
 
   playWordRecord() {
     let word = this.LessonWords[this.activeIndex2];
