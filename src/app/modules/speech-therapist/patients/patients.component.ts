@@ -15,6 +15,8 @@ import { SpeechTherapistService } from 'src/app/services/speech-therapist.servic
 import { WordService } from 'src/app/services/word.service';
 import { ConfirmationService, PrimeNGConfig, SelectItemGroup } from "primeng/api";
 import { Word } from 'src/app/models/word.model';
+import { AudioRecordingService } from 'src/app/services/audio-recording-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface FlatPatient {
 
@@ -32,7 +34,7 @@ export interface FlatPatient {
   phone: string;
 
 }
-const scoreThreshold=56;
+const scoreThreshold = 56;
 
 @Component({
   selector: 'app-patients',
@@ -63,9 +65,9 @@ export class PatientsComponent implements OnInit {
 
 
 
-  submitted:boolean;
+  submitted: boolean;
 
-  displayLessonDialogToCheck:boolean;
+  displayLessonDialogToCheck: boolean;
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate: boolean;
 
@@ -82,7 +84,8 @@ export class PatientsComponent implements OnInit {
 
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService,
     private _lessonService: LessonService, private _wordService: WordService, private primengConfig: PrimeNGConfig,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService, private audioRecordingService: AudioRecordingService
+    , private sanitizer: DomSanitizer) {
 
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
       this.patients = data; console.log(data);
@@ -135,25 +138,34 @@ export class PatientsComponent implements OnInit {
     this.selectedLesson = lesson;
     this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
-      })
+    })
   }
 
-  mapLessonWords(){
+  mapLessonWords() {
     this.selectedLessonWordsToShow = this.selectedLessonWords.map((word) => {
-        return <Word>{
-          id: word.wordId,
-          wordText: word.wordText,
-          wordRecording: word.wordRecording,
-          difficultyLevelId: word.difficultyLevelId
-        }
-      });
+      return <Word>{
+        id: word.wordId,
+        wordText: word.wordText,
+        wordRecording: word.wordRecording,
+        // difficultyLevelId: word.difficultyLevelId
+      }
+    });
   }
 
+  submitCheckLesson() {
+    this._lessonService.updateLesson(this.selectedLesson).subscribe(
+      () => {
+        this._lessonService.putWordsToLesson(this.selectedLesson.id, this.selectedLessonWords).subscribe(() => {
+          this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe(() => { this.displayLessonDialogToCheck = false; });
 
+        })
+      }
+    )
+  }
 
-  checkLesson(lesson:Lesson){
+  checkLesson(lesson: Lesson) {
     this.selectLesson(lesson);
-    this.displayLessonDialogToCheck=true;
+    this.displayLessonDialogToCheck = true;
   }
 
   deleteLesson(lesson: Lesson) {
@@ -219,7 +231,7 @@ export class PatientsComponent implements OnInit {
         //?האם לבחור עכשיו שוב את השיעור או לשחרר את הבחירה בכלל?
         //this.selectedLesson=undefined;
         this.selectedLessonWordsToShow = [];
-       });
+      });
     }
     else {
       //post lesson words
@@ -280,7 +292,14 @@ export class PatientsComponent implements OnInit {
 
   getWordsForLevel(levelId: number) {
     this._wordService.getLevelWords(levelId).subscribe((words) => {
-      this.levelWords = words;
+      this.levelWords = words.map((word) => {
+        return <Word>{
+          id: word.id,
+          wordText: word.wordText,
+          wordRecording: word.wordRecording,
+          // difficultyLevelId: word.difficultyLevelId
+        }
+      });;
     })
   }
   removeWordFromLesson(wordId: number) {
@@ -293,23 +312,47 @@ export class PatientsComponent implements OnInit {
 
   }
 
-  changeIsValid(index:number){
-    let score=this.selectedLessonWords[index].score||0;
-      if (score>scoreThreshold) {
-        this.selectedLessonWords[index].isValid = true;
-      }
-      else{
-        this.selectedLessonWords[index].isValid = false;
-      }
+  changeIsValid(index: number) {
+    let score = this.selectedLessonWords[index].score || 0;
+    if (score > scoreThreshold) {
+      this.selectedLessonWords[index].isValid = true;
+    }
+    else {
+      this.selectedLessonWords[index].isValid = false;
+    }
   }
 
-  recalculateLessonScore(){
-    let sum=0;
-    for(let i = 0; i < this.selectedLessonWords.length; i++){
-        sum+=this.selectedLessonWords[i].score||0;
+  recalculateLessonScore() {
+    let sum = 0;
+    for (let i = 0; i < this.selectedLessonWords.length; i++) {
+      sum += this.selectedLessonWords[i].score || 0;
     }
-    this.selectedLesson.weightedScore=sum/this.selectedLessonWords.length;
+    this.selectedLesson.weightedScore = sum / this.selectedLessonWords.length;
   }
+
+
+  playWordRecord(word: WordGivenToPracticeDTO) {
+    let blob;
+    this.audioRecordingService.getPatientRecording(word.id).subscribe((b: any) => {
+      // this.isDownloadaudio = true;
+      blob = new Blob([b], { type: 'audio/mp3' });
+
+      let audioBlob1 = b.body;
+      let audioName1 = b.title;
+      let audioBlobUrl1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+
+      let audio1 = new Audio();
+      // this.audio.srcObject = blob as MediaProvider;
+      audio1.src = (audioBlobUrl1 as any).changingThisBreaksApplicationSecurity
+      audio1.play();
+      //this will make sure to update when time updates.
+      audio1.ontimeupdate = (event) => {
+        var currentTime = audio1.currentTime;
+        // this.ref.detectChanges();
+      }
+    });
+  }
+
 
   checks(x: any) {
     console.log(x);

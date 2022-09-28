@@ -30,11 +30,15 @@ tr.example-element-row:hover {
 tr.example-element-row-choosed {
   background: rgb(132, 176, 223);
 }
+.not-done{
+  border: 1.5px solid slateblue;
+}
 
 .container{
   margin: 10px;
   padding: 10px;
   position: relative;
+  height: 5000px;
 
 }
 .right-table-div{
@@ -48,6 +52,25 @@ tr.example-element-row-choosed {
 .left{
   position: absolute;
   right: 20%;
+  padding: 5px;
+  min-width: 35%;
+}
+
+.lesson-card{
+  min-width: 100%;
+}
+
+.card,div{
+  margin: 1%;
+
+}
+.icon-img{
+  height: 22px;
+  width: 22px;
+}
+
+.btn-rounded{
+  border: 1px solid rgba(105, 103, 103, 0.452);
 }
 
 .lesson-form {
@@ -72,13 +95,6 @@ tr.example-element-row-choosed {
   z-index: 9999 !important;
 }
 
-/* unsuful for now */
-
- /* .p-inputtext{
-  border-style: none;
-  background: none;
-  box-shadow: none;
-} */
 
 .input-edit{
   border-style: none;

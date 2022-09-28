@@ -93,34 +93,31 @@
 
     <!-- תצוגת שיעורים למטופל ספציפי -->
     <div class="left">
-      <ul>
         <button mat-stroked-button (click)="openAddLessonDialog()">
           <mat-icon>add</mat-icon>
         </button>
 
-
-        <li *ngFor="let lesson of selectedPatientLessons">
-          <button mat-button (click)="selectLesson(lesson)">לבחירת השיעור</button>
-          <button mat-button (click)="checkLesson(lesson)">לבדיקת השיעור</button>
-          <button mat-button (click)="deleteLesson(lesson)">למחיקת השיעור</button>
-          <div>{{lesson.date}}</div>
-          <div>{{lesson.lessonDescription}}</div>
-          <mat-checkbox value="lesson.isChecked"></mat-checkbox>
-          <button mat-button (click)="updateLesson(lesson)">לעריכת השיעור</button>
-          <ul *ngIf="selectedLesson==lesson">
-            <li *ngFor="let word of selectedLessonWords">
+      <div [ngClass]="{'lesson-card':true,'card':true,'not-done':!lesson.isDone}" *ngFor="let lesson of selectedPatientLessons">
+        <div class="card-header two-sides">{{lesson.lessonDescription}}  <p-tag [hidden]="lesson.isDone" value="לא נעשה"></p-tag><p-tag  severity="success" [hidden]="!lesson.isChecked" value="נבדק"></p-tag></div>
+        <div class="card-body">
+          <h5 class="card-title">{{lesson.date|date:'dd/MM/yyyy'}}</h5>
+          <div class="two-sides">
+          <button mat-button  (click)="selectLesson(lesson)">צפייה במילים</button>
+          <button class="btn-rounded" mat-icon-button title="לבדיקת השיעור" (click)="checkLesson(lesson)"><img class="icon-img" src="assets/pictures/search.png"></button>
+          <button class="btn-rounded" mat-icon-button title="למחיקת השיעור" (click)="deleteLesson(lesson)"><mat-icon>delete_forever</mat-icon></button>
+          <button class="btn-rounded" mat-icon-button title="לעריכת השיעור" (click)="updateLesson(lesson)"><mat-icon>edit</mat-icon></button>
+        </div>
+          <ul class="list-group list-group-light list-group-small" *ngIf="selectedLesson==lesson">
+            <li class="list-group-item, two-sides" *ngFor="let word of selectedLessonWords">
               <span>{{word.wordText}}</span>
               <span>{{word.score}}</span>
             </li>
           </ul>
-        </li>
-
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-
-  <p-tag value="נבדק"></p-tag>
 </div>
 
 <!-- דיאלוג לבדיקה -->
@@ -130,19 +127,23 @@
     <div class="lesson-details-container">
       <label>{{selectedLesson.lessonDescription}}</label>
       <br />
-      <label>{{selectedLesson.date.toLocaleString()}}</label>
-      <br />
-      <label>{{selectedLesson.pronunciationProblemName}}</label>
-      <br />
-      <label>{{selectedLesson.difficultyLevelName}}</label>
-      <br />
-      <label>{{selectedLesson.weightedScore}}</label>
+      <label>{{selectedLesson.date|date:'dd/MM/yyyy'}}</label>
     </div>
-    <p-divider align="left" type="dashed">
-      <div class="inline-flex align-items-center">
-        <b> המילים שלנו הפעם: </b>
-      </div>
-    </p-divider>
+    <br/>
+    <table>
+      <tr>
+        <td>
+          <label> הקושי{{selectedLesson.pronunciationProblemName}}</label>
+        </td>
+        <td>
+          <label> רמה{{selectedLesson.difficultyLevelName}}</label>
+        </td>
+        <td>
+          <label> ציון:{{selectedLesson.weightedScore}}</label>
+        </td>
+      </tr>
+    </table>
+    <br/>
     <p-table [value]="selectedLessonWords" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
@@ -155,7 +156,13 @@
       <ng-template pTemplate="body" let-word  let-rowIndex="rowIndex">
         <tr>
           <td>{{word.wordText}}</td>
-          <td>{{word.patientRecording}}</td>
+          <td>
+            <span>
+              <button mat-icon-button class="bottomleft" (click)="playWordRecord(word)">
+                <mat-icon>play_circle_outline</mat-icon>
+              </button>
+            </span>
+          </td>
           <td>
             <p-checkbox [(ngModel)]="word.isValid" [binary]="true"></p-checkbox>
           </td>
@@ -167,6 +174,7 @@
         </tr>
       </ng-template>
     </p-table>
+    <p-button (click)="submitCheckLesson();" label="אישור"></p-button>
   </ng-template>
 </p-dialog>
 
@@ -182,7 +190,7 @@
       <div class="p-field p-col">
         <p-inplace [closable]="true">
           <ng-template pTemplate="display">
-            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date.toLocaleString().split('T')[0]}}</label>
+            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date|date:'dd/MM/yyyy'}}</label>
           </ng-template>
           <ng-template pTemplate="content">
             <div class="p-field p-col">
@@ -266,9 +274,11 @@
           optionLabel="difficultyLevel" [style]="{'width':'10rem'}">
         </p-dropdown>
       </div>
+      <br>
+      <hr>
       <div class="p-field p-col">
-        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWordsToShow" [metaKeySelection]="false"
-          [checkbox]="true" [filter]="true" [multiple]="true" optionLabel="wordText" optionLabel="Word"
+        <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWordsToShow"  [metaKeySelection]="false"
+          [checkbox]="true" [filter]="true" [multiple]="true" optionLabel="wordText"
           [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
           <ng-template let-word pTemplate="item">
             <div class="item">
@@ -298,7 +308,7 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>תאריך</mat-label>
-      <input formControlName="date" type="date" matInput value="{{today}}" [errorStateMatcher]="matcher">
+      <input formControlName="date" type="date" matInput [value]="today|date:'dd/MM/yyyy'" [errorStateMatcher]="matcher">
 
       <mat-error>
         תאריך <strong>חובה</strong>

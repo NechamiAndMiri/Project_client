@@ -52,23 +52,6 @@ class nLevel {
   }
 }
 
-// class nWord
-// {
-//   id:number;
-//   wordText:string;
-//   wordRecording:string;
-//   difficultyLevelId:number
-//   /**
-//    *
-//    */
-//   constructor(id:number, wordText:string, wordRecording:string,difficultyLevelId:number) {
-//     this.difficultyLevelId=difficultyLevelId
-//     this.id=id
-//     this.wordRecording=wordRecording
-//     this.wordText=wordText
-//   }
-// }
-
 @Component({
   selector: 'app-exercises',
   templateUrl: './exercises.component.html',
@@ -188,12 +171,13 @@ export class ExercisesComponent implements OnInit {
 
 
 
+
   loadWords(levelIndex: number, problemIndex: number) {
     this._wordService.getLevelWords(this.problemsArr[problemIndex].Levels[levelIndex].id).subscribe(data => {
       //var wordsArr=data.map((word)=>{return new Word(word.id,word.wordText,word.wordRecording,word.difficultyLevelId)});
 
       this.problemsArr[problemIndex].Levels[levelIndex].words = data;
-
+      console.log(this.problemsArr[problemIndex].Levels[levelIndex].words);
     });
   }
 

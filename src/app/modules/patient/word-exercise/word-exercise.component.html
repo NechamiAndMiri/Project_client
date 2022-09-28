@@ -1,10 +1,11 @@
 <body>
   <div class="card">
-    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="saveRecording();playWordRecord()">
+    <!-- טאבים -->
+    <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="playWordRecord()">
       <p-tabPanel *ngFor="let tab of scrollableTabs" [header]="tab.title">
         <div class="container">
           <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-success"
-            (click)="saveRecording();allLessons()"></button>
+            (click)="allLessons()"></button>
 
           <button mat-button (click)="playWordRecord()">הקלטה קלינאית</button>
           <button mat-button (click)="playPatientRecord()">הקלטה patient</button>
@@ -30,12 +31,15 @@
             <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
               <source [src]="audioBlobUrl" type="audio/mp3" />
             </audio>
-            <div>
+            <div class="two-sides div-button-center">
               <button pButton pRipple type="button" class="p-button-outlined p-button-rounded p-button-success"
                 (click)="restartAudioRecordedData()">
                 הקלטה מחדש
               </button>
-              &nbsp;
+              <button pButton pRipple type="button" icon="pi pi-save"
+                class="p-button-rounded p-button-success p-button-outlined"
+                (click)="saveRecording()"></button>
+
               <button pButton pRipple type="button" icon="pi pi-download"
                 class="p-button-rounded p-button-success p-button-outlined"
                 (click)="downloadAudioRecordedData()"></button>
@@ -45,28 +49,25 @@
             </div>
           </div>
 
+
+          <!-- חץ ימינה -->
           <div class="centerright" *ngIf="activeIndex2 > 0">
             <button pButton pRipple type="button" icon="pi pi-chevron-right"
               class="p-button-rounded p-button-secondary p-button-outlined" (click)="
                  activeIndex2 = activeIndex2 - 1;
-              saveRecording();
-               
-                playWordRecord();
-              
-              "></button>
+                playWordRecord();"></button>
           </div>
 
+          <!-- חץ שמאלה -->
           <div class="centerleft" *ngIf="activeIndex2 < this.LessonWords.length - 1">
             <button pButton pRipple type="button" icon="pi pi-chevron-left"
               class="p-button-rounded p-button-secondary p-button-outlined" (click)="
                  activeIndex2 = activeIndex2 + 1;
-              saveRecording();
-               
                 playWordRecord();
-             
+
               "></button>
           </div>
-          <div *ngIf="this.getSelectedLesson()?.isChecked">
+          <div class="done-msg" *ngIf="this.getSelectedLesson()?.isChecked">
             <p>
               הציון הסופי שלך הוא:
               {{ this.LessonWords[this.activeIndex2].score }}

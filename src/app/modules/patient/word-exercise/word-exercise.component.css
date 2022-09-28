@@ -19,10 +19,24 @@ h1 {
   position: relative;
   min-width: 100%;
   min-height: 800px;
-  
+
+}
+
+.div-button-center{
+min-width: fit-content;
+max-width: 30%;
+margin: 1%;
+padding: 1%;
+
+}
+.done-msg{
+  background-color: argb(247, 247, 247, 255);
+  position: sticky;
+  z-index: 10000;
+
 }
 .center {
-  
+
   position: absolute;
   top: 20%;
   width: 100%;
