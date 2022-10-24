@@ -14,7 +14,7 @@ import { PatientService } from 'src/app/services/patient.service';
 import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 import { WordService } from 'src/app/services/word.service';
 
-
+//nhjjj
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
