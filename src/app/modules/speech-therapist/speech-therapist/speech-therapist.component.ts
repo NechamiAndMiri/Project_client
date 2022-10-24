@@ -10,12 +10,16 @@ import { SpeechTherapistService } from 'src/app/services/speech-therapist.servic
 })
 export class SpeechTherapistComponent implements OnInit {
 
-  constructor(private _speechTherapistService:SpeechTherapistService,private _loginService:LogInService) { }
+  showExercise: boolean = false;
 
-  
+  constructor(private _speechTherapistService:SpeechTherapistService,private _loginService:LogInService) {
+    this._speechTherapistService.speechTherapist=(this._loginService.getTheUser() as SpeechTherapistDTO);
+  }
+
+
 
   ngOnInit(): void {
-      this._speechTherapistService.speechTherapist=(this._loginService.getTheUser() as SpeechTherapistDTO);
+
   }
 
 }

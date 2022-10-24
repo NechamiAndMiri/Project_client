@@ -2,12 +2,12 @@ table {
     width: 100%;
     text-align: center;
   }
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
   }
-  
+
   td, th {
     width: 16%;
   }
@@ -16,7 +16,7 @@ table {
 
     text-align: center;
     position: absolute;
-    
+
   }
 
   th.mat-header-cell {
@@ -24,17 +24,25 @@ table {
 }
 
 tr.example-element-row:hover {
-  background: rgb(205, 221, 238);
+  background: rgb(222, 236, 251);
+}
+
+tr.example-element-row-choosed {
+  background: rgb(132, 176, 223);
+}
+.not-done{
+  border: 1.5px solid slateblue;
 }
 
 .container{
   margin: 10px;
   padding: 10px;
   position: relative;
-  
+  height: 5000px;
+
 }
 .right-table-div{
- 
+
   max-width: 20%;
   width: fit-content;
   text-align: center;
@@ -44,6 +52,25 @@ tr.example-element-row:hover {
 .left{
   position: absolute;
   right: 20%;
+  padding: 5px;
+  min-width: 35%;
+}
+
+.lesson-card{
+  min-width: 100%;
+}
+
+.card,div{
+  margin: 1%;
+
+}
+.icon-img{
+  height: 22px;
+  width: 22px;
+}
+
+.btn-rounded{
+  border: 1px solid rgba(105, 103, 103, 0.452);
 }
 
 .lesson-form {
@@ -67,3 +94,11 @@ tr.example-element-row:hover {
 .cdk-overlay-container, .cdk-overlay-pane {
   z-index: 9999 !important;
 }
+
+
+.input-edit{
+  border-style: none;
+  background: none;
+  box-shadow: none;
+}
+

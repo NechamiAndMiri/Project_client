@@ -1,17 +1,15 @@
 
-
-
 <header class="p-3 bg-dark text-white">
   <nav class="navbar navbar-expand navbar-dark bg-dark"> <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-              
+
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
       </a>
-        
+
         <p clas="text-info bg-dark">{{this.user.user.lastName}}  {{this.user.user.firstName}} שלום </p>
- 
+
 
       <div class="dropdown text-end" class="position-absolute top-20 start-1000 ">
         <a class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="true">
@@ -42,8 +40,9 @@
               <div id="sidebar-wrapper">
                 <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;" >
                   <mat-selection-list  (selectionChange)="selectLesson((lessonsLst.selectedOptions.selected[0]?.value))"  #lessonsLst [multiple]="false">
-                    <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'list-group-item list-group-item-action list-group-item-primary':'list-group-item list-group-item-action list-group-item-light'"> 
+                    <mat-list-option *ngFor="let lesson of this.lessons" [value]="lesson" [ngClass]="lesson.lessonDescription==selectedLesson.lessonDescription?'list-group-item list-group-item-action list-group-item-primary':'list-group-item list-group-item-action list-group-item-light'">
                       {{lesson.lessonDescription}}
+
                     </mat-list-option>
                   </mat-selection-list>
                   </div>
@@ -57,54 +56,33 @@
                       <mat-card-title>  מה נלמד היום?  </mat-card-title>
                       <mat-card-subtitle> {{this.selectedLesson.date}}</mat-card-subtitle>
                       <mat-card-subtitle> {{this.selectedLesson.lessonDescription}}</mat-card-subtitle>
-                      <mat-card-subtitle> {{this.selectedLesson.difficultyLevel}}</mat-card-subtitle>
+                      <mat-card-subtitle> {{this.selectedLesson.difficultyLevelName}}</mat-card-subtitle>
                     </mat-card-title-group>
                   </mat-card-header>
                   <mat-card-content>
                     <p>{{this.selectedLesson.lessonDescription}}</p>
-                 
+
                     </mat-card-content>
-        
+
                     <div *ngFor="let word of this.LessonWords">
                       <p-accordion>
                         <p-accordionTab header={{word.wordText}}>
                            {{word.score}}
                         </p-accordionTab>
-                        
+
                     </p-accordion>
                     </div>
                    <mat-card-footer>
                      <div *ngIf="this.selectedLesson.weightedScore"><p> הציון שלך : {{this.selectedLesson.weightedScore}}</p></div>
                       <mat-action-row>
                     <button mat-raised-button color="primary" (click)="startExercise()">התחל תרגול</button>
-                  </mat-action-row>  
+                  </mat-action-row>
                     </mat-card-footer>
-                
+
                 </mat-card>
               </div>
-           </div> <!-- /#page-content-wrapper -->
-          </div> <!-- /#wrapper -->
-          <!-- Bootstrap core JavaScript -->
-          <!-- <script src="js/jquery.min.js"></script>
-          <script src="js/bootstrap.bundle.min.js"></script> Menu Toggle Script -->
-          <!-- <script>
-            $(function(){
-              $("#menu-toggle").click(function(e) {
-                  e.preventDefault();
-                  $("#wrapper").toggleClass("toggled");
-              });
-  
-              $(window).resize(function(e) {
-                if($(window).width()<=768){
-                  $("#wrapper").removeClass("toggled");
-                }else{
-                  $("#wrapper").addClass("toggled");
-                }
-              });
-            });
-             
-          </script>
-      -->
+           </div>
+          </div>
 
 
   <!-- תצוגת תקיות -->
@@ -112,7 +90,7 @@
 <div class="row row-cols-1 row-cols-md-3 g-4"  *ngIf="!this.selectedLesson">
 
   <div class="col" *ngFor="let lesson of this.lessons;let i = index">
- 
+
     <mat-card class="card-show">
 
       <div (click)="selectLesson(lesson)" class="top-item">
@@ -136,36 +114,16 @@
       <mat-panel-title>
         ?מה עשינו בשיעור
       </mat-panel-title>
-    </mat-expansion-panel-header>   
+    </mat-expansion-panel-header>
       <p>{{lesson.lessonDescription}}</p>
 
-    </mat-expansion-panel> 
-    </mat-accordion> 
+    </mat-expansion-panel>
+    </mat-accordion>
     </mat-card-content>
     </mat-card>
   </div>
 
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 
-
-<!-- כפתור יפה  -->
-
-<!-- <div class="example-button-container">
-  <button mat-fab color="primary" aria-label="icon button with a open_in_new_off icon">
-    <mat-icon>open_in_new_off</mat-icon>
- </button>
-</div> -->

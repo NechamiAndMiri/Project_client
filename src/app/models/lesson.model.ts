@@ -9,16 +9,16 @@
             public string LessonDescription { get; set; }
             public int? WeightedScore { get; set; }
       */
-   
+
         id:number;
         patientId:number;
         date:Date;
         isChecked:boolean;
-       // difficultyLevelId:number;
+        difficultyLevelId:number;
         lessonDescription:string;
         weightedScore?:number;
         isDone:boolean
         pronunciationProblemName?:string;
-        difficultyLevel?:number;
-      
+        difficultyLevelName:number;
+
      }

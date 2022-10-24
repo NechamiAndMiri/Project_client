@@ -14,7 +14,7 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
-  
+
   selectedLesson:Lesson|undefined;
   user!:PatientDTO
   lessons:Lesson[]=[]
@@ -22,21 +22,21 @@ export class PatientComponent implements OnInit {
   LessonWords!:WordGivenToPracticeDTO[];
 
 
-  constructor(private _lessonService:LessonService,private _patientService:PatientService,private _logInService:LogInService,private router:Router) { }   
+  constructor(private _lessonService:LessonService,private _patientService:PatientService,private _logInService:LogInService,private router:Router) { }
 
 
   ngOnInit(): void {
-  
+
     this.user=(this._logInService.getTheUser()) as PatientDTO;
     this._patientService.patient=this.user;
     this._lessonService.getLessonsByPatient(this.user.patient.id).subscribe(data=>{this.lessons=data;
-      
-     console.log(this.lessons)
-    
-    });
-  }  
 
-  
+     console.log(this.lessons)
+
+    });
+  }
+
+
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
         this._lessonService.setSelectedLesson(this.selectedLesson);
@@ -47,14 +47,14 @@ export class PatientComponent implements OnInit {
     }
 
     startExercise(){
-      
+
       this._patientService.LessonWords=this.LessonWords;
       this.router.navigate(["patient/exercise"])
     }
 
   panelOpenState = false;
-} 
-    
+}
+
 
 
 

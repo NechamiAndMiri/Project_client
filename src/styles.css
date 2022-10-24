@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~primeicons/primeicons.css';
-@import '~primeng/resources/themes/saga-green/theme.css';
+@import '~primeng/resources/themes/tailwind-light/theme.css';
 @import '~primeng/resources/primeng.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;direction: rtl;}
+.two-sides{
+  display: flex;
+  justify-content: space-between;
+}

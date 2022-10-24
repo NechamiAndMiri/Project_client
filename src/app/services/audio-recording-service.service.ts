@@ -18,7 +18,7 @@ interface RecordedAudioOutput {
 })
 export class AudioRecordingService {
 
- 
+
 
  private wordsRecordDetails:PatientRecordingDetails[];
 
@@ -127,9 +127,13 @@ export class AudioRecordingService {
   }
 
 
-  addWordRecordDetails(recordDetails:PatientRecordingDetails,index:number)
-  {
-    this.wordsRecordDetails[index]=recordDetails;
+  // addWordRecordDetails(recordDetails:PatientRecordingDetails,index:number)
+  // {
+  //   this.wordsRecordDetails[index]=recordDetails;
+  // }
+
+  getPatientRecording(wordId:number):any{
+    return this._http.get<Blob>(`/api/Lesson/getPatienRecording/${wordId}`,{observe: 'response', responseType: 'blob' as 'json'} );
   }
 
   savePatientRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
@@ -137,38 +141,33 @@ export class AudioRecordingService {
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
-    //   
+    //
    // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
     this.sendPatientWordToServer(word).subscribe();
-   
+
     return this._http.put<void>("api/Lesson/UpdateRecording/",formData);
 
   }
   sendPatientWordToServer( word:WordGivenToPracticeDTO)
   {
-    
+
     return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
   }
 
-  // initRecordDetailsArray(len:number)
-  // {
-  //   this.wordsRecordDetails=new PatientRecordingDetails[len];
-  // }
-
-
+ 
   saveSpeechTherapistRecording(file: any, type: string, filename: string,word:Word) :Observable<void>{
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
     // const blob = new Blob([data], { type: type });
     // const url = window.URL.createObjectURL(blob);
-   
+
     this.sendWordToServer(word).subscribe();
-   
+
     return this._http.post<void>("api/Word/PostWordRecording/",formData);
 }
 sendWordToServer( word:Word)
   {
-    
+
     return this._http.post<void>("api/Word/word/",word);
   }
 
@@ -176,14 +175,18 @@ sendWordToServer( word:Word)
     let formData: FormData = new FormData();
     formData.append("asset", blob, audioName);
     this.sendWordToServer(word).subscribe();
-    return this._http.put<void>("api/Word/",formData);
+    return this._http.put<void>("api/Word/PutWordRecording/",formData);
 
   }
 
   getWordRecord(word:Word):any{
-      
+
     return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
   }
- 
+
+  getSpeechTherapistWordRecord(wordId:number,wordText:string):any{
+
+    return this._http.get<Blob>(`/api/Word/${wordId}/${wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
+  }
 
 }
