@@ -2,23 +2,14 @@
 <form [formGroup]="loginForm" class="example-form">
     <h1 >ברוכים הבאים</h1>
 
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>שם פרטי</mat-label>
-      <input formControlName="firstName" matInput placeholder="First name" [errorStateMatcher]="matcher">
 
-      <mat-error >
-      <!-- *ngIf="loginForm.hasError('required')" -->
-        שם פרטי <strong>חובה</strong>
-      </mat-error>
-    </mat-form-field>
-     <br/><br/>
 
     <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>שם משפחה</mat-label>
-        <input formControlName="lastName"  matInput placeholder="Last name" [errorStateMatcher]="matcher">
+        <mat-label>שם משתמש</mat-label>
+        <input formControlName="email"  matInput placeholder="User name" [errorStateMatcher]="matcher">
         <mat-error >
           <!-- *ngIf="loginForm.hasError('required')" -->
-            שם משפחה <strong>חובה</strong>
+            שם משתמש <strong>חובה</strong>
           </mat-error>
       </mat-form-field>
       <br><br>

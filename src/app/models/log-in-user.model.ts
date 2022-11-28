@@ -3,8 +3,7 @@ export class LogInUser{
  *
  */
 constructor(
-    firstName:string,
-    lastName:string,
+   email:string,
     password:string
 ) {
     

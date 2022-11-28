@@ -29,14 +29,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LogInComponent implements OnInit {
   hide = true;
   loginForm: FormGroup = new FormGroup({
-    "firstName": new FormControl("", [Validators.required]),
-    "lastName": new FormControl("", Validators.required),
+    "email": new FormControl("", [Validators.required]),
     "password": new FormControl("", [Validators.required, Validators.minLength(8)])
   });
   matcher = new MyErrorStateMatcher();
   user!: User | SpeechTherapistDTO | PatientDTO;
   userLogin!: LogInUser;
-  a: LogInUser = new LogInUser("Patient1", "Patient1", "Patient1")
+  // a: LogInUser = new LogInUser("Patient1", "Patient1", "Patient1")
   constructor(private _logInService: LogInService, private router: Router) {
   }
 
@@ -46,7 +45,6 @@ export class LogInComponent implements OnInit {
   }
   getUserDetails() {
     this.userLogin = this.loginForm.value;
-    //alert(JSON.stringify(this.userLogin));
 
     this._logInService.getUser(this.userLogin).subscribe((user) => {
       this.user = user;
