@@ -4,9 +4,30 @@
 @import '~primeng/resources/primeng.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;direction: rtl;}
-.two-sides{
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  direction: rtl;
+  background-image: url("/assets/pictures/bg.jpg");
+  background-size: cover;
+}
+
+.two-sides {
   display: flex;
   justify-content: space-between;
+}
+
+.text-main-color {
+  color: #4F46E5;
+}
+.bg-main-color {
+  background-color: #4F46E5;
+}
+.border-main-color {
+  border-color: #4F46E5;
 }
