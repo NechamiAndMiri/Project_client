@@ -30,7 +30,7 @@ export class LessonService {
 
   getWordsToLesson(lessonId: number): Observable<WordGivenToPracticeDTO[]> {
 
-    return this._http.get<WordGivenToPracticeDTO[]>("/api/Lesson/get_all_WORDS_FOR_lesson/" + lessonId);
+    return this._http.get<WordGivenToPracticeDTO[]>("/api/Lesson/getLessonWords/" + lessonId);
   }
   addLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<Lesson> {
     return this._http.post<Lesson>(`/api/Lesson`,newLesson);
@@ -44,7 +44,7 @@ export class LessonService {
   handLesson(){
     if(this.selectedLesson)
       {this.selectedLesson.isDone=true;}
-      return this._http.put<void>(`/api/Lesson/lesson`,this.selectedLesson);
+      return this._http.put<void>(`/api/Lesson`,this.selectedLesson);
   }
 
   putWordsToLesson(lessonId:number,words:WordGivenToPracticeDTO[]){
