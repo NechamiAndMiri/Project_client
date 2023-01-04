@@ -3,6 +3,14 @@
     <h1 >ברוכים הבאים</h1>
 
 
+    
+<span class="p-float-label">
+  <input formControlName="email" type="text" pInputText class="p-inputtext-lg"  placeholder="שם משתמש" >  
+  <label for="float-input">שם משתמש</label>
+  <small *ngIf="isErrorState(,loginForm)" id="username1-help" class="block">Enter your username to reset your password.</small>
+</span>
+
+
 
     <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>שם משתמש</mat-label>
