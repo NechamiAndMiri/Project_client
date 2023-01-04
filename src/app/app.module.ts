@@ -22,6 +22,11 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {DialogModule} from 'primeng/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
+import {InputTextModule} from 'primeng/inputtext';
+import {PasswordModule} from 'primeng/password';
+import {ButtonModule} from 'primeng/button';
+import { CardModule } from 'primeng/card';
+
 
       
 @NgModule({
@@ -49,7 +54,12 @@ import {MatTabsModule} from '@angular/material/tabs';
     ToolbarModule,
     MatIconModule,
     DialogModule,
-    MatTabsModule
+    MatTabsModule,
+    PasswordModule,
+    InputTextModule,
+    ButtonModule,
+    CardModule
+
   ],
   providers: [LogInService],
   bootstrap: [AppComponent],

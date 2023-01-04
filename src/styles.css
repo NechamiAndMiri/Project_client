@@ -22,6 +22,10 @@ body {
   justify-content: space-between;
 }
 
+.input-width {
+  width: 100px;
+}
+
 .text-main-color {
   color: #4F46E5;
 }

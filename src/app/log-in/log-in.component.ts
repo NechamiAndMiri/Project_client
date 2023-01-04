@@ -32,10 +32,9 @@ export class LogInComponent implements OnInit {
     "email": new FormControl("", [Validators.required]),
     "password": new FormControl("", [Validators.required, Validators.minLength(8)])
   });
-  matcher = new MyErrorStateMatcher();
   user!: User | SpeechTherapistDTO | PatientDTO;
   userLogin!: LogInUser;
-  // a: LogInUser = new LogInUser("Patient1", "Patient1", "Patient1")
+  isFormSubmitted=false;
   constructor(private _logInService: LogInService, private router: Router) {
   }
 
@@ -88,9 +87,9 @@ export class LogInComponent implements OnInit {
 
   }
 
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  isErrorState(control: FormControl | null): boolean {
+    
+    return !!(control && control.invalid && (control.dirty || control.touched || this.isFormSubmitted));
   }
 
 }
