@@ -13,8 +13,29 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   direction: rtl;
-  background-image: url("/assets/pictures/bg.jpg");
-  background-size: cover;
+
+}
+
+.container {
+  display: flex;
+  justify-content: center; 
+  position: relative;
+}
+
+.card{
+  position: absolute;
+  top: 5%;
+  margin: 5px;
+  padding: 5%;
+}
+
+.bg-img{
+  background: url("/assets/pictures/bg.jpg") no-repeat;
+  background-size:cover
+}
+
+.card-content {
+  padding: 10px;
 }
 
 .two-sides {
@@ -23,7 +44,7 @@ body {
 }
 
 .input-width {
-  width: 100px;
+  width: 270px;
 }
 
 .text-main-color {
@@ -35,3 +56,7 @@ body {
 .border-main-color {
   border-color: rgb(79, 70, 229);
 }
+
+/* *{
+  opacity: 100;
+} */

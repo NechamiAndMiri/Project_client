@@ -1,11 +1,11 @@
-<body>
-
-  <p-card header="ברוכים הבאים" subheader="התחברות למערכת" [style]="{width: '360px'}" styleClass="p-card-shadow">
+<body class="bg-img">
+<div class="container">
+  <p-card header="ברוכים הבאים" subheader="התחברות למערכת" [style]="{width: '360px'}" styleClass="p-card-shadow card">
     <ng-template pTemplate="header">
-        <img alt="Card" src="assets/showcase/images/usercard.png">
+        <img alt="Card" src="../../assets/pictures/logo-no-bg.png">
     </ng-template>
     <ng-template pTemplate="body">
-      <form [formGroup]="loginForm" (ngSubmit)="isFormSubmitted=true" class="example-form">
+      <form [formGroup]="loginForm" (ngSubmit)="isFormSubmitted=true" class="example-form"  class="card-content">
         <div class="p-float-label">
           <input class="input-width" formControlName="email" type="email" pInputText >
           <label for="float-input">שם משתמש</label>
@@ -22,7 +22,7 @@
       </form>
     </ng-template>
   </p-card>
-
+</div>
 
     <!-- 
 
