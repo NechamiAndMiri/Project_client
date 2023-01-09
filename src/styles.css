@@ -16,18 +16,7 @@ body {
 
 }
 
-.container {
-  display: flex;
-  justify-content: center; 
-  position: relative;
-}
 
-.card{
-  position: absolute;
-  top: 5%;
-  margin: 5px;
-  padding: 5%;
-}
 
 .bg-img{
   background: url("/assets/pictures/bg.jpg") no-repeat;

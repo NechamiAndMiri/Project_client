@@ -58,12 +58,12 @@ export class WordExerciseComponent implements OnInit {
       this.ref.detectChanges();
     });
 
-    this.audioRecordingService.getRecordedBlob().subscribe((data: any) => {
-      this.audioBlob = data.blob;
-      this.audioName = data.title;
-      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
-      this.ref.detectChanges();
-    });
+    // this.audioRecordingService.getRecordedBlob().subscribe((data: any) => {
+    //   this.audioBlob = data.blob;
+    //   this.audioName = data.title;
+    //   this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
+    //   this.ref.detectChanges();
+    // });
   }
 
 
@@ -137,30 +137,18 @@ export class WordExerciseComponent implements OnInit {
       //this.isDownloadaudio = true;
       blob = new Blob([b], { type: 'audio/mp3' });
 
-      let audioBlob1 = b.body;
-      let audioName1 = b.title;
-      let audioBlobUrl1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+      // let audioBlob1 = b.body;
+      // let audioName1 = b.title;
+      let audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
 
       let audio1 = new Audio();
-      audio1.src = (audioBlobUrl1 as any).changingThisBreaksApplicationSecurity
+      audio1.src = (audioBlobUrl as any).changingThisBreaksApplicationSecurity
       audio1.play();
       //this will make sure to update when time updates.
       audio1.ontimeupdate = (event) => {
         var currentTime = audio1.currentTime;
         this.ref.detectChanges();
       }
-    });
-  }
-
-  initPatientRecordingDetails() {
-    let word = this.LessonWords[this.activeIndex2];
-    let blob;
-    this.audioRecordingService.getPatientRecording(word.id).subscribe((b: any) => {
-
-      blob = new Blob([b], { type: 'audio/mp3' });
-      this.audioBlob = b.body;
-      this.audioName = b.title;
-      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
     });
   }
 
@@ -170,12 +158,12 @@ export class WordExerciseComponent implements OnInit {
     this.audioRecordingService.getPatientRecording(word.id).subscribe((b: any) => {
 
       blob = new Blob([b], { type: 'audio/mp3' });
-      this.audioBlob = b.body;
-      this.audioName = b.title;
-      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+      // this.audioBlob = b.body;
+      // this.audioName = b.title;
+      let audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
 
       let audio1 = new Audio();
-      audio1.src = (this.audioBlobUrl as any).changingThisBreaksApplicationSecurity
+      audio1.src = (audioBlobUrl as any).changingThisBreaksApplicationSecurity
       audio1.play();
       //this will make sure to update when time updates.
       audio1.ontimeupdate = (event) => {
@@ -184,6 +172,18 @@ export class WordExerciseComponent implements OnInit {
       }
     });
   }
+
+  // initPatientRecordingDetails() {
+  //   let word = this.LessonWords[this.activeIndex2];
+  //   let blob;
+  //   this.audioRecordingService.getPatientRecording(word.id).subscribe((b: any) => {
+
+  //     blob = new Blob([b], { type: 'audio/mp3' });
+  //     this.audioBlob = b.body;
+  //     this.audioName = b.title;
+  //     this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
+  //   });
+  // }
 
   handLesson() {
     this._lessonService.handLesson().subscribe(() => {

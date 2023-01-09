@@ -13,7 +13,18 @@
   .example-full-width {
     width: 100%;
   }
-
+  .login-container {
+    display: flex;
+    justify-content: center; 
+    position: relative;
+  }
+  
+  .card{
+    position: absolute;
+    top: 5%;
+    margin: 5px;
+    padding: 5%;
+  }
   body{
     
     background-size: contain;
