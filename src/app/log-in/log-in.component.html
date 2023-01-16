@@ -1,49 +1,25 @@
 <body class="bg-img">
-<div class="login-container">
-  <p-card header="ברוכים הבאים" subheader="התחברות למערכת" [style]="{width: '360px'}" styleClass="p-card-shadow card">
-    <ng-template pTemplate="header">
-        <img alt="Card" src="../../assets/pictures/logo-no-bg.png">
-    </ng-template>
-    <ng-template pTemplate="body">
-      <form [formGroup]="loginForm" (ngSubmit)="isFormSubmitted=true" class="example-form"  class="card-content">
-        <div class="p-float-label">
-          <input class="input-width" formControlName="email" type="email" pInputText >
-          <label for="float-input">שם משתמש</label>
-          <small *ngIf="isErrorState(loginForm.controls['email'].value)" id="username1-help" class="block">Enter your username to reset your
-            password.</small>
-        </div>
-        <div class="p-float-label">
-          <p-password class="input-width" formControlName="password" [toggleMask]="true" [feedback]="false"></p-password>
-          <label for="float-input">שם משתמש</label>
-          <small *ngIf="isErrorState(loginForm.controls['password'].value)" id="username1-help" class="block">Enter your username to reset your
-            password.</small>
-        </div>
-        <button pButton pRipple (click)="getUserDetails()" [disabled]="!loginForm.valid" type="button" label="התחבר" class="p-button-raised"></button>
-      </form>
-    </ng-template>
-  </p-card>
-</div>
+  <div class="login-container">
+    <div class="login-card" header="ברוכים הבאים" subheader="התחברות למערכת">
+      <img class="logo-img" alt="Clear Talk" src="../../assets/pictures/logo-no-bg.png">
+      <div class="body">
+        <form [formGroup]="loginForm" (ngSubmit)="isFormSubmitted=true" class="login-form"
+          class="card-content wrapper">
 
-    <!-- 
-
-    <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>שם משתמש</mat-label>
-        <input formControlName="email"  matInput placeholder="User name" [errorStateMatcher]="matcher">
-        <mat-error >
-            שם משתמש <strong>חובה</strong>
-          </mat-error>
-      </mat-form-field>
-      <br><br>
-
-      <mat-form-field  class="example-full-width" appearance="fill">
-        <mat-label>סיסמה</mat-label>
-        <input matInput [type]="hide ? 'password':'text'" formControlName="password" matInput placeholder="Password" [errorStateMatcher]="matcher">
-        <mat-icon matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        <mat-error >
-            הכנס סיסמה באורך של לפחות 8 תווים
-          </mat-error>
-      </mat-form-field>
-      <br><br> -->
- 
+          <div class="p-float-label">
+            <input class="input-width input-style" formControlName="email" type="email" pInputText placeholder="אימייל">
+            <small class="p-error block" *ngIf="isErrorState(loginForm.controls['email'])">הכנס כתובת מייל תקינה</small>
+          </div>
+          <div class="p-float-label input-style">
+            <p-password inputStyleClass="input-width " formControlName="password" [toggleMask]="true"
+              placeholder="סיסמה" [feedback]="false"></p-password>
+            <small class="p-error block" *ngIf="isErrorState(loginForm.controls['password'])">הכנס סיסמה באורך של לפחות
+              8 תוים</small>
+          </div>
+          <button pButton pRipple (click)="getUserDetails()" [disabled]="!loginForm.valid" type="button" label="התחבר"
+            class="p-button-raised button-style"></button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>

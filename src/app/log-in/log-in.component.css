@@ -1,4 +1,4 @@
-.example-form {
+.login-form {
     min-width: 150px;
     max-width: 500px;
     width: 100%;
@@ -7,7 +7,6 @@
     margin-top: auto;
     margin-bottom: auto;
     text-align: right;
-    /* color: rgb(29, 119, 119);  opacity:0.5; */
   }
 
   .example-full-width {
@@ -17,16 +16,23 @@
     display: flex;
     justify-content: center; 
     position: relative;
+    top: 10%;
   }
   
-  .card{
-    position: absolute;
-    top: 5%;
-    margin: 5px;
-    padding: 5%;
+  .logo-img{
+    width: 100%;
   }
+  .login-card{
+    background-color: white;
+    position: absolute;
+    margin: 5px;
+    padding: 2.1%;
+    border-radius: 34px;
+    min-width: 25rem;
+    width: 30%;
+  }
+
   body{
-    
     background-size: contain;
   }
   section {
@@ -55,6 +61,10 @@
     flex-wrap: wrap;
   }
 
+  .input-style{
+    margin: 3% 12%;
+  }
+
   .example-button-container {
     display: flex;
     justify-content: center;
@@ -64,4 +74,19 @@
   .example-label{
     text-align: right;
   }
+
+  .wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: space-around;
+    position: relative;
+  }
+
+  .p-float-label {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
 

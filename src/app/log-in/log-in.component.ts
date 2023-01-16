@@ -29,7 +29,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LogInComponent implements OnInit {
   hide = true;
   loginForm: FormGroup = new FormGroup({
-    "email": new FormControl("", [Validators.required]),
+    "email": new FormControl("", [Validators.required,Validators.email]),
     "password": new FormControl("", [Validators.required, Validators.minLength(8)])
   });
   user!: User | SpeechTherapistDTO | PatientDTO;
@@ -86,9 +86,9 @@ export class LogInComponent implements OnInit {
 
 
   }
-
-  isErrorState(control: FormControl | null): boolean {
-    
+  
+  isErrorState(control:any | null): boolean {
+    debugger
     return !!(control && control.invalid && (control.dirty || control.touched || this.isFormSubmitted));
   }
 
