@@ -13,14 +13,20 @@ table {
   }
 
   .table-div{
-
-    text-align: center;
-    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    /* text-align: center;
+    position: absolute; */
 
   }
 
   th.mat-header-cell {
+    text-align: center !important;
+  }
+
+  td.mat-cell, th.mat-header-cell {
     text-align: center;
+    justify-content:center;
 }
 
 tr.example-element-row:hover {
@@ -39,8 +45,26 @@ tr.example-element-row-choosed {
   padding: 10px;
   position: relative;
   height: 5000px;
-
+    /* width: 100%;
+    min-height: 100vh;
+    background: #c850c0;
+    background: -webkit-linear-gradient(45deg,#4158d0,#c850c0);
+    background: -o-linear-gradient(45deg,#4158d0,#c850c0);
+    background: -moz-linear-gradient(45deg,#4158d0,#c850c0);
+    background: linear-gradient(45deg,#4158d0,#c850c0);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 33px 30px; */
 }
+
+
+
 .right-table-div{
 
   max-width: 20%;
