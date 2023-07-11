@@ -39,8 +39,14 @@ body {
 .text-main-color {
   color: #4F46E5;
 }
+.text-light-color {
+  color: #e2e9ff;
+}
 .bg-main-color {
   background-color: #4F46E5;
+}
+.bg-light-color {
+  background-color: #e2e9ff;
 }
 .border-main-color {
   border-color: rgb(79, 70, 229);

@@ -45,6 +45,8 @@ import { DividerModule } from 'primeng/divider';
 import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
 import { CheckboxModule } from 'primeng/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 
 const ROUTES: Routes = [
@@ -123,7 +125,8 @@ const ROUTES: Routes = [
     DividerModule,
     TableModule,
     CheckboxModule,
-    SliderModule
+    SliderModule,
+    MatTooltipModule
 
   ]
 })
