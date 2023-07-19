@@ -1,23 +1,23 @@
 
 .btn-add-level{
-  border: 2.5px solid  rgb(243, 113, 27);
+  border: 2.5px solid  #4F46E5;
 }
 
 .btn-add-word{
-  border: 2.5px solid rgb(16, 218, 218);
+  border: 2.5px solid #a97bbb;
 }
 
 .problem
 {
   text-align: center;
-  color: rgb(0, 0, 0);
+  color:  #110d4d;
   background-color: rgb(247, 247, 247);
   width: 380px;
   height: 10px;
   margin-left: auto;
   margin-right: 5px;
   margin-top: 5px;
-  border-right: 4.5px solid rgb(241, 43, 215);
+  border-right: 4.5px solid #110d4d;
 
 padding: 3%;
 }
@@ -27,7 +27,7 @@ padding: 3%;
   background-color: rgb(247, 247, 247);
   width: 380px;
   text-align: center;
-  border-right: 4.5px solid rgb(243, 113, 27);
+  border-right: 4.5px solid#4F46E5;
   margin-top: 5px;
 }
 .word
@@ -35,7 +35,7 @@ padding: 3%;
   background-color: rgb(247, 247, 247);
   width: 380px;
   text-align: center;
-  border-right: 4.5px solid rgb(16, 218, 218);
+  border-right: 4.5px solid #a97bbb;
   margin-top: 5px;
 }
 .levels-container

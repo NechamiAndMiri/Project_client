@@ -59,7 +59,9 @@ section {
       padding: 3%;
   }
 
-
+  .navbar-logo-img{
+    width: 120px;
+  }
 
 /*******************************************************************************
  *              bootstrap-rtl (version 4.0.0 beta2)

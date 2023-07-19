@@ -23,7 +23,7 @@ import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {GalleriaModule} from 'primeng/galleria'
 import {MatDialogModule} from '@angular/material/dialog';
-import { ExerciseComponent } from './exercise/exercise.component';
+import { TagModule } from 'primeng/tag';import { ExerciseComponent } from './exercise/exercise.component';
 import { CardModule } from 'primeng/card';
 import { WordComponent } from './exercise/word/word.component';
 
@@ -61,8 +61,8 @@ const ROUTES:Routes=[
     ButtonModule,
     GalleriaModule,
     MatDialogModule,
-    CardModule
-    
+    CardModule,
+    TagModule
   ],
   providers:[
     LessonService
