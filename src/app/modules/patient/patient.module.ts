@@ -23,17 +23,23 @@ import {TabViewModule} from 'primeng/tabview';
 import {ButtonModule} from 'primeng/button';
 import {GalleriaModule} from 'primeng/galleria'
 import {MatDialogModule} from '@angular/material/dialog';
+import { ExerciseComponent } from './exercise/exercise.component';
+import { CardModule } from 'primeng/card';
+import { WordComponent } from './exercise/word/word.component';
 
 
 const ROUTES:Routes=[
 {path:"",component:PatientComponent},
-{path:"exercise",component:WordExerciseComponent}
+{path:"exercise",component:WordExerciseComponent},
+{path:"exercise2",component:ExerciseComponent}
 ]
 
 @NgModule({
   declarations: [
     PatientComponent,
-    WordExerciseComponent
+    WordExerciseComponent,
+    ExerciseComponent,
+    WordComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +60,8 @@ const ROUTES:Routes=[
     TabViewModule,
     ButtonModule,
     GalleriaModule,
-    MatDialogModule
+    MatDialogModule,
+    CardModule
     
   ],
   providers:[
