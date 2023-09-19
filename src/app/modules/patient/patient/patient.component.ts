@@ -40,7 +40,7 @@ export class PatientComponent implements OnInit {
     selectLesson(lesson:Lesson){
         this.selectedLesson=lesson;
         this._lessonService.setSelectedLesson(this.selectedLesson);
-        this._lessonService.getWordsToLesson(this.selectedLesson.id).subscribe(data=>this.LessonWords=data,err=>alert("err!"));
+        this._lessonService.getWordsByLessonId(this.selectedLesson.id).subscribe(data=>this.LessonWords=data,err=>alert("err!"));
     }
     diselect(){
       this.selectedLesson=undefined;

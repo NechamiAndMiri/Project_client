@@ -13,7 +13,7 @@ import { LessonService } from 'src/app/services/lesson.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { SpeechTherapistService } from 'src/app/services/speech-therapist.service';
 import { WordService } from 'src/app/services/word.service';
-import { ConfirmationService, PrimeNGConfig, SelectItemGroup } from "primeng/api";
+import { ConfirmationService, PrimeNGConfig } from "primeng/api";
 import { Word } from 'src/app/models/word.model';
 import { AudioRecordingService } from 'src/app/services/audio-recording-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -58,19 +58,13 @@ export class PatientsComponent implements OnInit {
   selectedLessonWordsToShow: Word[] = [];
   //maybe to delet later selectedLesson
   selectedLesson: Lesson;
-
   selectedLevel: DifficultyLevel;
   levelWords: Word[] = []
   selectedLevelsWords: Word[] = [];
-
-
-
   submitted: boolean;
-
   displayLessonDialogToCheck: boolean;
   displayLessonDialog: boolean;
   displayLessonDialogToUpdate: boolean;
-
   today = new Date();
 
   lessonForm: FormGroup = new FormGroup({
@@ -80,7 +74,6 @@ export class PatientsComponent implements OnInit {
   });
 
   matcher = new MyErrorStateMatcher();
-
 
   constructor(private _patientService: PatientService, private _speechTherapistService: SpeechTherapistService,
     private _lessonService: LessonService, private _wordService: WordService, private primengConfig: PrimeNGConfig,
@@ -136,7 +129,7 @@ export class PatientsComponent implements OnInit {
 
   selectLesson(lesson: Lesson) {
     this.selectedLesson = lesson;
-    this._lessonService.getWordsToLesson(lesson.id).subscribe((data) => {
+    this._lessonService.getWordsByLessonId(lesson.id).subscribe((data) => {
       this.selectedLessonWords = data;
     })
   }
@@ -146,8 +139,7 @@ export class PatientsComponent implements OnInit {
       return <Word>{
         id: word.wordId,
         wordText: word.wordText,
-        wordRecording: word.wordRecording,
-        // difficultyLevelId: word.difficultyLevelId
+        wordRecording: word.wordRecording
       }
     });
   }
@@ -188,8 +180,6 @@ export class PatientsComponent implements OnInit {
       }
     });
   }
-
-
 
   updateLesson(lesson: Lesson) {
     //this.selectedLesson = lesson;
@@ -248,26 +238,7 @@ export class PatientsComponent implements OnInit {
   openAddLessonDialog() {
     this.displayLessonDialog = true;
   }
-
-  //   addPrevLevelWords(){
-
-  //   let tmp:WordGivenToPracticeDTO[]= this.selectedLevelsWords.map((word)=>{return <WordGivenToPracticeDTO>{
-  //     id: 0,
-  //     lessonId: this.selectedLesson.id,
-  //     patientRecording: "",
-  //     score: undefined,
-  //     isValid: false,
-  //     wordText: word.wordText,
-  //     wordRecording: word.wordRecording,
-  //     wordId: word.id,
-  //     difficultyLevelId:word.difficultyLevelId
-  //   }})
-
-  // this.selectedLessonWords=this.selectedLessonWords.concat(tmp);
-  //   console.log(this.selectedLessonWords);
-  //   this.selectedLevelsWords=[];
-  //   }
-
+  
   addLesson() {
     const newLesson = {
       "id": 0,
@@ -302,14 +273,9 @@ export class PatientsComponent implements OnInit {
       });;
     })
   }
+
   removeWordFromLesson(wordId: number) {
-    debugger;
-    //this.selectedLessonWords.forEach((w, i) => { if (w.id == wordId) this.selectedLessonWords.splice(i, 1); })
     this.selectedLessonWordsToShow.forEach((w, i) => { if (w.id == wordId) this.selectedLessonWordsToShow.splice(i, 1); })
-
-    // if (index !== -1)
-    //     this.selectedLessonWords.splice(index, 1);
-
   }
 
   changeIsValid(index: number) {
@@ -321,7 +287,6 @@ export class PatientsComponent implements OnInit {
       this.selectedLessonWords[index].isValid = false;
     }
   }
-
   recalculateLessonScore() {
     let sum = 0;
     for (let i = 0; i < this.selectedLessonWords.length; i++) {
@@ -329,8 +294,6 @@ export class PatientsComponent implements OnInit {
     }
     this.selectedLesson.weightedScore = sum / this.selectedLessonWords.length;
   }
-
-
   playWordRecord(word: WordGivenToPracticeDTO) {
     let blob;
     this.audioRecordingService.getPatientRecording(word.id).subscribe((b: any) => {
@@ -351,13 +314,6 @@ export class PatientsComponent implements OnInit {
         // this.ref.detectChanges();
       }
     });
-  }
-
-
-  checks(x: any) {
-    console.log(x);
-
-
   }
 }
 
