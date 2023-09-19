@@ -22,7 +22,11 @@ export class PatientComponent implements OnInit {
   LessonWords!:WordGivenToPracticeDTO[];
 
 
-  constructor(private _lessonService:LessonService,private _patientService:PatientService,private _logInService:LogInService,private router:Router) { }
+  constructor(
+    private _lessonService:LessonService,
+    private _patientService:PatientService,
+    private _logInService:LogInService,
+    private router:Router) { }
 
 
   ngOnInit(): void {
@@ -50,6 +54,11 @@ export class PatientComponent implements OnInit {
 
       this._patientService.LessonWords=this.LessonWords;
       this.router.navigate(["patient/exercise"])
+    }
+
+    startExercise2(){
+      this._patientService.LessonWords=this.LessonWords;
+      this.router.navigate(["patient/exercise2"])
     }
 
   panelOpenState = false;

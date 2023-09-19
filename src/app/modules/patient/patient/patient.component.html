@@ -66,31 +66,27 @@
             <p>{{ this.selectedLesson.lessonDescription }}</p>
           </mat-card-content>
 
-          <div *ngFor="let word of this.LessonWords">
-            <p-accordion>
-              <p-accordionTab header="{{ word.wordText }}">
-                {{ word.score }}
-              </p-accordionTab>
-            </p-accordion>
+                    <div *ngFor="let word of this.LessonWords">
+                      <p-accordion>
+                        <p-accordionTab header={{word.wordText}}>
+                           {{word.score}}
+                        </p-accordionTab>
+
+                    </p-accordion>
+                    </div>
+                   <mat-card-footer>
+                     <div *ngIf="this.selectedLesson.weightedScore"><p> הציון שלך : {{this.selectedLesson.weightedScore}}</p></div>
+                      <mat-action-row>
+                    <button mat-raised-button color="primary" (click)="startExercise()">התחל תרגול</button>
+                    <button mat-raised-button color="primary" (click)="startExercise2()">התחל תרגול</button>
+
+                  </mat-action-row>
+                    </mat-card-footer>
+
+                </mat-card>
+              </div>
+           </div>
           </div>
-          <mat-card-footer>
-            <div *ngIf="this.selectedLesson.weightedScore">
-              <p>הציון שלך : {{ this.selectedLesson.weightedScore }}</p>
-            </div>
-            <mat-action-row>
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="startExercise()"
-              >
-                התחל תרגול
-              </button>
-            </mat-action-row>
-          </mat-card-footer>
-        </mat-card>
-      </div>
-    </div>
-  </div>
 
   <!-- תצוגת תקיות -->
 

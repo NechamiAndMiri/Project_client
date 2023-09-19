@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 15%;
+}
+
+.mat-card{
+    margin-top: 5px;
+    width: 30%;
+    height: 60%;
+
+    background-color: white;
+    padding: 2.1%;
+    border-radius: 34px;
+    min-width: 20rem;
+    min-height: 30rem;
+}
+
+.p-button-rounded{
+    margin: 10px;
+}
+

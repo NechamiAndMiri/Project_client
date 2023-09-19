@@ -1,0 +1,17 @@
+.container{
+    text-align: center;
+}
+
+.center {
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
+}
+
+.bottom {
+    margin-top: 35%;
+}
+
+.record-button {
+    size: 4rem;
+}

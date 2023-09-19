@@ -41,6 +41,9 @@ export class WordExerciseComponent implements OnInit {
   currentIndex: number = 0;
   scrollableTabs!: any[];
 
+  recordDetails: PatientRecordingDetails = new PatientRecordingDetails();
+
+
   constructor(private _patientService: PatientService, private router: Router, private _lessonService: LessonService,
     private ref: ChangeDetectorRef,
     private audioRecordingService: AudioRecordingService,
@@ -117,7 +120,7 @@ export class WordExerciseComponent implements OnInit {
   ngOnDestroy(): void {
     this.abortAudioRecording();
   }
-  recordDetails: PatientRecordingDetails = new PatientRecordingDetails();
+
   saveRecording() {
     if (!(this._lessonService.getSelectedLesson()?.isChecked) && this.audioBlob && this.audioBlobUrl) {
       let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
@@ -202,6 +205,7 @@ export class WordExerciseComponent implements OnInit {
     anchor.click();
     document.body.removeChild(anchor);
   }
+  
   calcAutoMark() {
     return Math.random() * 100;
   }
