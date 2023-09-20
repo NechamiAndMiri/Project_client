@@ -288,15 +288,17 @@
                     >עבור הבעיה
                     {{ problemsArr[problemIndex].ProblemName }}</span
                   >
-                  <h4>
+                  <br>
+                  <div class="label label-info">
                     רמת קושי: &nbsp;{{
                       problemsArr[problemIndex].Levels[levelIndex]
                         .difficultyLevel
                     }}
-                  </h4>
-                  <span class="p-float-label">
-                    <h2>{{ wordToEdit.wordText }}</h2>
-                  </span>
+                  </div>
+                  <br>
+                  <div class="label label-info">
+                    <b>{{ wordToEdit.wordText }}</b>
+                  </div>
                   <div class="div-button-center"></div>
                   <div class="div-button-center">
                     <button

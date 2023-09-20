@@ -4,6 +4,8 @@
 @import '~primeng/resources/primeng.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+*{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;}
+
 html,
 body {
   height: 100%;
@@ -16,7 +18,9 @@ body {
 
 }
 
-
+.center-element {margin: auto;   display: flex;
+  justify-content: center;
+  align-items: center;}
 
 .bg-img{
   background: url("/assets/pictures/bg.jpg") no-repeat;

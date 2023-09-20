@@ -47,24 +47,24 @@ export class PatientsComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'identityNumber', 'email', 'phone', 'dateOfBirth'];
   rightDisplayedColumns: string[] = ['fullName']
   dataSource: MatTableDataSource<FlatPatient>;
+  tableData: FlatPatient[];
   patients: PatientDTO[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  selectedPatient: FlatPatient;
+  selectedPatient: FlatPatient | null;
   difficultyLevelsOfSelectedPatient: DifficultyLevel[];
   selectedPatientLessons: Lesson[];
   selectedLessonWords: WordGivenToPracticeDTO[] = [];
   selectedLessonWordsToShow: Word[] = [];
-  //maybe to delet later selectedLesson
   selectedLesson: Lesson;
   selectedLevel: DifficultyLevel;
   levelWords: Word[] = []
   selectedLevelsWords: Word[] = [];
   submitted: boolean;
-  displayLessonDialogToCheck: boolean;
-  displayLessonDialog: boolean;
-  displayLessonDialogToUpdate: boolean;
+  displayCheckLessonDialog: boolean;
+  displayAddLessonDialog: boolean;
+  displayUpdateLessonDialog: boolean;
   today = new Date();
 
   lessonForm: FormGroup = new FormGroup({
@@ -83,6 +83,13 @@ export class PatientsComponent implements OnInit {
     this._patientService.getSpeechTerapistPatients(this._speechTherapistService.getSpeechTherapist().speechTherapist.id).subscribe(data => {
       this.patients = data; console.log(data);
       this.dataSource = new MatTableDataSource(this.patients.map(p => {
+        return <FlatPatient>{
+          id: p.patient.id, userId: p.patient.userId, speechTherapistId: p.patient.speechTherapistId, dateOfBirth: p.patient.dateOfBirth,
+          pronunciationProblemId: p.patient.pronunciationProblemId, firstName: p.user.firstName, lastName: p.user.lastName, permissionLevelId: p.user.permissionLevelId,
+          identityNumber: p.user.identityNumber, email: p.user.email, password: p.user.password, phone: p.user.phone
+        }
+      }));
+      this.tableData = (this.patients.map(p => {
         return <FlatPatient>{
           id: p.patient.id, userId: p.patient.userId, speechTherapistId: p.patient.speechTherapistId, dateOfBirth: p.patient.dateOfBirth,
           pronunciationProblemId: p.patient.pronunciationProblemId, firstName: p.user.firstName, lastName: p.user.lastName, permissionLevelId: p.user.permissionLevelId,
@@ -116,15 +123,24 @@ export class PatientsComponent implements OnInit {
     return current.getFullYear() - (birthDate1).getFullYear();
   }
 
-  selectPatient(patient: FlatPatient) {
-    this.selectedPatient = patient;
-    this._lessonService.getLessonsByPatient(patient.id).subscribe((data) => {
-      this._wordService.getProblemDifficultyLevels(patient.pronunciationProblemId, patient.speechTherapistId)
+  selectPatient(event: any) {
+    this.selectedPatient = event.data;
+    this._lessonService.getLessonsByPatient(this.selectedPatient!.id).subscribe((data) => {
+      this._wordService.getProblemDifficultyLevels(this.selectedPatient!.pronunciationProblemId, this.selectedPatient!.speechTherapistId)
         .subscribe((levels) => {
-          this.difficultyLevelsOfSelectedPatient = levels; console.log(levels);
+          this.difficultyLevelsOfSelectedPatient = levels;
         })
       this.selectedPatientLessons = data;
     })
+  }
+
+  onRowSelect(e :any)
+  {console.log("here")}
+
+  unselectPatient(event: any) {
+    {console.log("here unselect")}
+    this.selectedPatient = null;
+      this.selectedPatientLessons = [];
   }
 
   selectLesson(lesson: Lesson) {
@@ -148,7 +164,7 @@ export class PatientsComponent implements OnInit {
     this._lessonService.updateLesson(this.selectedLesson).subscribe(
       () => {
         this._lessonService.putWordsToLesson(this.selectedLesson.id, this.selectedLessonWords).subscribe(() => {
-          this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe(() => { this.displayLessonDialogToCheck = false; });
+          this._lessonService.getLessonsByPatient(this.selectedPatient!.id).subscribe(() => { this.displayCheckLessonDialog = false; });
 
         })
       }
@@ -157,7 +173,7 @@ export class PatientsComponent implements OnInit {
 
   checkLesson(lesson: Lesson) {
     this.selectLesson(lesson);
-    this.displayLessonDialogToCheck = true;
+    this.displayCheckLessonDialog = true;
   }
 
   deleteLesson(lesson: Lesson) {
@@ -169,7 +185,7 @@ export class PatientsComponent implements OnInit {
       acceptLabel: ' אישור ',
       accept: () => {
         this._lessonService.deleteLesson(lesson.id).subscribe(() =>
-          this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => {
+          this._lessonService.getLessonsByPatient(this.selectedPatient!.id).subscribe((data) => {
             this.selectedPatientLessons = data;
           }
           )
@@ -186,7 +202,7 @@ export class PatientsComponent implements OnInit {
     this.selectLesson(lesson);
     this.mapLessonWords();
     this.getWordsForLevel(this.selectedLesson.difficultyLevelId);// get the word when the level change-do it  this.selectedLevel.id
-    this.displayLessonDialogToUpdate = true;
+    this.displayUpdateLessonDialog = true;
   }
 
   updateLevelToLesson(level: DifficultyLevel) {
@@ -198,7 +214,7 @@ export class PatientsComponent implements OnInit {
 
     //הקריאה לשרת היא רק בגלל שזה בתוך אינפלייס שיש לו נגמודל עם הסלקטד לסון
     this._lessonService.updateLesson(this.selectedLesson).subscribe(() =>
-      this._lessonService.getLessonsByPatient(this.selectedPatient.id).subscribe((data) => { this.selectedPatientLessons = data; })
+      this._lessonService.getLessonsByPatient(this.selectedPatient!.id).subscribe((data) => { this.selectedPatientLessons = data; })
     );
 
     let newWords = this.selectedLessonWordsToShow.map((word) => {
@@ -217,7 +233,7 @@ export class PatientsComponent implements OnInit {
     if (this.selectedLessonWords?.length > 0) {
       //put lesson words
       this._lessonService.putWordsToLesson(this.selectedLesson.id, newWords).subscribe(() => {
-        this.displayLessonDialogToUpdate = false;
+        this.displayUpdateLessonDialog = false;
         //?האם לבחור עכשיו שוב את השיעור או לשחרר את הבחירה בכלל?
         //this.selectedLesson=undefined;
         this.selectedLessonWordsToShow = [];
@@ -226,7 +242,7 @@ export class PatientsComponent implements OnInit {
     else {
       //post lesson words
       this._lessonService.postWordsToLesson(newWords).subscribe(() => {
-        this.displayLessonDialogToUpdate = false;
+        this.displayUpdateLessonDialog = false;
         //?האם לבחור עכשיו שוב את השיעור או לשחרר את הבחירה בכלל?
         //this.selectedLesson=undefined;
         this.selectedLessonWordsToShow = [];
@@ -236,13 +252,13 @@ export class PatientsComponent implements OnInit {
   }
 
   openAddLessonDialog() {
-    this.displayLessonDialog = true;
+    this.displayAddLessonDialog = true;
   }
-  
+
   addLesson() {
     const newLesson = {
       "id": 0,
-      "patientId": this.selectedPatient.id,
+      "patientId": this.selectedPatient!.id,
       "date": this.lessonForm.get('date')?.value,
       "isChecked": false,
       "difficultyLevelId": this.lessonForm.get('level')?.value.id,
@@ -254,10 +270,7 @@ export class PatientsComponent implements OnInit {
     this._lessonService.addLesson(newLesson).subscribe((lesson) => {
       this.selectedPatientLessons.push(lesson);
     })
-
-
-    this.displayLessonDialog = false;
-
+    this.displayAddLessonDialog = false;
 
   }
 
@@ -315,5 +328,6 @@ export class PatientsComponent implements OnInit {
       }
     });
   }
+  noSelectedPatient() { return this.selectedPatient == undefined || this.selectedPatient == null }
 }
 
