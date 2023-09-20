@@ -46,6 +46,7 @@ import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
 import { CheckboxModule } from 'primeng/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {TabViewModule} from 'primeng/tabview';
 
 
 
@@ -126,7 +127,8 @@ const ROUTES: Routes = [
     TableModule,
     CheckboxModule,
     SliderModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TabViewModule
 
   ]
 })

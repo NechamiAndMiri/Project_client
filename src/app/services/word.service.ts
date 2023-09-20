@@ -29,8 +29,6 @@ export class WordService {
     return this._http.get<Word[]>(`api/Word/${levelId}/LevelWords`);
   }
   
-  
-
   addLevelToProblem(difficultyLevel:DifficultyLevel)
   {
     return this._http.post<DifficultyLevel>("api/Word/",difficultyLevel);
