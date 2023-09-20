@@ -4,7 +4,7 @@
 @import '~primeng/resources/primeng.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-*{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+*{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;}
 
 html,
 body {
