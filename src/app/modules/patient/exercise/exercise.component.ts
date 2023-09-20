@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model';
 import { PatientService } from 'src/app/services/patient.service';
 
@@ -25,14 +26,20 @@ export class ExerciseComponent implements OnInit {
   
   currentWord: WordGivenToPracticeDTO;
   curentWordIndex: number;
+  difficultyLevelName :number|undefined;
 
 
-  constructor(private _patientService: PatientService,) { }
+  constructor(private _patientService: PatientService,private router:Router) { }
 
   ngOnInit(): void {
     this.LessonWords = this._patientService.LessonWords;
+    this.difficultyLevelName = this._patientService.difficultyLevelName;
     this.currentWord= this.LessonWords[0];
     this.curentWordIndex = 1;
+  }
+
+  allLessons(){
+    this.router.navigate(["patient"])
   }
 
   moveRight(){

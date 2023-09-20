@@ -78,7 +78,7 @@
                      <div *ngIf="this.selectedLesson.weightedScore"><p> הציון שלך : {{this.selectedLesson.weightedScore}}</p></div>
                       <mat-action-row>
                     <button mat-raised-button color="primary" (click)="startExercise()">התחל תרגול</button>
-                    <button mat-raised-button color="primary" (click)="startExercise2()">התחל תרגול</button>
+                    <!-- <button mat-raised-button color="primary" (click)="startExercise2()">התחל תרגול</button> -->
 
                   </mat-action-row>
                     </mat-card-footer>
@@ -94,13 +94,27 @@
     <div class="col" *ngFor="let lesson of this.lessons; let i = index">
       <mat-card class="card-show bg-light-color">
         <div (click)="selectLesson(lesson)" class="top-item">
-          <mat-card-title>{{ i + 1 }} שיעור</mat-card-title>
+        <mat-card-title>שיעור {{ i + 1 }} </mat-card-title>
+          <!-- <button class="btn-rounded" mat-icon-button title=" התחל תירגול" (click)="startExercise2(lesson)"><mat-icon>open_in_new</mat-icon></button> -->
+          
+          <!-- <button pButton 
+          pRipple 
+          type="button" 
+          icon="pi pi-chevron-right"
+          class="p-button-rounded p-button-secondary p-button-outlined" 
+          (click)="startExercise2(lesson)" 
+          > 
+          </button>-->
+          
           <p-tag [hidden]="lesson.isDone" value="עדיין לא נעשה"></p-tag>
         </div>
         <mat-card-subtitle>{{ lesson.date |date:'dd/MM/yyyy' }}</mat-card-subtitle>
+        
+        <button mat-raised-button color="primary" (click)="startExercise2(lesson)">התחל תרגול</button>
+
         <div *ngIf="lesson.isChecked">
           <mat-card-subtitle
-            >{{ lesson.weightedScore }} :ציון
+            >ציון: {{ lesson.weightedScore }}
           </mat-card-subtitle>
         </div>
         <div *ngIf="!lesson.isChecked">
@@ -113,7 +127,7 @@
               (closed)="panelOpenState = false"
             >
               <mat-expansion-panel-header>
-                <mat-panel-title class="text-main-color"> ?מה עשינו בשיעור </mat-panel-title>
+                <mat-panel-title class="text-main-color"> מה עשינו בשיעור? </mat-panel-title>
               </mat-expansion-panel-header>
               <p>{{ lesson.lessonDescription }}</p>
             </mat-expansion-panel>

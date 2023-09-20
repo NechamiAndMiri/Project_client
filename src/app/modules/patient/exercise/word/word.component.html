@@ -11,7 +11,10 @@
         <h1 style="font-size: 6rem;" class="display-1">
           {{lessonWord.wordText}}
         </h1> <br>
-        <!-- <h1>הציון שלך : 88</h1> -->
+        <div *ngIf="lessonWord.score">
+          <h1 >הציון שלך : {{lessonWord.score}}</h1>
+        </div>
+        
         <br>
 
         <button 
@@ -20,47 +23,92 @@
             type="button" 
             label="התחל הקלטה" 
             class="p-button-sm p-button-rounded p-button-success "
+            *ngIf="!isAudioRecording && !audioBlobUrl" 
+            (click)="startAudioRecording()"
         >
         </button>
 
+        <div>
+          <button 
+            pButton 
+            pRipple 
+            type="button" 
+            label="עצור הקלטה" 
+            class="p-button-sm p-button-rounded p-button-danger"
+            *ngIf="isAudioRecording && !audioBlobUrl" 
+            (click)="stopAudioRecording()">
+          </button>
+
+          <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl">
+            {{ audioRecordedTime }}
+          </div>
+        </div>
+
+        <!-- <div *ngIf="!isAudioRecording && audioBlobUrl">
+          <audio controls>
+            <source [src]="audioBlobUrl" type="audio/mp3" />
+          </audio>
+          <div class="two-sides div-button-center">
+            <button pButton pRipple type="button" class="p-button-outlined p-button-rounded p-button-success"
+              (click)="restartAudioRecordedData()">
+              הקלטה מחדש
+            </button>
+            <button pButton pRipple type="button" icon="pi pi-save"
+              class="p-button-rounded p-button-success p-button-outlined"
+              (click)="saveRecording()"></button>
+
+            <button pButton pRipple type="button" icon="pi pi-download"
+              class="p-button-rounded p-button-success p-button-outlined"
+              (click)="downloadAudioRecordedData()"></button>
+          </div>
+        </div> -->
+
+        <div *ngIf="!isAudioRecording && audioBlobUrl">
+
+          <div>
+            <button 
+              pButton 
+              pRipple 
+              type="button" 
+              label="שמור הקלטה"
+              class="p-button-sm p-button-rounded p-button-outlined p-button-help"
+              (click)="saveRecording()">
+            </button>
+          </div>
+
+          <div class=" div-button-center">
+
+            <button
+              mat-icon-button
+              class="bottomleft"
+              matTooltip="הורד הקלטה"
+              (click)="downloadAudioRecordedData()"
+              >
+              <i class="pi pi-download" style="color: #a97bbb"></i>
+            </button>
+            
+            <button
+              mat-icon-button
+              class="bottomleft"
+              matTooltip="הפעל הקלטה"
+              (click)="restartAudioRecordedData()"
+              >
+              <mat-icon style="color: #a97bbb"
+                >play_circle_outline</mat-icon
+              >
+            </button>
+
+            <button
+              mat-icon-button
+              class="bottomleft"
+              matTooltip="הקלט מחדש"
+              (click)="restartAudioRecordedData()"
+              >
+              <i class="pi pi-replay" style="color: #a97bbb"></i>
+            </button>
+          </div>
+        </div>
     </div>
-
-
-    <!-- <div>
-        <div class="div-button-center">
-            <button pButton pRipple type="button" label="התחל הקלטה" class="p-button-rounded p-button-success"
-              *ngIf="!isAudioRecording && !audioBlobUrl" (click)="startAudioRecording()"></button>
-          </div>
-          <div class="div-button-center">
-            <button pButton pRipple type="button" label="עצור הקלטה" class="p-button-rounded p-button-danger"
-              *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"></button>
-
-            <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl">
-              {{ audioRecordedTime }}
-            </div>
-          </div>
-          <div *ngIf="!isAudioRecording && audioBlobUrl" class="div-button-center">
-            <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
-              <source [src]="audioBlobUrl" type="audio/mp3" />
-            </audio>
-            <div class="two-sides div-button-center">
-              <button pButton pRipple type="button" class="p-button-outlined p-button-rounded p-button-success"
-                (click)="restartAudioRecordedData()">
-                הקלטה מחדש
-              </button>
-              <button pButton pRipple type="button" icon="pi pi-save"
-                class="p-button-rounded p-button-success p-button-outlined"
-                (click)="saveRecording()"></button>
-
-              <button pButton pRipple type="button" icon="pi pi-download"
-                class="p-button-rounded p-button-success p-button-outlined"
-                (click)="downloadAudioRecordedData()"></button>
-            </div>
-            <div>
-              <p>הציון האוטומטי שלך הוא: {{ calcAutoMark() }}</p>
-            </div>
-          </div>
-    </div> -->
 
 
     <div class="bottom">

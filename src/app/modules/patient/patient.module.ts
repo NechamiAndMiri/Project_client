@@ -26,6 +26,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { TagModule } from 'primeng/tag';import { ExerciseComponent } from './exercise/exercise.component';
 import { CardModule } from 'primeng/card';
 import { WordComponent } from './exercise/word/word.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 const ROUTES:Routes=[
@@ -62,7 +63,8 @@ const ROUTES:Routes=[
     GalleriaModule,
     MatDialogModule,
     CardModule,
-    TagModule
+    TagModule,
+    MatTooltipModule
   ],
   providers:[
     LessonService

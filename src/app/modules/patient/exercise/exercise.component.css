@@ -21,3 +21,18 @@
     margin: 10px;
 }
 
+.words{
+    float: left;
+    margin: 0 20px 0 0;
+    border-radius: 15px;
+    /* background-color: white; */
+    text-align: center;
+    min-width: 80px;
+    height: 30px;
+    color: #4F46E5;
+    font-size: large;
+}
+
+.mat-card{
+background-color:#e2e9ff ;
+}

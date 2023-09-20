@@ -13,6 +13,8 @@ export class PatientService {
 
   LessonWords!:WordGivenToPracticeDTO[];
 
+  difficultyLevelName:number | undefined;
+
   constructor(private _http:HttpClient) { }
 
   getSpeechTerapistPatients(speechTherapistId: number):Observable<PatientDTO[]> {

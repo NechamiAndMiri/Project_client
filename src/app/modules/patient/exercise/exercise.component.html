@@ -1,58 +1,63 @@
 
 
-<header class="p-3 bg-dark text-white">
-    <nav class="navbar navbar-expand navbar-dark bg-dark"> 
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> 
-            <span class="navbar-toggler-icon"></span> 
-        </button>
-  
+<header class="p-3 bg-main-color text-white">
+  <nav class="navbar navbar-expand "> 
+    <div>
+      רמת הקושי: <b>{{ this.difficultyLevelName }}</b></div
+   >
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-  
-          <!-- <p clas="text-info bg-dark">{{this.user.user.lastName}}  {{this.user.user.firstName}} שלום </p> -->
-          <p class="text-info bg-dark">שלום פלוני אלמוני</p>
-
+          <!-- <p class="text-info">שלום פלוני אלמוני</p> -->
+          <div [style.background-color]="currentWord == word? '#e2e9ff' : 'white'" class="words" *ngFor="let word of LessonWords">
+            {{word.wordText}}
+          </div>
       </div>
     </div>
   </nav>
 </header>
 
-  <body>
+<body class="bg-exercise-page"> 
+  
+  <button pButton 
+          pRipple 
+          type="button" 
+          label="לכל השיעורים" 
+          class="p-button-rounded p-button-primery" 
+          (click)="allLessons()"
+  >
+  </button>
 
-    <button pButton pRipple type="button" label="לכל השיעורים" class="p-button-rounded p-button-primery">
-
+    <!-- <div class="container">
+      <div class="words" *ngFor="let word of LessonWords">
+        {{word.wordText}}
+      </div>
+    </div> -->
+  <div class="container">    
+      
+    <!-- חץ ימינה -->
+    <button pButton 
+            pRipple 
+            type="button" 
+            icon="pi pi-chevron-right"
+            class="p-button-rounded p-button-secondary p-button-outlined" 
+            (click)="moveRight()" 
+    >
     </button>
 
-    <div class="container">
+    <mat-card class="bg-light-color" style="max-height: 170px;">
+      <app-word [lessonWord]="currentWord" [wordNumber]="(curentWordIndex)" [allWordsNumber]="(LessonWords.length)"></app-word>
+    </mat-card>
 
-      <!-- חץ ימינה -->
-      <button pButton 
-              pRipple 
-              type="button" 
-              icon="pi pi-chevron-right"
-              class="p-button-rounded p-button-secondary p-button-outlined" 
-              (click)="moveRight()" 
-      >
-      </button>
+    <!-- חץ שמאלה -->
+    <button pButton 
+            pRipple 
+            type="button" 
+            icon="pi pi-chevron-left"
+            class="bg-light-color p-button-rounded p-button-secondary p-button-outlined" 
+            (click)="moveLeft()" 
+    >
+    </button>
 
-      <mat-card >
-        <app-word [lessonWord]="currentWord" [wordNumber]="(curentWordIndex)" [allWordsNumber]="(LessonWords.length)"></app-word>
-      </mat-card>
-
-      <!-- חץ שמאלה -->
-      <button pButton 
-              pRipple 
-              type="button" 
-              icon="pi pi-chevron-left"
-              class="p-button-rounded p-button-secondary p-button-outlined" 
-              (click)="moveLeft()" 
-      >
-      </button>
-
-    </div>
+  </div>
      
-  </body>
+</body>

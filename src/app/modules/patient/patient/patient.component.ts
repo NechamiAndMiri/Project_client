@@ -56,9 +56,17 @@ export class PatientComponent implements OnInit {
       this.router.navigate(["patient/exercise"])
     }
 
-    startExercise2(){
-      this._patientService.LessonWords=this.LessonWords;
+    startExercise2(lesson:Lesson){
+      this.selectedLesson=lesson;
+      this._lessonService.setSelectedLesson(this.selectedLesson);
+      this._lessonService.getWordsToLesson(this.selectedLesson.id)
+      .subscribe(data=>{
+        this.LessonWords=data;
+        this._patientService.LessonWords=this.LessonWords;
+        this._patientService.difficultyLevelName=this.selectedLesson?.difficultyLevelName;
       this.router.navigate(["patient/exercise2"])
+      }
+        ,err=>alert("err!"));
     }
 
   panelOpenState = false;
