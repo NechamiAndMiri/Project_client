@@ -28,17 +28,16 @@ export class LessonService {
     return this._http.get<Lesson[]>("api/Lesson/" + patientId);
   }
 
-  getWordsToLesson(lessonId: number): Observable<WordGivenToPracticeDTO[]> {
+  getWordsByLessonId(lessonId: number): Observable<WordGivenToPracticeDTO[]> {
 
     return this._http.get<WordGivenToPracticeDTO[]>("/api/Lesson/getLessonWords/" + lessonId);
   }
   addLesson(newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }):Observable<Lesson> {
     return this._http.post<Lesson>(`/api/Lesson`,newLesson);
   }
-  //i've changed some stuff-pay attention
+
   updateLesson(newLesson:Lesson):Observable<void>{
-    // newLesson: { patientId: number; date: any; isChecked: boolean; lessonDescription: any; isDone: boolean; difficultyLevelId: any; }
-    return this._http.put<void>(`/api/Lesson/lesson`,newLesson);
+    return this._http.put<void>(`/api/Lesson`,newLesson);
   }
 
   handLesson(){
