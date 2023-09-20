@@ -21,6 +21,7 @@
             pButton 
             pRipple 
             type="button" 
+            style="background-color: #e2e9ff;color:green;"
             label="התחל הקלטה" 
             class="p-button-sm p-button-rounded p-button-success "
             *ngIf="!isAudioRecording && !audioBlobUrl" 
@@ -34,6 +35,7 @@
             pRipple 
             type="button" 
             label="עצור הקלטה" 
+            style="background-color: #e2e9ff;color:red;"
             class="p-button-sm p-button-rounded p-button-danger"
             *ngIf="isAudioRecording && !audioBlobUrl" 
             (click)="stopAudioRecording()">
@@ -71,6 +73,7 @@
               pRipple 
               type="button" 
               label="שמור הקלטה"
+              style="background-color: #e2e9ff;color:#4F46E5;"
               class="p-button-sm p-button-rounded p-button-outlined p-button-help"
               (click)="saveRecording()">
             </button>
@@ -84,7 +87,7 @@
               matTooltip="הורד הקלטה"
               (click)="downloadAudioRecordedData()"
               >
-              <i class="pi pi-download" style="color: #a97bbb"></i>
+              <i class="pi pi-download" style="color: #4F46E5"></i>
             </button>
             
             <button
@@ -93,7 +96,7 @@
               matTooltip="הפעל הקלטה"
               (click)="restartAudioRecordedData()"
               >
-              <mat-icon style="color: #a97bbb"
+              <mat-icon style="color: #4F46E5"
                 >play_circle_outline</mat-icon
               >
             </button>
@@ -104,7 +107,7 @@
               matTooltip="הקלט מחדש"
               (click)="restartAudioRecordedData()"
               >
-              <i class="pi pi-replay" style="color: #a97bbb"></i>
+              <i class="pi pi-replay" style="color: #4F46E5"></i>
             </button>
           </div>
         </div>

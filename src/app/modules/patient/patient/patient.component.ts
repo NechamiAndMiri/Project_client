@@ -59,7 +59,7 @@ export class PatientComponent implements OnInit {
     startExercise2(lesson:Lesson){
       this.selectedLesson=lesson;
       this._lessonService.setSelectedLesson(this.selectedLesson);
-      this._lessonService.getWordsToLesson(this.selectedLesson.id)
+      this._lessonService.getWordsByLessonId(this.selectedLesson.id)
       .subscribe(data=>{
         this.LessonWords=data;
         this._patientService.LessonWords=this.LessonWords;
