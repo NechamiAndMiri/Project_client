@@ -60,6 +60,24 @@
     >
     </button>
 
+    <button pButton 
+      pRipple 
+      type="button" 
+      label="הגשת השיעור " 
+      class="p-button-rounded p-button-primery save-button" 
+      (click)="saveLesson()"
+    >
+</button>
+
   </div>
-     
+
+  <p-confirmDialog
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"
+    >
+  </p-confirmDialog>
+
 </body>
+
+

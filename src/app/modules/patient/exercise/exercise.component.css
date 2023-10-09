@@ -36,3 +36,10 @@
 .mat-card{
 background-color:#e2e9ff ;
 }
+
+.save-button {
+    position: fixed;
+    left: 5px; bottom: 5px;
+    /* margin-top: 45%;
+    margin-right: 15%; */
+ }

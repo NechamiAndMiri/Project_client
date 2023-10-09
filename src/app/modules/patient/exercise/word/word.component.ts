@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Lesson } from 'src/app/models/lesson.model';
 import { WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model';
 import { AudioRecordingService } from 'src/app/services/audio-recording-service.service';
 import { LessonService } from 'src/app/services/lesson.service';
@@ -24,6 +25,8 @@ export class WordComponent implements OnInit {
   audioBlob!: any;
   audioName!: any;
 
+  lessonIsDone: boolean | undefined = false;
+
   constructor(private _patientService: PatientService, private router: Router, private _lessonService: LessonService,
     private ref: ChangeDetectorRef,
     private audioRecordingService: AudioRecordingService,
@@ -44,6 +47,7 @@ export class WordComponent implements OnInit {
 
   ngOnInit(): void {
    // this.playWordRecord();
+    this.lessonIsDone = this._lessonService.getSelectedLesson()?.isDone;
   }
 
   startAudioRecording() {

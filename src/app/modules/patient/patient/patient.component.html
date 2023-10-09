@@ -12,7 +12,7 @@
 </header>
 
 <body>
-  <button
+<!--   <button
     mat-raised-button
     color="primary"
     *ngIf="this.selectedLesson"
@@ -23,7 +23,7 @@
 
   <div id="wrapper" class="toggled" *ngIf="this.selectedLesson">
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
+    <!--<div id="sidebar-wrapper">
       <div style="width: 380px">
         <mat-selection-list
           (selectionChange)="
@@ -45,10 +45,10 @@
           </mat-list-option>
         </mat-selection-list>
       </div>
-    </div>
+    </div> -->
     <!-- /#sidebar-wrapper -->
     <!-- Page Content -->
-    <div>
+    <!--<div>
       <div>
         <mat-card class="card-lesson">
           <mat-card-header>
@@ -78,7 +78,7 @@
                      <div *ngIf="this.selectedLesson.weightedScore"><p> הציון שלך : {{this.selectedLesson.weightedScore}}</p></div>
                       <mat-action-row>
                     <button mat-raised-button color="primary" (click)="startExercise()">התחל תרגול</button>
-                    <!-- <button mat-raised-button color="primary" (click)="startExercise2()">התחל תרגול</button> -->
+                     <button mat-raised-button color="primary" (click)="startExercise2()">התחל תרגול</button>
 
                   </mat-action-row>
                     </mat-card-footer>
@@ -86,15 +86,15 @@
                 </mat-card>
               </div>
            </div>
-          </div>
+          </div> -->
 
   <!-- תצוגת תקיות -->
 
   <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!this.selectedLesson">
     <div class="col" *ngFor="let lesson of this.lessons; let i = index">
-      <mat-card  (click)="startExercise2(lesson)" style="cursor: pointer;" class="card-show bg-light-color">
+      <mat-card  class="card-show bg-light-color">
         <div class="top-item">
-        <mat-card-title>
+        <mat-card-title (click)="startExercise2(lesson)" style="cursor: pointer;">
           שיעור {{ i + 1 }}  
 
           <!-- <button

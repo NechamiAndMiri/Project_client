@@ -81,7 +81,7 @@ export class LogInComponent implements OnInit {
         this.router.navigateByUrl("/patient")
       }
     },
-      err => { alert("error accured with server connect") }
+      err => { alert("התרחשה שגיאה בעת גישה לשרת") }
     )
 
 

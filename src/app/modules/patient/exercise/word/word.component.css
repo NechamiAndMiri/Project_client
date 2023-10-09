@@ -9,7 +9,10 @@
 }
 
 .bottom {
-    margin-top: 35%;
+    /* margin-top: 35%; */
+    position: fixed;
+    top: 70%;
+    right: 42%;
 }
 
 .record-button {

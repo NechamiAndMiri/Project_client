@@ -17,7 +17,8 @@
         
         <br>
 
-        <button 
+        <div *ngIf="!lessonIsDone">
+          <button 
             pButton 
             pRipple 
             type="button" 
@@ -28,8 +29,10 @@
             (click)="startAudioRecording()"
         >
         </button>
+        </div>
+        
 
-        <div>
+        <div *ngIf="!lessonIsDone">
           <button 
             pButton 
             pRipple 
@@ -67,7 +70,7 @@
 
         <div *ngIf="!isAudioRecording && audioBlobUrl">
 
-          <div>
+          <div *ngIf="!lessonIsDone">
             <button 
               pButton 
               pRipple 

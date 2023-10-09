@@ -161,6 +161,7 @@ export class PatientsComponent implements OnInit {
   }
 
   submitCheckLesson() {
+    this.selectedLesson.isChecked = true;
     this._lessonService.updateLesson(this.selectedLesson).subscribe(
       () => {
         this._lessonService.putWordsToLesson(this.selectedLesson.id, this.selectedLessonWords).subscribe(() => {
@@ -171,9 +172,16 @@ export class PatientsComponent implements OnInit {
     )
   }
 
+  lessonNotDone:boolean = false;
+
   checkLesson(lesson: Lesson) {
+    if (lesson.isDone == false){
+        this.lessonNotDone = true;
+    }
+    else{
     this.selectLesson(lesson);
     this.displayCheckLessonDialog = true;
+    }
   }
 
   deleteLesson(lesson: Lesson) {
@@ -211,7 +219,6 @@ export class PatientsComponent implements OnInit {
   }
 
   finishUpdateLesson() {
-
     //הקריאה לשרת היא רק בגלל שזה בתוך אינפלייס שיש לו נגמודל עם הסלקטד לסון
     this._lessonService.updateLesson(this.selectedLesson).subscribe(() =>
       this._lessonService.getLessonsByPatient(this.selectedPatient!.id).subscribe((data) => { this.selectedPatientLessons = data; })

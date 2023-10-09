@@ -40,6 +40,10 @@ export class LessonService {
     return this._http.put<void>(`/api/Lesson`,newLesson);
   }
 
+  saveLesson(lessonId: number): Observable<void>{
+    return this._http.post<void>(`/api/Lesson/SaveLesson`,lessonId);
+  }
+
   handLesson(){
     if(this.selectedLesson)
       {this.selectedLesson.isDone=true;}

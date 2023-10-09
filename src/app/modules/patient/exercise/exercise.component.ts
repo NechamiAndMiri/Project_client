@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model';
+import { LessonService } from 'src/app/services/lesson.service';
 import { PatientService } from 'src/app/services/patient.service';
 
 @Component({
   selector: 'app-exercise',
   templateUrl: './exercise.component.html',
-  styleUrls: ['./exercise.component.css']
+  styleUrls: ['./exercise.component.css'],
+  providers: [ConfirmationService]
 })
 export class ExerciseComponent implements OnInit {
 
@@ -29,7 +32,10 @@ export class ExerciseComponent implements OnInit {
   difficultyLevelName :number|undefined;
 
 
-  constructor(private _patientService: PatientService,private router:Router) { }
+  constructor(private _patientService: PatientService,
+              private router:Router,
+              private _lessonService: LessonService,
+              private confirmationService: ConfirmationService,) { }
 
   ngOnInit(): void {
     this.LessonWords = this._patientService.LessonWords;
@@ -52,6 +58,24 @@ export class ExerciseComponent implements OnInit {
     if(this.curentWordIndex < this.LessonWords.length){
       this.currentWord= this.LessonWords[this.curentWordIndex++];
     }
+
+  }
+
+  saveLesson(){    
+    this.confirmationService.confirm({
+    message: 'לאחר שמירת השיעור, לא יהיה באפשרותך לשנות את הנתונים, האם אתה מעוניין לשמור את השיעור כעת?',
+    header: 'שמירת שיעור',
+    rejectLabel: ` לא, אני מעוניין להמשיך לתרגל`,
+    acceptLabel: ' כן, סיימתי לתרגל ',
+    accept: () => {
+          this._lessonService.saveLesson(this.currentWord.lessonId).subscribe(() =>{
+            this.router.navigate(["patient"]);
+      });
+    },
+    reject: () => {
+      console.log("lesson not saved");
+    }
+  });
 
   }
 

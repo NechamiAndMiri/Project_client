@@ -205,6 +205,7 @@
           <button class="btn-rounded" mat-icon-button title="לבדיקת השיעור" (click)="checkLesson(lesson)"><img class="icon-img" src="assets/pictures/search.png"></button>
           <button class="btn-rounded" mat-icon-button title="למחיקת השיעור" (click)="deleteLesson(lesson)"><mat-icon>delete_forever</mat-icon></button>
           <button class="btn-rounded" mat-icon-button title="לעריכת השיעור" (click)="updateLesson(lesson)"><mat-icon>edit</mat-icon></button>
+          
         </div>
           <ul class="list-group list-group-light list-group-small" *ngIf="selectedLesson==lesson">
             <li class="list-group-item, two-sides" *ngFor="let word of selectedLessonWords">
@@ -219,6 +220,15 @@
   </div>
 
 </div>
+
+<!-- שיעור עדיין לא נעשה -->
+<p-dialog header="אין אפשרות לבדוק את השיעור" [(visible)]="lessonNotDone" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <p class="m-0">  השיעור עדיין לא נעשה ע"י התלמיד, אין אפשרות לבודקו.</p>
+        <!-- <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="lessonNotDone=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template> -->
+</p-dialog>
 
 <!-- דיאלוג לבדיקה -->
 <p-dialog [(visible)]="displayCheckLessonDialog" [style]="{width: '60%'}" header="בדיקת שיעור" [modal]="true"

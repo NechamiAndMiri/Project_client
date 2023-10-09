@@ -28,6 +28,8 @@ import { CardModule } from 'primeng/card';
 import { WordComponent } from './exercise/word/word.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 const ROUTES:Routes=[
 {path:"",component:PatientComponent},
@@ -64,7 +66,8 @@ const ROUTES:Routes=[
     MatDialogModule,
     CardModule,
     TagModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ConfirmDialogModule,
   ],
   providers:[
     LessonService
