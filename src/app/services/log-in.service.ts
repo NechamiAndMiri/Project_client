@@ -9,12 +9,9 @@ import { User } from '../models/user.model';
 
 @Injectable()
 export class LogInService {
-  /**
-   *
-   */
   user!: User | PatientDTO | SpeechTherapistDTO;
   adminUser!: User;
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
   getTheUser(): User | SpeechTherapistDTO | PatientDTO {
     return this.user;
   }

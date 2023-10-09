@@ -72,7 +72,7 @@ export class ExercisesComponent implements OnInit {
   initVal: number;
   currentLevelVal: number;
 
-  wordToEdit:Word;
+  wordToEdit: Word;
 
   wordText: string;
 
@@ -265,7 +265,6 @@ export class ExercisesComponent implements OnInit {
     if (this.isAudioRecording) {
       this.audioRecordingService.stopRecording();
       this.isAudioRecording = false;
-
     }
   }
 
@@ -291,7 +290,6 @@ export class ExercisesComponent implements OnInit {
 
 
   saveWord(levelIndex: number, problemIndex: number) {
-
     if (this.audioBlob && this.audioBlobUrl) {
       let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
       let w = new Word(0, this.wordText, "", this.problemsArr[problemIndex].Levels[levelIndex].id)
@@ -301,8 +299,8 @@ export class ExercisesComponent implements OnInit {
     }
     this.wordText = "";
     this.audioBlobUrl = undefined;
-
   }
+
 
   updateWord(levelIndex: number, problemIndex: number) {
     if (this.audioBlob && this.audioBlobUrl) {
@@ -346,36 +344,32 @@ export class ExercisesComponent implements OnInit {
   //   });
   // }
 
+
   playWordRecord(word: Word) {
     let blob;
     this.audioRecordingService.getWordRecord(word).subscribe((b: any) => {
       this.isDownloadaudio = true;
       blob = new Blob([b], { type: 'audio/mp3' });
-
-      let audioBlob1 = b.body;
-      let audioName1 = b.title;
       let audioBlobUrl1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
-
       let audio1 = new Audio();
-      // this.audio.srcObject = blob as MediaProvider;
-      audio1.src =  (audioBlobUrl1 as any).changingThisBreaksApplicationSecurity
+      audio1.src = (audioBlobUrl1 as any).changingThisBreaksApplicationSecurity
       audio1.play();
-      //this will make sure to update when time updates.
       audio1.ontimeupdate = (event) => {
-         var currentTime = audio1.currentTime;
-         this.ref.detectChanges();
+        var currentTime = audio1.currentTime;
+        this.ref.detectChanges();
       }
     });
   }
 
-  playNewWordRecord(){
+  
+  playNewWordRecord() {
     this.audio = new Audio();
-    this.audio.src =  this.audioBlobUrl.changingThisBreaksApplicationSecurity
+    this.audio.src = this.audioBlobUrl.changingThisBreaksApplicationSecurity
     this.audio.play();
     //this will make sure to update when time updates.
     this.audio.ontimeupdate = (event) => {
-       var currentTime = this.audio.currentTime;
-       this.ref.detectChanges();
+      var currentTime = this.audio.currentTime;
+      this.ref.detectChanges();
     }
   }
 
