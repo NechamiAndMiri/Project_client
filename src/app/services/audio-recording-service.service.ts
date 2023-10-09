@@ -20,7 +20,7 @@ export class AudioRecordingService {
 
 
 
- private wordsRecordDetails:PatientRecordingDetails[];
+  private wordsRecordDetails: PatientRecordingDetails[];
 
   private stream!: any;
   private recorder!: any;
@@ -44,15 +44,13 @@ export class AudioRecordingService {
     return this._recordingFailed.asObservable();
   }
 
-  getWordsRecordDetails(){return this.wordsRecordDetails}
+  getWordsRecordDetails() { return this.wordsRecordDetails }
 
   startRecording() {
-
     if (this.recorder) {
       // It means recording is already started or it is already recording something
       return;
     }
-
     this._recordingTime.next('00:00');
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(s => {
@@ -61,7 +59,6 @@ export class AudioRecordingService {
       }).catch(error => {
         this._recordingFailed.next(error);
       });
-
   }
 
   abortRecording() {
@@ -132,61 +129,52 @@ export class AudioRecordingService {
   //   this.wordsRecordDetails[index]=recordDetails;
   // }
 
-  getPatientRecording(wordId:number):any{
-    return this._http.get<Blob>(`/api/Lesson/getPatienRecording/${wordId}`,{observe: 'response', responseType: 'blob' as 'json'} );
+  getPatientRecording(wordId: number): any {
+    return this._http.get<Blob>(`/api/Lesson/getPatienRecording/${wordId}`, { observe: 'response', responseType: 'blob' as 'json' });
   }
 
-  savePatientRecording(file: any, type: string, filename: string,word:WordGivenToPracticeDTO) :Observable<void>{
+  savePatientRecording(file: any, type: string, filename: string, word: WordGivenToPracticeDTO): Observable<void> {
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
-    // const blob = new Blob([data], { type: type });
-    // const url = window.URL.createObjectURL(blob);
-    //
-   // return this._http.put<void>("api/Lesson/UpdateRecording/"+wordId,formData);
     this.sendPatientWordToServer(word).subscribe();
-
-    return this._http.put<void>("api/Lesson/UpdateRecording/",formData);
-
-  }
-  sendPatientWordToServer( word:WordGivenToPracticeDTO)
-  {
-
-    return this._http.put<void>("api/Lesson/getWordToUpdate/",word);
+    return this._http.put<void>("api/Lesson/UpdateRecording/", formData);
   }
 
- 
-  saveSpeechTherapistRecording(file: any, type: string, filename: string,word:Word) :Observable<void>{
+
+  sendPatientWordToServer(word: WordGivenToPracticeDTO) {
+
+    return this._http.put<void>("api/Lesson/getWordToUpdate/", word);
+  }
+
+
+  saveSpeechTherapistRecording(file: any, type: string, filename: string, word: Word): Observable<void> {
     let formData: FormData = new FormData();
     formData.append("asset", file, filename);
-    // const blob = new Blob([data], { type: type });
-    // const url = window.URL.createObjectURL(blob);
-
     this.sendWordToServer(word).subscribe();
+    return this._http.post<void>("api/Word/PostWordRecording/", formData);
+  }
 
-    return this._http.post<void>("api/Word/PostWordRecording/",formData);
-}
-sendWordToServer( word:Word)
-  {
 
-    return this._http.post<void>("api/Word/word/",word);
+  sendWordToServer(word: Word) {
+
+    return this._http.post<void>("api/Word/word/", word);
   }
 
   updateSpeechTherapistRecording(blob: Blob, type: string, audioName: any, word: Word) {
     let formData: FormData = new FormData();
     formData.append("asset", blob, audioName);
     this.sendWordToServer(word).subscribe();
-    return this._http.put<void>("api/Word/PutWordRecording/",formData);
+    return this._http.put<void>("api/Word/PutWordRecording/", formData);
 
   }
 
-  getWordRecord(word:Word):any{
-
-    return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
+  getWordRecord(word: Word): any {
+    return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' })
   }
 
-  getSpeechTherapistWordRecord(wordId:number,wordText:string):any{
+  getSpeechTherapistWordRecord(wordId: number, wordText: string): any {
 
-    return this._http.get<Blob>(`/api/Word/${wordId}/${wordText}/getRecord`,{observe: 'response', responseType: 'blob' as 'json'} );//{responseType: 'blob' as 'json' }
+    return this._http.get<Blob>(`/api/Word/${wordId}/${wordText}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' });//{responseType: 'blob' as 'json' }
   }
 
 }
