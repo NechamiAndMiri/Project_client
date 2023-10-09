@@ -14,7 +14,7 @@
             <p-password inputStyleClass="input-width " formControlName="password" [toggleMask]="true"
               placeholder="סיסמה" [feedback]="false"></p-password>
             <small class="p-error block" *ngIf="isErrorState(loginForm.controls['password'])">הכנס סיסמה באורך של לפחות
-              8 תוים</small>
+              5 תוים</small>
           </div>
           <button pButton pRipple (click)="getUserDetails()" [disabled]="!loginForm.valid" type="button" label="התחבר"
             class="p-button-raised button-style"></button>

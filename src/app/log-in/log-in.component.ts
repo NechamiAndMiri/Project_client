@@ -30,7 +30,7 @@ export class LogInComponent implements OnInit {
   hide = true;
   loginForm: FormGroup = new FormGroup({
     "email": new FormControl("", [Validators.required,Validators.email]),
-    "password": new FormControl("", [Validators.required, Validators.minLength(8)])
+    "password": new FormControl("", [Validators.required, Validators.minLength(5)])
   });
   user!: User | SpeechTherapistDTO | PatientDTO;
   userLogin!: LogInUser;
