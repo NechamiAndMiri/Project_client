@@ -233,13 +233,13 @@
     <table>
       <tr>
         <td>
-          <label> הקושי{{selectedLesson.pronunciationProblemName}}</label>
+          <label> נושא התרגול: {{selectedLesson.pronunciationProblemName}}</label>
         </td>
         <td>
-          <label> רמה{{selectedLesson.difficultyLevelName}}</label>
+          <label>רמה: {{selectedLesson.difficultyLevelName}}</label>
         </td>
         <td>
-          <label> ציון:{{selectedLesson.weightedScore}}</label>
+          <label> ציון: {{selectedLesson.weightedScore}}</label>
         </td>
       </tr>
     </table>
@@ -290,7 +290,7 @@
       <div class="p-field p-col">
         <p-inplace [closable]="true">
           <ng-template pTemplate="display">
-            <label for="date"> : השיעור התקיים בתאריך{{selectedLesson.date|date:'dd/MM/yyyy'}}</label>
+            <label for="date"> השיעור התקיים בתאריך: {{selectedLesson.date|date:'dd/MM/yyyy'}}</label>
           </ng-template>
           <ng-template pTemplate="content">
             <div class="p-field p-col">
@@ -308,7 +308,7 @@
       <div class="p-field p-col">
         <p-inplace [closable]="true">
           <ng-template pTemplate="display">
-            <label for="level">{{selectedLesson.difficultyLevelName}} :רמת השיעור</label>
+            <label for="level">רמת השיעור: {{selectedLesson.difficultyLevelName}}</label>
           </ng-template>
           <ng-template pTemplate="content">
             <div class="p-field p-col">
@@ -345,7 +345,7 @@
     </div>
   
     <div *ngIf="selectedLessonWordsToShow!.length>0">
-      <p-divider align="left" type="dashed">
+      <p-divider align="center" type="dashed">
         <div class="inline-flex align-items-center">
           <b> המילים שלנו הפעם: </b>
         </div>
@@ -375,7 +375,7 @@
         </p-dropdown>
       </div>
       <br>
-      <hr>
+     
       <div class="p-field p-col">
         <p-listbox [options]="levelWords" [(ngModel)]="selectedLessonWordsToShow" [metaKeySelection]="false"
           [checkbox]="true" [filter]="true" [multiple]="true" optionLabel="wordText" [listStyle]="{'max-height':'250px'}"
@@ -406,7 +406,7 @@
         <div class="p-formgrid p-grid">
           <div class="p-field p-col ">
             <div class="p-field p-col center-element ">
-              <label for="date"> :השיעור התקיים בתאריך</label>
+              <label for="date"> השיעור התקיים בתאריך:</label>
             </div>
             <div class="p-field p-col center-element ">
               <p-calendar inputStyle="width: 20vw;" formControlName="date" placeholder="תאריך השיעור" [showIcon]="false" ></p-calendar>
@@ -417,7 +417,7 @@
         <div class="p-formgrid p-grid ">
           <div class="p-field p-col ">
             <div class="p-field p-col center-element ">
-              <label for="level"> :רמת השיעור</label>
+              <label for="level"> רמת השיעור:</label>
             </div>
             <div class="p-field p-col center-element ">
               <p-dropdown panelStyle="width: 20vw;" formControlName="level" #selection [options]="difficultyLevelsOfSelectedPatient" placeholder="בחר רמת קושי"

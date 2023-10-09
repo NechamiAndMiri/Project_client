@@ -8,7 +8,9 @@
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <!-- <p class="text-info">שלום פלוני אלמוני</p> -->
-          <div [style.background-color]="currentWord == word? '#e2e9ff' : 'white'" class="words" *ngFor="let word of LessonWords">
+          <div [style.background-color]="currentWord == word? '#e2e9ff' : 'white'" 
+          [style.color]="currentWord == word? 'black' : 'rgb(125, 144, 163)'"
+            class="words" *ngFor="let word of LessonWords">
             {{word.wordText}}
           </div>
       </div>
