@@ -70,7 +70,7 @@ export class PatientsComponent implements OnInit {
   lessonForm: FormGroup = new FormGroup({
     "level": new FormControl("", [Validators.required]),
     "date": new FormControl("", Validators.required),
-    "description": new FormControl("", [Validators.required, Validators.minLength(15)])
+    "description": new FormControl("", [Validators.required])
   });
 
   matcher = new MyErrorStateMatcher();
