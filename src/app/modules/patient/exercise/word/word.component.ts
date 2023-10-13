@@ -18,7 +18,6 @@ export class WordComponent implements OnInit {
   @Input() wordNumber: number;
   @Input() allWordsNumber: number;
 
-  
   isAudioRecording = false;
   audioBlobUrl!: any;
   audioRecordedTime!: any;

@@ -6,68 +6,80 @@
       <mat-icon>add</mat-icon>
     </button>
 
-    <div
-      [ngClass]="{
-        'lesson-card': true,
-        card: true,
-        'not-done': !lesson.isDone
-      }"
-      *ngFor="let lesson of selectedPatientLessons"
-    >
-      <div class="card-header two-sides">
-        {{ lesson.lessonDescription }}
-        <p-tag [hidden]="lesson.isDone" value="לא נעשה"></p-tag
-        ><p-tag
-          severity="success"
-          [hidden]="!lesson.isChecked"
-          value="נבדק"
-        ></p-tag>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">{{ lesson.date | date : "dd/MM/yyyy" }}</h5>
-        <div class="two-sides">
-          <button mat-button (click)="selectLesson(lesson)">
-            צפייה במילים
-          </button>
-          <button
-            class="btn-rounded"
-            mat-icon-button
-            title="לבדיקת השיעור"
-            (click)="checkLesson(lesson)"
-          >
-            <img class="icon-img" src="assets/pictures/search.png" />
-          </button>
-          <button
-            class="btn-rounded"
-            mat-icon-button
-            title="למחיקת השיעור"
-            (click)="deleteLesson(lesson)"
-          >
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-          <button
-            class="btn-rounded"
-            mat-icon-button
-            title="לעריכת השיעור"
-            (click)="updateLesson(lesson)"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
-        <ul
-          class="list-group list-group-light list-group-small"
-          *ngIf="selectedLesson == lesson"
+    <!--row-cols-1 row-cols-md-3 g-4 -->
+    <div class="row"  *ngFor="let lesson of selectedPatientLessons; let i = index;">
+      <div class="col">
+
+        <div
+          [ngClass]="{
+            'lesson-card': true,
+            card: true,
+            'not-done': !lesson.isDone
+          }"
         >
-          <li
-            class="list-group-item, two-sides"
-            *ngFor="let word of selectedLessonWords"
-          >
-            <span>{{ word.wordText }}</span>
-            <span>{{ word.score }}</span>
-          </li>
-        </ul>
+          <div class="card-header two-sides">
+            {{ lesson.lessonDescription }}
+            <p-tag [hidden]="lesson.isDone" value="לא נעשה"></p-tag
+            ><p-tag
+              severity="success"
+              [hidden]="!lesson.isChecked"
+              value="נבדק"
+            ></p-tag>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ lesson.date | date : "dd/MM/yyyy" }}</h5>
+            <div class="two-sides">
+              <button mat-button (click)="selectLesson(lesson)">
+                צפייה במילים
+              </button>
+              <button
+                class="btn-rounded"
+                mat-icon-button
+                title="לבדיקת השיעור"
+                (click)="checkLesson(lesson)"
+              >
+                <img class="icon-img" src="assets/pictures/search.png" />
+              </button>
+              <button
+                class="btn-rounded"
+                mat-icon-button
+                title="למחיקת השיעור"
+                (click)="deleteLesson(lesson)"
+              >
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+              <button
+                class="btn-rounded"
+                mat-icon-button
+                title="לעריכת השיעור"
+                (click)="updateLesson(lesson)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
+            <!-- <mat-card  > -->
+              <ul
+                class="list-group list-group-light list-group-small"
+                (click)="selectedLessonWords=[]" *ngIf="selectedLessonWords != [] && selectedLesson == lesson"
+              >
+                <li
+                  class="list-group-item, two-sides"
+                  *ngFor="let word of selectedLessonWords"
+                >
+                  <span>{{ word.wordText }}</span>
+                  <span>{{ word.score }}</span>
+                </li>
+              </ul>
+            <!-- </mat-card> -->
+            
+          </div>
+        </div>
+
       </div>
     </div>
+
+
     
   </div>
 <div class = "patients-table" >
@@ -195,26 +207,88 @@
         <button mat-stroked-button (click)="openAddLessonDialog()">
           <mat-icon>add</mat-icon>
         </button>
+        
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" *ngFor="let lesson of selectedPatientLessons; let i = index">
+              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>
+              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>              <mat-card>hhhhhhhhhhhhhxfgchgvh
+                xdfcghvbj
+                xfcgvhbjk
+                xdfcghjkl
+                xcfgvbhjnkl
+                xdcfgbhjknlm;,mknbjhvcgfxdcgbhjkmlnbhjcgfbhjkmlbhjg
+                xdcfgvbhknlmklnbjhvhcxdzfxgchvjbknlmnbvhcgf
+              </mat-card>
+<!--   
+              <div [ngClass]="{'lesson-card':true,'card':true,'not-done':!lesson.isDone}">
+  
+                <div class="card-header two-sides">{{lesson.lessonDescription}}  
+                  <p-tag [hidden]="lesson.isDone" value="לא נעשה"></p-tag>
+                  <p-tag  severity="success" [hidden]="!lesson.isChecked" value="נבדק"></p-tag>
+                </div>
+  
+                <div class="card-body">
+                  <h5 class="card-title">{{lesson.date|date:'dd/MM/yyyy'}}</h5>
+                  <div class="two-sides">
+                    <button mat-button  (click)="selectLesson(lesson)">צפייה במילים</button>
+                    <button class="btn-rounded" mat-icon-button title="לבדיקת השיעור" (click)="checkLesson(lesson)"><img class="icon-img" src="assets/pictures/search.png"></button>
+                    <button class="btn-rounded" mat-icon-button title="למחיקת השיעור" (click)="deleteLesson(lesson)"><mat-icon>delete_forever</mat-icon></button>
+                    <button class="btn-rounded" mat-icon-button title="לעריכת השיעור" (click)="updateLesson(lesson)"><mat-icon>edit</mat-icon></button>
+                  </div>
+                  <ul class="list-group list-group-light list-group-small" *ngIf="selectedLesson==lesson">
+                    <li class="list-group-item, two-sides" *ngFor="let word of selectedLessonWords">
+                      <span>{{word.wordText}}</span>
+                      <span>{{word.score}}</span>
+                    </li>
+                  </ul>
+                </div>
+  
+              </div> -->
+  
+            </div>
+          </div>
+        
 
-      <div [ngClass]="{'lesson-card':true,'card':true,'not-done':!lesson.isDone}" *ngFor="let lesson of selectedPatientLessons">
-        <div class="card-header two-sides">{{lesson.lessonDescription}}  <p-tag [hidden]="lesson.isDone" value="לא נעשה"></p-tag><p-tag  severity="success" [hidden]="!lesson.isChecked" value="נבדק"></p-tag></div>
-        <div class="card-body">
-          <h5 class="card-title">{{lesson.date|date:'dd/MM/yyyy'}}</h5>
-          <div class="two-sides">
-          <button mat-button  (click)="selectLesson(lesson)">צפייה במילים</button>
-          <button class="btn-rounded" mat-icon-button title="לבדיקת השיעור" (click)="checkLesson(lesson)"><img class="icon-img" src="assets/pictures/search.png"></button>
-          <button class="btn-rounded" mat-icon-button title="למחיקת השיעור" (click)="deleteLesson(lesson)"><mat-icon>delete_forever</mat-icon></button>
-          <button class="btn-rounded" mat-icon-button title="לעריכת השיעור" (click)="updateLesson(lesson)"><mat-icon>edit</mat-icon></button>
-          
-        </div>
-          <ul class="list-group list-group-light list-group-small" *ngIf="selectedLesson==lesson">
-            <li class="list-group-item, two-sides" *ngFor="let word of selectedLessonWords">
-              <span>{{word.wordText}}</span>
-              <span>{{word.score}}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+
+
+
+
+
     </div>
     
   </div>

@@ -135,7 +135,7 @@ export class WordExerciseComponent implements OnInit {
   playWordRecord() {
     let word = this.LessonWords[this.activeIndex2];
     let blob;
-    this.audioRecordingService.getSpeechTherapistWordRecord(word.wordId, word.wordText).subscribe((b: any) => {
+    this.audioRecordingService.getSpeechTherapistWordRecord(word.wordId).subscribe((b: any) => {
       //check if we need:
       //this.isDownloadaudio = true;
       blob = new Blob([b], { type: 'audio/mp3' });

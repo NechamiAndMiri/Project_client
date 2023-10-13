@@ -169,12 +169,12 @@ export class AudioRecordingService {
   }
 
   getWordRecord(word: Word): any {
-    return this._http.get<Blob>(`/api/Word/${word.id}/${word.wordText}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' })
+    return this._http.get<Blob>(`/api/Word/${word.id}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' })
   }
 
-  getSpeechTherapistWordRecord(wordId: number, wordText: string): any {
+  getSpeechTherapistWordRecord(wordId: number): any {
 
-    return this._http.get<Blob>(`/api/Word/${wordId}/${wordText}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' });//{responseType: 'blob' as 'json' }
+    return this._http.get<Blob>(`/api/Word/${wordId}/getRecord`, { observe: 'response', responseType: 'blob' as 'json' });//{responseType: 'blob' as 'json' }
   }
 
 }
