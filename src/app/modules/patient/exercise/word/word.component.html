@@ -17,7 +17,7 @@
         
         <br>
 
-        <div *ngIf="!lessonIsDone">
+        <div *ngIf="!lessonIsDone && !isServerRecording">
           <button 
             pButton 
             pRipple 
@@ -26,13 +26,13 @@
             label="התחל הקלטה" 
             class="p-button-sm p-button-rounded p-button-success "
             *ngIf="!isAudioRecording && !audioBlobUrl" 
-            (click)="startAudioRecording()"
+            (click)="startNewRecord()"
         >
         </button>
         </div>
         
 
-        <div *ngIf="!lessonIsDone">
+        <div *ngIf="!lessonIsDone && !isServerRecording">
           <button 
             pButton 
             pRipple 
@@ -41,7 +41,7 @@
             style="background-color: #e2e9ff;color:red;"
             class="p-button-sm p-button-rounded p-button-danger"
             *ngIf="isAudioRecording && !audioBlobUrl" 
-            (click)="stopAudioRecording()">
+            (click)="stopNewRecord()">
           </button>
 
           <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl">
@@ -68,9 +68,9 @@
           </div>
         </div> -->
 
-        <div *ngIf="!isAudioRecording && audioBlobUrl">
+        <div *ngIf="!isAudioRecording">
 
-          <div *ngIf="!lessonIsDone">
+          <div *ngIf="audioBlobUrl &&!lessonIsDone && !isServerRecording">
             <button 
               pButton 
               pRipple 
@@ -78,17 +78,16 @@
               label="שמור הקלטה"
               style="background-color: #e2e9ff;color:#4F46E5;"
               class="p-button-sm p-button-rounded p-button-outlined p-button-help"
-              (click)="saveRecording()">
+              (click)="saveNewRecord()">
             </button>
           </div>
 
-          <div class=" div-button-center">
-
+          <div class="div-button-center" *ngIf="isNewRecord || isServerRecording">
             <button
               mat-icon-button
               class="bottomleft"
               matTooltip="הורד הקלטה"
-              (click)="downloadAudioRecordedData()"
+              (click)="downloadWordRecord()"
               >
               <i class="pi pi-download" style="color: #4F46E5"></i>
             </button>
@@ -97,7 +96,7 @@
               mat-icon-button
               class="bottomleft"
               matTooltip="הפעל הקלטה"
-              (click)="restartAudioRecordedData()"
+              (click)="replayWordRecord()"
               >
               <mat-icon style="color: #4F46E5"
                 >play_circle_outline</mat-icon
@@ -108,7 +107,7 @@
               mat-icon-button
               class="bottomleft"
               matTooltip="הקלט מחדש"
-              (click)="restartAudioRecordedData()"
+              (click)="reRecerdingWordRecord()"
               >
               <i class="pi pi-replay" style="color: #4F46E5"></i>
             </button>
@@ -118,9 +117,14 @@
 
 
     <div class="bottom">
-        <p-button label="הקלטה קלינאית" styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"></p-button>
+        <p-button label="הקלטה קלינאית" 
+        styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"
+        (click)="playSpeechTherapistWordRecord()"></p-button>
         &nbsp;
-        <p-button label="הקלטה פציינט" styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"></p-button>
+
+        <p-button *ngIf="lessonIsDone" label="ההקלטה שלי" 
+        styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"
+        (click)="playPatientRecord()"></p-button>
         <!-- <button mat-button styleClass="p-button-raised p-button-text p-button-secondary">הקלטה קלינאית</button> -->
         <!-- <button mat-button >הקלטה פציינט</button> -->
     </div>

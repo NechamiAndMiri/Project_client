@@ -104,7 +104,6 @@ export class WordExerciseComponent implements OnInit {
     if (this.isAudioRecording) {
       this.audioRecordingService.stopRecording();
       this.isAudioRecording = false;
-
     }
   }
 

@@ -347,7 +347,7 @@ export class ExercisesComponent implements OnInit {
 
   playWordRecord(word: Word) {
     let blob;
-    this.audioRecordingService.getWordRecord(word).subscribe((b: any) => {
+    this.audioRecordingService.getWordRecord(word.id).subscribe((b: any) => {
       this.isDownloadaudio = true;
       blob = new Blob([b], { type: 'audio/mp3' });
       let audioBlobUrl1 = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(b.body));
