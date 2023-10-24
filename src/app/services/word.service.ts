@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import { PronunciationProblemsType } from '../models/pronunciation-problems-type.model';
 import { DifficultyLevel } from '../models/difficulty-level.model';
 import { Word } from '../models/word.model';
+import { WordGivenToPracticeDTO } from '../models/wordGivenToPractice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class WordService {
 
   getLevelWords(levelId: number):Observable<Word[]> {
     return this._http.get<Word[]>(`api/Word/${levelId}/LevelWords`);
+  }
+
+  getWordGivenToPractice(wordGivenToPracticeId: number):Observable<WordGivenToPracticeDTO> {
+    return this._http.get<WordGivenToPracticeDTO>(`api/Word/${wordGivenToPracticeId}/GetWordToPractice`);
   }
   
   addLevelToProblem(difficultyLevel:DifficultyLevel)

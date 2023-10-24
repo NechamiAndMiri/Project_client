@@ -47,7 +47,13 @@
     </button>
 
     <mat-card class="bg-light-color" style="max-height: 170px;">
-      <app-word [lessonWord]="currentWord" [wordNumber]="(curentWordIndex)" [allWordsNumber]="(LessonWords.length)"></app-word>
+      <app-word 
+          [lessonWord]="currentWord" 
+          [wordNumber]="(curentWordIndex)" 
+          [allWordsNumber]="(LessonWords.length)"
+          (onRecordAdded)="updateWord($event)"
+      >
+      </app-word>
     </mat-card>
 
     <!-- חץ שמאלה -->
@@ -63,6 +69,7 @@
     <button pButton 
       pRipple 
       type="button" 
+      *ngIf="lessonIsDone == false"
       label="הגשת השיעור " 
       class="p-button-rounded p-button-primery save-button" 
       (click)="saveLesson()"

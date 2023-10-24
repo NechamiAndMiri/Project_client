@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, OnChanges} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, OnChanges, Output, EventEmitter} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Lesson } from 'src/app/models/lesson.model';
@@ -6,6 +6,7 @@ import { WordGivenToPracticeDTO } from 'src/app/models/wordGivenToPractice.model
 import { AudioRecordingService } from 'src/app/services/audio-recording-service.service';
 import { LessonService } from 'src/app/services/lesson.service';
 import { PatientService } from 'src/app/services/patient.service';
+import { WordService } from 'src/app/services/word.service';
 
 @Component({
   selector: 'app-word',
@@ -17,6 +18,7 @@ export class WordComponent implements OnInit,OnDestroy,OnChanges {
   @Input() lessonWord: WordGivenToPracticeDTO;
   @Input() wordNumber: number;
   @Input() allWordsNumber: number;
+  @Output() onRecordAdded = new EventEmitter<WordGivenToPracticeDTO>();
 
   isAudioRecording = false;
   audioBlobUrl!: any;
@@ -33,7 +35,8 @@ export class WordComponent implements OnInit,OnDestroy,OnChanges {
   isServerRecording = false;
   isNewRecord = false;
 
-  constructor(private _patientService: PatientService, private router: Router, private _lessonService: LessonService,
+  constructor(private _wordService: WordService, 
+    private router: Router, private _lessonService: LessonService,
     private ref: ChangeDetectorRef,
     private audioRecordingService: AudioRecordingService,
     private sanitizer: DomSanitizer){
@@ -109,10 +112,22 @@ export class WordComponent implements OnInit,OnDestroy,OnChanges {
   saveNewRecord(){
       if (this.audioBlob && this.audioBlobUrl) {
         let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-        this.audioRecordingService.savePatientRecording(blob, 'audio/mp3', this.audioName, this.lessonWord).subscribe();
+        this.audioRecordingService.savePatientRecording(blob, 'audio/mp3', this.audioName, this.lessonWord).subscribe(() => {
+          this._wordService.getWordGivenToPractice(this.lessonWord.id).subscribe((word:WordGivenToPracticeDTO)=>{
+            this.lessonWord.patientRecording = word.patientRecording;
+            this.audioRecordingService.getPatientRecording(this.lessonWord.id).subscribe((b: any) => {
+              this.blobData = b;
+              this.blob = new Blob([b], { type: 'audio/mp3' });
+              this.audioBlob = b.body;
+              this.audioName = b.title;
+            });
+            this.onRecordAdded.emit(this.lessonWord);
+            this.isServerRecording = true;
+            this.isNewRecord = false;  
+          });
+        });
       }
       this.audioBlobUrl = undefined;
-      this.InitializesData();
   }
 
   downloadWordRecord(){    
@@ -215,59 +230,4 @@ export class WordComponent implements OnInit,OnDestroy,OnChanges {
     this.abortAudioRecording();
     //initilize variables
   }
-
-  // startAudioRecording() {
-  //   if (!this.isAudioRecording) {
-  //     this.isAudioRecording = true;
-  //     this.audioRecordingService.startRecording();
-  //   }
-  // }
-
-  // stopAudioRecording() {
-  //   if (this.isAudioRecording) {
-  //     this.audioRecordingService.stopRecording();
-      
-  //   this.audioRecordingService.getRecordedBlob().subscribe((data: any) => {
-  //     this.audioBlob = data.blob;
-  //     this.audioName = data.title;
-  //     this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
-  //     this.ref.detectChanges();
-  //   });
-
-  //     this.isAudioRecording = false;
-  //   }
-  // }
-
-  // restartAudioRecordedData() {
-  //   this.audioBlobUrl = null;
-  //   this.startAudioRecording();
-  // }
-
-  // saveRecording() {
-  //   if (!(this._lessonService.getSelectedLesson()?.isChecked) && this.audioBlob && this.audioBlobUrl) {
-  //     let blob = new Blob([this.audioBlob], { type: 'audio/mp3' });
-  //     this.audioRecordingService.savePatientRecording(blob, 'audio/mp3', this.audioName, this.lessonWord).subscribe();
-  //   }
-  //   this.audioBlobUrl = undefined;
-  // }
-
-  // downloadAudioRecordedData() {
-  //   this._downloadFile(this.audioBlob, 'audio/mp3', this.audioName);
-  // }
-
-
-  // _downloadFile(data: any, type: string, filename: string): any {
-  //   const blob = new Blob([data], { type: type });
-  //   const url = window.URL.createObjectURL(blob);
-  //   const anchor = document.createElement('a');
-  //   anchor.download = filename;
-  //   anchor.href = url;
-  //   document.body.appendChild(anchor);
-  //   anchor.click();
-  //   document.body.removeChild(anchor);
-  // }  
-  
-
-
-
 }
