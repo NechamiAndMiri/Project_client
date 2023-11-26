@@ -4,8 +4,6 @@
         <h2>מילה <b>{{wordNumber}}</b>/{{allWordsNumber}}</h2>
         <br> <br>
     </div>
-
-
     <div class="center">
 
         <h1 style="font-size: 6rem;" class="display-1">
@@ -14,9 +12,7 @@
         <div *ngIf="lessonWord.score">
           <h1 >הציון שלך : {{lessonWord.score}}</h1>
         </div>
-        
         <br>
-
         <div *ngIf="!lessonIsDone && !isServerRecording">
           <button 
             pButton 
@@ -30,8 +26,6 @@
         >
         </button>
         </div>
-        
-
         <div *ngIf="!lessonIsDone && !isServerRecording">
           <button 
             pButton 
@@ -48,25 +42,6 @@
             {{ audioRecordedTime }}
           </div>
         </div>
-
-        <!-- <div *ngIf="!isAudioRecording && audioBlobUrl">
-          <audio controls>
-            <source [src]="audioBlobUrl" type="audio/mp3" />
-          </audio>
-          <div class="two-sides div-button-center">
-            <button pButton pRipple type="button" class="p-button-outlined p-button-rounded p-button-success"
-              (click)="restartAudioRecordedData()">
-              הקלטה מחדש
-            </button>
-            <button pButton pRipple type="button" icon="pi pi-save"
-              class="p-button-rounded p-button-success p-button-outlined"
-              (click)="saveRecording()"></button>
-
-            <button pButton pRipple type="button" icon="pi pi-download"
-              class="p-button-rounded p-button-success p-button-outlined"
-              (click)="downloadAudioRecordedData()"></button>
-          </div>
-        </div> -->
 
         <div *ngIf="!isAudioRecording">
 
@@ -114,8 +89,6 @@
           </div>
         </div>
     </div>
-
-
     <div class="bottom">
         <p-button label="הקלטה קלינאית" 
         styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"
@@ -125,8 +98,6 @@
         <p-button *ngIf="lessonIsDone" label="ההקלטה שלי" 
         styleClass="p-button-sm p-button-raised p-button-text p-button-secondary"
         (click)="playPatientRecord()"></p-button>
-        <!-- <button mat-button styleClass="p-button-raised p-button-text p-button-secondary">הקלטה קלינאית</button> -->
-        <!-- <button mat-button >הקלטה פציינט</button> -->
     </div>
     
 </div>
